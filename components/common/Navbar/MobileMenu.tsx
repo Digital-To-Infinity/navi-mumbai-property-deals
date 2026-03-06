@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { User } from 'lucide-react';
+import { User, Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface PredefinedLink {
@@ -44,11 +44,23 @@ const MobileMenu = ({ navLinks, setIsMobileMenuOpen }: MobileMenuProps) => {
                         </Link>
                     </motion.div>
                 ))}
-                <div className="pt-6 border-t border-zinc-100">
-                    <button className="w-full bg-brand-button text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-lg shadow-brand-button/20 active:scale-[0.98] transition-transform">
+                <div className="pt-6 border-t border-zinc-100 flex flex-col space-y-3">
+                    <Link
+                        href="/add-property"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="w-full bg-white text-brand-heading border-2 border-brand-primary/20 hover:border-brand-primary py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-sm transition-all active:scale-[0.98]"
+                    >
+                        <Plus size={20} className="text-brand-primary" strokeWidth={2.5} />
+                        <span>Add Property</span>
+                    </Link>
+                    <Link
+                        href="/login"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="w-full bg-brand-button text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-lg shadow-brand-button/20 active:scale-[0.98] transition-transform"
+                    >
                         <User size={20} />
-                        <span>Account Login</span>
-                    </button>
+                        <span>Sign In</span>
+                    </Link>
                 </div>
             </div>
         </motion.div>

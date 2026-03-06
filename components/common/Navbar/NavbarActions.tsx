@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { User, Menu, X, CircleUserRound, ContactRound, Plus } from 'lucide-react';
+import { User, Menu, X, Plus, CircleUserRound } from 'lucide-react';
 
 interface NavbarActionsProps {
     isSearchOpen: boolean;
@@ -18,14 +18,6 @@ const NavbarActions = ({
 }: NavbarActionsProps) => {
     return (
         <div className="flex items-center space-x-2 md:space-x-3">
-            <Link
-                href="/login"
-                className="hidden max-[426px]:flex text-brand-paragraph hover:text-brand-heading p-2 rounded-full hover:bg-zinc-100 transition-all relative cursor-pointer"
-            >
-                <CircleUserRound size={23} strokeWidth={2} />
-            </Link>
-
-
             <Link
                 href="/add-property"
                 className="group hidden md:flex items-center space-x-2 bg-white text-brand-heading pl-4 pr-1 py-1 text-base font-medium transition-all rounded-full border-2 border-brand-primary/20 hover:border-brand-primary cursor-pointer shadow-sm hover:shadow-md relative overflow-hidden"
@@ -47,20 +39,30 @@ const NavbarActions = ({
                 <span>Sign In</span>
             </Link>
 
+            {/* Mobile-only Icons (<= 426px) */}
             <Link
-                href="/contact"
-                className="hidden max-[426px]:flex text-brand-paragraph hover:text-brand-heading p-2 rounded-full hover:bg-zinc-100 transition-all relative cursor-pointer"
-                title="Contact Us"
+                href="/add-property"
+                className="hidden max-[426px]:flex text-brand-paragraph p-2 rounded-full hover:bg-brand-primary/10 transition-colors"
+                title="Add Property"
             >
-                <ContactRound size={22} strokeWidth={2} />
+                <Plus size={24} strokeWidth={2.5} />
             </Link>
 
+            <Link
+                href="/login"
+                className="hidden max-[426px]:flex text-brand-paragraph hover:text-brand-heading p-2 rounded-full hover:bg-zinc-100 transition-colors"
+                title="Sign In"
+            >
+                <CircleUserRound size={23} strokeWidth={2} />
+            </Link>
+
+            {/* Mobile Hamburger Menu */}
             <button
                 onClick={() => {
                     setIsMobileMenuOpen(!isMobileMenuOpen);
                     setIsSearchOpen(false);
                 }}
-                className="lg:hidden max-[426px]:hidden text-brand-heading hover:bg-zinc-100 rounded-full transition-colors"
+                className="lg:hidden text-brand-heading hover:bg-zinc-100 p-2 rounded-full transition-colors"
             >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
