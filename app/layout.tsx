@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/Navbar/Navbar";
+import BottomNavbar from "@/components/common/BottomNavbar/BottomNavbar";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -27,9 +28,10 @@ export default function RootLayout({
     <html lang="en" className={`${openSans.variable} ${montserrat.variable}`}>
       <body>
         <Navbar />
-        <main className="mt-24">
+        <main className="mt-24 pb-20 max-[426px]:pb-28">
           {children}
         </main>
+        <BottomNavbar />
       </body>
     </html>
   );
