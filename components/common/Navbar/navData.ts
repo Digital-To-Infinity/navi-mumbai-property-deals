@@ -81,3 +81,24 @@ export const rentMegaMenuData = {
 };
 
 export type RentCategory = keyof typeof rentMegaMenuData;
+
+export const sellPropertyCategories = {
+    "Residential": [
+        { title: "Flats", href: "/sell/residential/flats" },
+        { title: "Apartments", href: "/sell/residential/apartments" },
+        { title: "Studio Apartment", href: "/sell/residential/studio-apartment" },
+        { title: "Independent House", href: "/sell/residential/independent-house" },
+        { title: "Villa", href: "/sell/residential/villa" }
+    ],
+    "Commercial": [
+        { title: "Office Spaces", href: "/sell/commercial/office-spaces" },
+        { title: "Shops", href: "/sell/commercial/shops" },
+        { title: "Factories", href: "/sell/commercial/factories" },
+        { title: "Warehouses", href: "/sell/commercial/warehouses" }
+    ],
+    "Land/Plots": [
+        { title: "Residential Plots", href: "/sell/land-plots/residential-plots" },
+        { title: "Industrial Land", href: "/sell/land-plots/industrial-land" },
+        { title: "Agricultural Land", href: "/sell/land-plots/agricultural-land" }
+    ]
+};
