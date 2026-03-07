@@ -13,6 +13,7 @@
     --color-brand-button-hover: var(--color-primary-hover);
     --color-neutral-bg: var(--color-neutral-bg);
     --color-neutral-border: var(--color-neutral-border);
+    --color-brand-muted: var(--color-muted);
 
     /* Fonts */
     --font-sans: var(--font-geist-sans);
@@ -40,11 +41,12 @@
     --background-cream: #faf3e1;
     --nav-bg: #ffffff;
     --color-heading: #000000;
-    --color-paragraph: #4b5563;
+    --color-paragraph: #374151;
     --color-primary: #baa360;
     --color-primary-hover: #8f7b44;
     --color-neutral-bg: #f8fafc;
     --color-neutral-border: #e2e8f0;
+    --color-muted: #A1A1AA;
 }
 
 body {

@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import logoImg from '@/assets/nm-property-logo.png';
 
 const Logo = () => {
     return (
@@ -14,10 +13,11 @@ const Logo = () => {
                     className="flex items-center justify-center"
                 >
                     <Image
-                        src={logoImg}
+                        src="/images/nm-property-logo.png"
                         alt="Navi Mumbai Property Deals"
-                        className="h-10 w-auto object-contain"
-                        priority
+                        width={180}
+                        height={60}
+                        className="h-auto w-auto max-w-[120px]"
                     />
                 </motion.div>
                 <motion.div
