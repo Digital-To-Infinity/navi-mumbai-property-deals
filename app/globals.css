@@ -86,3 +86,13 @@ a {
     transition: all 0.3s ease-in-out;
     font-family: var(--font-sans);
 }
+
+/* Utilities */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
