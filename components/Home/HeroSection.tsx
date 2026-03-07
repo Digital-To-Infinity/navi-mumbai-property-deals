@@ -1,7 +1,8 @@
 "use client";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { CheckCircle2, Star, Search, Building2 } from "lucide-react";
+import { Star } from "lucide-react";
 import { useState } from "react";
+import Antigravity from "./Antigravity";
 
 export default function HeroSection() {
 
@@ -40,7 +41,7 @@ export default function HeroSection() {
 
     return (
         <section
-            className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-zinc-950 text-white [perspective:2000px] pt-24 pb-20"
+            className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-brand-dark text-white [perspective:2000px] py-24"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             onMouseEnter={() => setIsHovered(true)}
@@ -50,6 +51,29 @@ export default function HeroSection() {
                 style={{ x: bgX, y: bgY }}
                 className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center"
             >
+                {/* Antigravity Particle Effect */}
+                <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0 opacity-70 mix-blend-screen scale-[1.5] sm:scale-100">
+                    <div style={{ width: '100%', height: '100%', position: 'relative' }} className="max-w-[1080px] max-h-[1080px]">
+                        <Antigravity
+                            count={490}
+                            magnetRadius={11}
+                            ringRadius={10}
+                            waveSpeed={0.8}
+                            waveAmplitude={1}
+                            particleSize={2}
+                            lerpSpeed={0.1}
+                            color="#8f7b44"
+                            autoAnimate
+                            particleVariance={1}
+                            rotationSpeed={1}
+                            depthFactor={0.5}
+                            pulseSpeed={4}
+                            particleShape="capsule"
+                            fieldStrength={20}
+                        />
+                    </div>
+                </div>
+
                 {/* Decorative Gold Elements matching Footer */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-primary to-transparent opacity-50 z-0"></div>
                 <div className="absolute top-[10%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-brand-primary blur-[150px] opacity-[0.12]" />

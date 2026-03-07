@@ -4,6 +4,7 @@
     /* Colors */
     --color-brand-white: var(--background-white);
     --color-brand-cream: var(--background-cream);
+    --color-brand-dark: var(--background-dark);
     --color-brand-nav: var(--nav-bg);
     --color-brand-heading: var(--color-heading);
     --color-brand-paragraph: var(--color-paragraph);
@@ -39,6 +40,7 @@
 :root {
     --background-white: #ffffff;
     --background-cream: #faf3e1;
+    --background-dark: #09090b;
     --nav-bg: #ffffff;
     --color-heading: #000000;
     --color-paragraph: #374151;
