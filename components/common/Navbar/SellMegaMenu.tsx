@@ -2,20 +2,22 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { User, Building2, Plus, ChevronRight } from 'lucide-react';
+import { User, Building2, Plus, ChevronRight, BookOpenText } from 'lucide-react';
 import { sellPropertyCategories } from './navData';
 
-const sellCategories = ["For Owner", "For Builder"] as const;
+const sellCategories = ["For Owner", "For Builder", "Blogs and Articles"] as const;
 type SellCategory = typeof sellCategories[number];
 
 const categoryIcons: Record<SellCategory, React.ReactNode> = {
     "For Owner": <User size={18} strokeWidth={2} />,
-    "For Builder": <Building2 size={18} strokeWidth={2} />
+    "For Builder": <Building2 size={18} strokeWidth={2} />,
+    "Blogs and Articles": <BookOpenText size={18} strokeWidth={2} />
 };
 
 const sellBasePathMapping: Record<SellCategory, string> = {
     "For Owner": "/sell/owner",
-    "For Builder": "/sell/builder"
+    "For Builder": "/sell/builder",
+    "Blogs and Articles": ""
 };
 
 // Animation Variants
@@ -132,17 +134,17 @@ const SellMegaMenu = () => {
                             </motion.h3>
 
                             <div className="grid grid-cols-3 gap-x-6 gap-y-6 mt-2">
-                                {Object.entries(sellPropertyCategories).map(([categoryName, links]) => (
-                                    <motion.div variants={itemVariants} key={categoryName} className="flex flex-col gap-3">
+                                {activeCategory === "Blogs and Articles" ? (
+                                    <motion.div variants={itemVariants} className="flex flex-col gap-3">
                                         <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                                            {categoryName}
+                                            Blogs and Articles
                                             <div className="h-px flex-1 bg-zinc-200/60"></div>
                                         </h4>
                                         <div className="flex flex-col gap-1.5">
-                                            {links.map(link => (
+                                            {sellPropertyCategories["Blogs and Articles"].map(link => (
                                                 <Link
                                                     key={link.title}
-                                                    href={`${sellBasePathMapping[activeCategory]}${link.href.replace('/sell', '')}`}
+                                                    href={link.href}
                                                     className="group flex flex-col gap-1 text-sm font-semibold text-brand-heading hover:text-brand-primary transition-colors py-1 pl-1"
                                                 >
                                                     <div className="flex items-center gap-2">
@@ -155,7 +157,34 @@ const SellMegaMenu = () => {
                                             ))}
                                         </div>
                                     </motion.div>
-                                ))}
+                                ) : (
+                                    Object.entries(sellPropertyCategories)
+                                        .filter(([categoryName]) => categoryName !== "Blogs and Articles")
+                                        .map(([categoryName, links]) => (
+                                            <motion.div variants={itemVariants} key={categoryName} className="flex flex-col gap-3">
+                                                <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                                                    {categoryName}
+                                                    <div className="h-px flex-1 bg-zinc-200/60"></div>
+                                                </h4>
+                                                <div className="flex flex-col gap-1.5">
+                                                    {links.map(link => (
+                                                        <Link
+                                                            key={link.title}
+                                                            href={`${sellBasePathMapping[activeCategory]}${link.href.replace('/sell', '')}`}
+                                                            className="group flex flex-col gap-1 text-sm font-semibold text-brand-heading hover:text-brand-primary transition-colors py-1 pl-1"
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 group-hover:bg-brand-primary group-hover:scale-150 transition-all duration-300"></div>
+                                                                <span className="relative inline-block transition-transform duration-300 group-hover:translate-x-1 origin-left">
+                                                                    {link.title}
+                                                                </span>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        ))
+                                )}
                             </div>
                         </motion.div>
                     </AnimatePresence>

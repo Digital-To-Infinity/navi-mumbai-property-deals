@@ -100,5 +100,11 @@ export const sellPropertyCategories = {
         { title: "Residential Plots", href: "/sell/land-plots/residential-plots" },
         { title: "Industrial Land", href: "/sell/land-plots/industrial-land" },
         { title: "Agricultural Land", href: "/sell/land-plots/agricultural-land" }
+    ],
+    "Blogs and Articles": [
+        { title: "Blogs for Sellers", href: "/blogs/sellers" },
+        { title: "Articles for Sellers", href: "/articles/sellers" },
+        { title: "Articles for Real Estate", href: "/articles/real-estate" },
+        { title: "Blogs for Real Estate", href: "/blogs/real-estate" }
     ]
 };
