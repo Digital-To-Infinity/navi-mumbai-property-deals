@@ -7,6 +7,8 @@ import OurStory from "@/components/Home/OurStory";
 import CallToAction from "@/components/common/CallToAction";
 import BlogSection from "@/components/Home/BlogSection";
 
+import ShortBreak from "@/components/Home/ShortBreak";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-brand-white">
@@ -17,6 +19,7 @@ export default function Home() {
       <SaleSection />
       <RentSection />
       <BlogSection />
+      <ShortBreak />
       <CallToAction />
     </main>
   );
