@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Open_Sans, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/Navbar/Navbar";
-import BottomNavbar from "@/components/common/BottomNavbar/BottomNavbar";
-import Footer from "@/components/common/Footer/Footer";
+import BottomNavbar from "@/components/common/BottomNavbar";
+import Footer from "@/components/common/Footer";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
