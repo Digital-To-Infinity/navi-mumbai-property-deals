@@ -1,7 +1,7 @@
 import HeroSection from "@/components/Home/HeroSection";
 import AdvancedSearch from "@/components/Home/AdvancedSearch";
+import BuySection from "@/components/Home/BuySection";
 import OurStory from "@/components/Home/OurStory";
-import FeaturedProperties from "@/components/Home/FeaturedProperties";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import CallToAction from "@/components/Home/CallToAction";
 
@@ -11,7 +11,7 @@ export default function Home() {
       <HeroSection />
       <AdvancedSearch />
       <OurStory />
-      <FeaturedProperties />
+      <BuySection />
       <WhyChooseUs />
       <CallToAction />
     </main>

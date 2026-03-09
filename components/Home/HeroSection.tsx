@@ -117,43 +117,6 @@ export default function HeroSection() {
                             Discover premium residential and commercial properties. Seamlessly buy, sell, or rent with Navi Mumbai&apos;s most trusted and experienced real estate experts.
                         </p>
                     </motion.div>
-
-                    {/* Trust Indicators below CTA */}
-                    {/* <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.6 }}
-                        className="flex flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-12 text-sm sm:text-base font-medium text-zinc-300"
-                    >
-                        <motion.div
-                            whileHover={{ y: -5 }}
-                            className="flex items-center gap-3 bg-zinc-900/60 px-5 py-3 rounded-2xl border border-zinc-800/80 backdrop-blur-md shadow-lg hover:border-brand-primary/30 transition-colors cursor-pointer"
-                        >
-                            <div className="bg-brand-primary/20 p-2 rounded-full">
-                                <CheckCircle2 className="w-5 h-5 text-brand-primary" />
-                            </div>
-                            <span>1000+ Verified Listings</span>
-                        </motion.div>
-                        <motion.div
-                            whileHover={{ y: -5 }}
-                            className="flex items-center gap-3 bg-zinc-900/60 px-5 py-3 rounded-2xl border border-zinc-800/80 backdrop-blur-md shadow-lg hover:border-brand-primary/30 transition-colors cursor-pointer"
-                        >
-                            <div className="bg-brand-primary/20 p-2 rounded-full">
-                                <CheckCircle2 className="w-5 h-5 text-brand-primary" />
-                            </div>
-                            <span>100% Secure Transactions</span>
-                        </motion.div>
-                        <motion.div
-                            whileHover={{ y: -5 }}
-                            className="flex items-center gap-3 bg-zinc-900/60 px-5 py-3 rounded-2xl border border-zinc-800/80 backdrop-blur-md shadow-lg hover:border-brand-primary/30 transition-colors cursor-pointer"
-                        >
-                            <div className="bg-brand-primary/20 p-2 rounded-full">
-                                <CheckCircle2 className="w-5 h-5 text-brand-primary" />
-                            </div>
-                            <span>Expert Assistance</span>
-                        </motion.div>
-                    </motion.div> */}
-
                 </motion.div>
             </div>
         </section>

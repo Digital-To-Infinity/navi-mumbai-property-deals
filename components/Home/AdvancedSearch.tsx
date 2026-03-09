@@ -2,6 +2,31 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Search, MapPin, Mic, Plus, Check, BedDouble, Users, Sparkles, Clock, Key, User, Building, Briefcase } from "lucide-react";
 
+const tabs = [
+    { label: "Buy" },
+    { label: "Rent" },
+    { label: "Sell" },
+    { label: "Commercial" },
+    { label: "Plots/Land" },
+    { label: "PG/Co-Living" },
+];
+
+const budgetPresets = [1, 5, 10, 25, 50, 100];
+
+const bedroomOptions = ["1 RK/1 BHK", "2 BHK", "3 BHK", "4 BHK", "4+ BHK"];
+
+const constructionStatusOptions = [
+    { label: "New Launch", desc: "Best preliminary offers", icon: Sparkles, color: "text-purple-500", bg: "bg-purple-50" },
+    { label: "Under Construction", desc: "Customizable options", icon: Clock, color: "text-blue-500", bg: "bg-blue-50" },
+    { label: "Ready to move", desc: "Immediate possession", icon: Key, color: "text-emerald-500", bg: "bg-emerald-50" }
+];
+
+const postedByOptions = [
+    { label: "Owner", desc: "Zero brokerage fees", icon: User },
+    { label: "Builder", desc: "Direct from developer", icon: Building },
+    { label: "Dealer", desc: "Verified real estate agents", icon: Briefcase }
+];
+
 export default function AdvancedSearch() {
     const [activeTab, setActiveTab] = useState("Buy");
 
@@ -46,14 +71,6 @@ export default function AdvancedSearch() {
         return parts.join(", ");
     };
 
-    const tabs = [
-        { label: "Buy" },
-        { label: "Rent" },
-        { label: "Sell" },
-        { label: "Commercial" },
-        { label: "Plots/Land" },
-        { label: "PG/Co-Living" },
-    ];
 
     return (
         <div className="container mx-auto px-4 max-w-6xl relative z-30 -mt-24 md:-mt-[5.5rem]">
@@ -94,7 +111,7 @@ export default function AdvancedSearch() {
                             onClick={() => setShowFilters(!showFilters)}
                             className="flex items-center px-6 py-4 md:py-0 w-full h-full cursor-pointer hover:bg-neutral-50 transition-colors md:rounded-bl-xl"
                         >
-                            <button className="flex items-center gap-3 w-full justify-between text-[15px] text-brand-heading font-semibold">
+                            <button className="flex items-center gap-3 w-full justify-between text-[15px] text-brand-heading font-semibold cursor-pointer">
                                 <span className="truncate max-w-[150px] md:max-w-[200px] xl:max-w-[230px] text-left">
                                     {getDropdownLabel()}
                                 </span>
@@ -190,7 +207,7 @@ export default function AdvancedSearch() {
                                                     Quick Select Budgets
                                                 </span>
                                                 <div className="grid grid-cols-2 sm:grid-cols-3 md:flex md:flex-wrap gap-3">
-                                                    {[1, 5, 10, 25, 50, 100].map((preset) => (
+                                                    {budgetPresets.map((preset) => (
                                                         <button
                                                             key={preset}
                                                             onClick={(e) => { e.stopPropagation(); setActiveBudget(preset); }}
@@ -223,7 +240,7 @@ export default function AdvancedSearch() {
                                             </div>
 
                                             <div className="grid grid-cols-2 md:flex md:flex-wrap gap-3 mt-1">
-                                                {["1 RK/1 BHK", "2 BHK", "3 BHK", "4 BHK", "4+ BHK"].map((opt) => {
+                                                {bedroomOptions.map((opt) => {
                                                     const isSelected = selectedBedrooms.includes(opt);
                                                     return (
                                                         <button
@@ -252,11 +269,7 @@ export default function AdvancedSearch() {
                                             </div>
 
                                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-1">
-                                                {[
-                                                    { label: "New Launch", desc: "Best preliminary offers", icon: Sparkles, color: "text-purple-500", bg: "bg-purple-50" },
-                                                    { label: "Under Construction", desc: "Customizable options", icon: Clock, color: "text-blue-500", bg: "bg-blue-50" },
-                                                    { label: "Ready to move", desc: "Immediate possession", icon: Key, color: "text-emerald-500", bg: "bg-emerald-50" }
-                                                ].map((opt) => {
+                                                {constructionStatusOptions.map((opt) => {
                                                     const isSelected = selectedStatus.includes(opt.label);
                                                     const Icon = opt.icon;
                                                     return (
@@ -297,11 +310,7 @@ export default function AdvancedSearch() {
                                             </div>
 
                                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-1">
-                                                {[
-                                                    { label: "Owner", desc: "Zero brokerage fees", icon: User },
-                                                    { label: "Builder", desc: "Direct from developer", icon: Building },
-                                                    { label: "Dealer", desc: "Verified real estate agents", icon: Briefcase }
-                                                ].map((opt) => {
+                                                {postedByOptions.map((opt) => {
                                                     const isSelected = selectedPostedBy.includes(opt.label);
                                                     const Icon = opt.icon;
                                                     return (

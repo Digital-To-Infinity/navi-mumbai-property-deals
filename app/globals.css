@@ -37,6 +37,16 @@
     }
 }
 
+@keyframes shimmer {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
 :root {
     --background-white: #ffffff;
     --background-cream: #faf3e1;
