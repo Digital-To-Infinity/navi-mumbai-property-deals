@@ -203,7 +203,7 @@ const Breadcrumb = ({ items: customItems, variant = 'default' }: BreadcrumbProps
                     </motion.ol>
                 </nav>
 
-                {/* E-E-A-T Signal */}
+                {/* EEAT Signal */}
                 <div className="hidden lg:flex items-center gap-3 pr-2 border-l border-zinc-200 pl-6 ml-6">
                     <div className="flex flex-col items-end">
                         <div className="flex items-center gap-1.5">
