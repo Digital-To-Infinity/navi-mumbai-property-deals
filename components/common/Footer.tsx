@@ -25,7 +25,7 @@ export default function Footer() {
 
     const quickLinks = [
         { name: "Home", href: "/", title: "Back to Home - Navi Mumbai Property Deals" },
-        { name: "About Us", href: "/about-us-navi-mumbai-realtors", title: "Learn About Our Real Estate Expertise in Navi Mumbai" },
+        { name: "About Us", href: "/about", title: "Learn About Our Real Estate Expertise in Navi Mumbai" },
         { name: "Blogs", href: "/real-estate-insights-navi-mumbai", title: "Read Latest Navi Mumbai Property Market Trends" },
         { name: "Contact", href: "/contact-navi-mumbai-property-experts", title: "Get in Touch with Our Property Consultants" },
     ];

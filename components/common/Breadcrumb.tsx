@@ -10,7 +10,8 @@ const breadcrumbLabels: Record<string, string> = {
     "rent": "Rent Property",
     "sell": "Sell Property",
     "blogs": "Real Estate Insights",
-    "about": "About Us",
+    "about": "Our Story",
+    "about-us": "Our Story",
     "contact": "Contact",
     "login": "Account Access",
     "add-property": "List Property",
@@ -24,7 +25,6 @@ const breadcrumbLabels: Record<string, string> = {
     "paying-guest-accommodations-navi-mumbai": "PG & Co-Living",
     "commercial-office-space-for-sale-in-navi-mumbai": "Office Spaces",
     "real-estate-blogs-navi-mumbai": "Expert Blogs",
-    "about-us-navi-mumbai-real-estate": "Our Story",
 };
 
 interface BreadcrumbItem {

@@ -22,9 +22,6 @@ const Logo = () => {
                         className="h-auto w-auto max-w-[120px]"
                     />
                 </motion.div>
-                <motion.div
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-button origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-                />
             </Link>
         </div>
     );
