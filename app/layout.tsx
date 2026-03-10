@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en" className={`${openSans.variable} ${montserrat.variable}`}>
       <body className="overflow-x-hidden">
         <Navbar />
-        <main className="mt-24 pb-20 max-[426px]:pb-28 overflow-x-hidden">
+        <main className="mt-24 overflow-x-hidden">
           {children}
         </main>
         <Footer />

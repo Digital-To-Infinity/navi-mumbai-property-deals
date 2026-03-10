@@ -28,24 +28,24 @@ export default function CallToAction() {
                     <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px]" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[80px]" />
 
-                    <div className="px-6 py-8 md:py-12 md:px-20 flex flex-col items-center text-center relative z-10">
+                    <div className="px-6 py-8 md:py-12 md:px-20 max-[376px]:p-4 flex flex-col items-center text-center relative z-10">
 
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl max-[321px]:text-2xl font-black text-white mb-6 leading-tight">
                             Ready to Find Your <br className="hidden md:block" />
                             Dream Property?
                         </h2>
 
-                        <p className="text-white/90 text-lg md:text-xl max-w-3xl mx-auto mb-10 font-medium">
+                        <p className="text-white/90 text-lg md:text-xl max-[321px]:text-lg max-w-3xl mx-auto mb-10 font-medium">
                             Join thousands of satisfied homeowners. Our expert team is ready to guide you through a seamless real estate journey in Navi Mumbai.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-                            <button className="w-full sm:w-auto px-8 py-4 bg-white text-brand-primary font-bold text-lg rounded-full hover:bg-brand-neutral-bg transition-all flex items-center justify-center group cursor-pointer">
+                            <button className="w-full sm:w-auto px-8 py-4 bg-white text-brand-primary font-bold text-lg max-[321px]:text-base rounded-full hover:bg-brand-neutral-bg transition-all flex items-center justify-center group cursor-pointer">
                                 Browse Properties
                                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
 
-                            <button className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-white/50 text-white font-bold text-lg rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm cursor-pointer">
+                            <button className="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-white/50 text-white font-bold text-lg max-[321px]:text-base rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm cursor-pointer">
                                 Contact an Expert
                             </button>
                         </div>
