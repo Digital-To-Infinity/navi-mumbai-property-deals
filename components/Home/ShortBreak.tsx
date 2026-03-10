@@ -39,7 +39,7 @@ function Card({ item, index }: { item: typeof items[0], index: number }) {
             className="relative h-full"
         >
             <div
-                className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-neutral-100 shadow-[0_10px_50px_-20px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_80px_-30px_rgba(186,163,96,0.3)] hover:-translate-y-3 transition-all duration-500 group h-full relative overflow-hidden"
+                className="bg-white rounded-[2.5rem] p-10 max-[769px]:p-6 max-[321px]:p-4 border border-neutral-100 shadow-[0_10px_50px_-20px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_80px_-30px_rgba(186,163,96,0.3)] hover:-translate-y-3 transition-all duration-500 group h-full relative overflow-hidden"
             >
                 {/* Background Gradient Blob */}
                 <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br ${item.color}`} />
@@ -78,7 +78,7 @@ function Card({ item, index }: { item: typeof items[0], index: number }) {
 
 export default function ShortBreak() {
     return (
-        <section className="py-16 bg-[#fafafa] relative overflow-hidden">
+        <section className="py-16 bg-[#fafafa] relative overflow-x-clip">
             {/* Ultra-premium background elements */}
             <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/4" />
             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] translate-y-1/4 -translate-x-1/4" />
@@ -106,7 +106,7 @@ export default function ShortBreak() {
                         <span className="text-brand-primary font-bold uppercase tracking-[0.15em] text-[10px]">Short & Sweet</span>
                     </motion.div>
 
-                    <h2 className="text-5xl md:text-7xl font-black text-brand-heading mb-8 tracking-tight leading-[1.1]">
+                    <h2 className="text-7xl max-[769px]:text-6xl max-[426px]:text-5xl max-[376px]:text-4xl font-black text-brand-heading mb-8 tracking-tight leading-[1.1]">
                         Pause for a <span className="relative">
                             <span className="relative z-10 italic text-brand-primary">Lighter</span>
                             <motion.svg
@@ -127,7 +127,7 @@ export default function ShortBreak() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 min-[770px]:grid-cols-3 gap-8 md:gap-12">
                     {items.map((item, index) => (
                         <Card key={index} item={item} index={index} />
                     ))}

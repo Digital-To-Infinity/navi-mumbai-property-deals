@@ -26,7 +26,7 @@ export default function SaleSection() {
     }, []);
 
     return (
-        <section className="py-16 bg-[#fdfdfd] overflow-hidden">
+        <section className="py-16 bg-[#fdfdfd] overflow-x-clip relative">
             {/* Background Decorative Elements */}
             <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-brand-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 opacity-40 pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#b5a36a]/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 opacity-30 pointer-events-none"></div>
@@ -51,10 +51,10 @@ export default function SaleSection() {
                             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 mb-6 mx-auto"
                         >
                             <Sparkles className="w-4 h-4 text-brand-primary animate-pulse" />
-                            <span className="text-brand-primary font-bold tracking-wider uppercase text-[13px]">Sale Properties</span>
+                            <span className="text-brand-primary font-bold tracking-wider uppercase text-[13px] max-[426px]:text-[12px]">Sale Properties</span>
                         </motion.div>
 
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-heading leading-[1.15] tracking-tight mb-6 flex flex-col items-center">
+                        <h2 className="text-6xl max-[769px]:text-5xl max-[426px]:text-4xl max-[321px]:text-3xl font-extrabold text-brand-heading leading-[1.15] tracking-tight mb-6 flex flex-col items-center">
                             <span>Discover Your Luxury Villa</span>
                             <span className="relative inline-block mt-2">
                                 <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-primary-hover drop-shadow-sm">Available For Sale</span>

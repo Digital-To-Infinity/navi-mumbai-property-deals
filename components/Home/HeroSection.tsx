@@ -1,7 +1,7 @@
 "use client";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Antigravity from "./Antigravity";
 
 export default function HeroSection() {
@@ -39,9 +39,39 @@ export default function HeroSection() {
     const bgX = useSpring(useTransform(mouseX, [-1, 1], [-20, 20]), springConfig);
     const bgY = useSpring(useTransform(mouseY, [-1, 1], [-20, 20]), springConfig);
 
+    const [responsiveProps, setResponsiveProps] = useState({
+        count: 490,
+        scale: 1,
+        magnetRadius: 11,
+        ringRadius: 10
+    });
+
+    useEffect(() => {
+        const updateProps = () => {
+            const width = window.innerWidth;
+            if (width <= 321) {
+                setResponsiveProps({ count: 180, scale: 0.6, magnetRadius: 3, ringRadius: 2 });
+            } else if (width <= 376) {
+                setResponsiveProps({ count: 220, scale: 0.8, magnetRadius: 4, ringRadius: 2 });
+            } else if (width <= 426) {
+                setResponsiveProps({ count: 260, scale: 1, magnetRadius: 5, ringRadius: 3 });
+            } else if (width <= 769) {
+                setResponsiveProps({ count: 300, scale: 1.2, magnetRadius: 6, ringRadius: 4 });
+            } else {
+                setResponsiveProps({ count: 490, scale: 1, magnetRadius: 11, ringRadius: 10 });
+            }
+        };
+
+        if (typeof window !== 'undefined') {
+            updateProps();
+            window.addEventListener('resize', updateProps);
+            return () => window.removeEventListener('resize', updateProps);
+        }
+    }, []);
+
     return (
         <section
-            className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-brand-dark text-white [perspective:2000px] py-24"
+            className="relative min-h-[90vh] flex items-center justify-center overflow-x-clip overflow-y-visible bg-brand-dark text-white [perspective:2000px] py-16 max-[426px]:py-12"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             onMouseEnter={() => setIsHovered(true)}
@@ -52,12 +82,15 @@ export default function HeroSection() {
                 className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center"
             >
                 {/* Antigravity Particle Effect */}
-                <div className="absolute inset-0 w-full h-full flex items-center justify-center z-0 opacity-70 mix-blend-screen scale-[1.5] sm:scale-100">
+                <div
+                    className="absolute inset-0 w-full h-full flex items-center justify-center z-0 opacity-70 mix-blend-screen transition-transform duration-500 ease-out"
+                    style={{ transform: `scale(${responsiveProps.scale})` }}
+                >
                     <div style={{ width: '100%', height: '100%', position: 'relative' }} className="max-w-[1080px] max-h-[1080px]">
                         <Antigravity
-                            count={490}
-                            magnetRadius={11}
-                            ringRadius={10}
+                            count={responsiveProps.count}
+                            magnetRadius={responsiveProps.magnetRadius}
+                            ringRadius={responsiveProps.ringRadius}
                             waveSpeed={0.8}
                             waveAmplitude={1}
                             particleSize={2}
@@ -104,7 +137,7 @@ export default function HeroSection() {
                             <h2 className="text-xs sm:text-sm font-semibold !text-zinc-200 tracking-wide uppercase m-0">#1 Real Estate Portal in Navi Mumbai</h2>
                         </div>
 
-                        <h1 className="text-5xl md:text-6xl lg:text-[5rem] font-extrabold !text-white leading-[1.1] mb-6 tracking-tight drop-shadow-lg">
+                        <h1 className="text-7xl max-[769px]:text-6xl max-[426px]:text-4xl font-extrabold !text-white leading-[1.1] mb-6 tracking-tight drop-shadow-lg">
                             Find Your Perfect <br className="hidden md:block" />
                             <span className="relative inline-block text-brand-primary mt-2">
                                 Space in Navi Mumbai

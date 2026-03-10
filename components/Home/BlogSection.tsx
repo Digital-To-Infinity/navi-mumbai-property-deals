@@ -7,7 +7,7 @@ import { blogPosts as posts } from "./Blogdata";
 
 export default function BlogSection() {
     return (
-        <section className="py-16 bg-brand-white relative overflow-hidden">
+        <section className="py-16 bg-brand-white relative overflow-x-clip">
             {/* Unique Background Decorations */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
                 <div className="absolute -top-24 -left-20 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-[100px] animate-pulse"></div>
@@ -35,7 +35,7 @@ export default function BlogSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7, ease: "easeOut" }}
-                        className="text-4xl md:text-5xl lg:text-6xl font-black text-brand-heading leading-tight mb-6"
+                        className="text-6xl max-[769px]:text-5xl max-[426px]:text-3xl max-[321px]:text-2xl font-black text-brand-heading leading-tight mb-6"
                     >
                         Insights & <span className="text-brand-primary">Lately News</span>
                     </motion.h2>
@@ -45,7 +45,7 @@ export default function BlogSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-brand-paragraph text-lg font-medium max-w-4xl mx-auto"
+                        className="text-brand-paragraph text-lg max-[321px]:text-base font-medium max-w-4xl mx-auto"
                     >
                         Deep dive into the Navi Mumbai property market with our latest articles, guides, and investment insights.
                     </motion.p>
@@ -88,7 +88,7 @@ export default function BlogSection() {
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-8 flex-1 flex flex-col">
+                                <div className="p-8 max-[426px]:p-6 max-[321px]:p-4 flex-1 flex flex-col">
                                     <div className="flex items-center gap-4 mb-5">
                                         <div className="flex items-center gap-1.5 text-brand-paragraph text-xs font-bold bg-neutral-50 px-3 py-1.5 rounded-lg border border-neutral-100">
                                             <Calendar className="w-3.5 h-3.5 text-brand-primary" />
@@ -134,7 +134,7 @@ export default function BlogSection() {
                     transition={{ duration: 0.8 }}
                     className="mt-20"
                 >
-                    <div className="bg-brand-dark rounded-[40px] p-6 md:p-10 overflow-hidden relative group border border-white/5">
+                    <div className="bg-brand-dark rounded-[40px] p-10 max-[426px]:p-6 max-[376px]:p-4 overflow-hidden relative group border border-white/5">
                         {/* Interactive Background Patterns */}
                         <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-brand-primary/10 to-transparent -skew-x-12 translate-x-1/4 pointer-events-none"></div>
                         <div className="absolute -top-24 -left-24 w-96 h-96 bg-brand-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -172,13 +172,13 @@ export default function BlogSection() {
 
                             <div className="lg:col-span-4 flex justify-center lg:justify-end">
                                 <Link href="/blogs" className="w-full group/main-cta relative bg-brand-primary hover:bg-brand-primary-hover p-1 rounded-[24px] transition-all duration-500 overflow-hidden cursor-pointer">
-                                    <div className="bg-brand-dark rounded-[22px] px-6 py-4 flex items-center justify-between transition-colors group-hover/main-cta:bg-transparent text-left">
+                                    <div className="bg-brand-dark rounded-[22px] px-6 max-[376px]:px-4 py-4 flex items-center justify-between transition-colors group-hover/main-cta:bg-transparent text-left">
                                         <div className="flex flex-col items-start">
-                                            <span className="text-white text-xl font-black">Explore Full Blog Hub</span>
-                                            <span className="text-brand-primary/80 text-xs font-bold uppercase tracking-widest mt-1 group-hover:text-brand-white">Direct Access to Blogs</span>
+                                            <span className="text-white text-xl max-[376px]:text-lg max-[321px]:text-sm font-black">Explore Full Blog Hub</span>
+                                            <span className="text-brand-primary/80 text-xs font-bold uppercase tracking-widest max-[321px]:tracking-wide mt-1 group-hover:text-brand-white">Direct Access to Blogs</span>
                                         </div>
-                                        <div className="w-14 h-14 rounded-2xl bg-brand-primary flex items-center justify-center text-white transition-transform duration-500 group-hover/main-cta:scale-110 group-hover/main-cta:rotate-12">
-                                            <ArrowRight className="w-7 h-7" />
+                                        <div className="w-14 max-[321px]:w-10 h-14 max-[321px]:h-10 rounded-2xl bg-brand-primary flex items-center justify-center text-white transition-transform duration-500 group-hover/main-cta:scale-110 group-hover/main-cta:rotate-12">
+                                            <ArrowRight className="w-7 max-[321px]:w-5 h-7 max-[321px]:h-5" />
                                         </div>
                                     </div>
                                     {/* Shimmer sweep */}

@@ -347,18 +347,20 @@ export default function AdvancedSearch() {
                         <input
                             type="text"
                             placeholder='Search "Flats for sale in Kharghar, Navi Mumbai"'
-                            className="w-full bg-transparent border-none outline-none px-3 text-[15px] text-brand-heading placeholder:text-brand-paragraph/80 placeholder:font-medium"
+                            className="w-full bg-transparent border-none outline-none px-3 text-[15px] text-brand-heading placeholder:text-brand-paragraph/80 placeholder:font-medium max-[426px]:placeholder:text-sm max-[376px]:placeholder:text-xs"
                         />
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex items-center gap-3 px-4 md:px-6 py-4 md:py-0 ml-auto md:rounded-br-xl rounded-b-xl">
-                        <button className="flex items-center justify-center w-11 h-11 rounded-full bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 transition-colors flex-shrink-0 cursor-pointer" title="Detect Location">
-                            <MapPin className="w-[20px] h-[20px]" strokeWidth={2.5} />
-                        </button>
-                        <button className="flex items-center justify-center w-11 h-11 rounded-full bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 transition-colors flex-shrink-0 cursor-pointer" title="Voice Search">
-                            <Mic className="w-[20px] h-[20px]" strokeWidth={2.5} />
-                        </button>
+                    <div className="flex items-center gap-3 px-4 md:px-6 py-4 md:py-0 ml-auto max-[426px]:ml-0 max-[426px]:w-full max-[426px]:justify-between md:rounded-br-xl rounded-b-xl">
+                        <div className="flex items-center gap-3">
+                            <button className="flex items-center justify-center w-11 h-11 rounded-full bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 transition-colors flex-shrink-0 cursor-pointer" title="Detect Location">
+                                <MapPin className="w-[20px] h-[20px]" strokeWidth={2.5} />
+                            </button>
+                            <button className="flex items-center justify-center w-11 h-11 rounded-full bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 transition-colors flex-shrink-0 cursor-pointer" title="Voice Search">
+                                <Mic className="w-[20px] h-[20px]" strokeWidth={2.5} />
+                            </button>
+                        </div>
                         <button className="flex items-center justify-center bg-brand-button hover:bg-brand-button-hover text-brand-white px-8 h-12 rounded-lg font-bold transition-all shadow-sm hover:shadow text-[16px] cursor-pointer">
                             Search
                         </button>
