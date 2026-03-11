@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight, ArrowUpRight, BookOpen } from "lucide-react";
-import { blogPosts as posts } from "./Blogdata";
+import { blogPosts as posts } from "../Blog/Blogdata";
 
 export default function BlogSection() {
     return (

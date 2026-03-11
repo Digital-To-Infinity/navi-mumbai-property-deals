@@ -54,5 +54,27 @@ export const blogPosts: BlogPost[] = [
         category: "Investment",
         image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         readTime: "7 min read"
+    },
+    {
+        id: 5,
+        title: "Navi Mumbai International Airport: Connectivity Revolution",
+        excerpt: "How the upcoming airport is transforming real estate dynamics across the entire MMR region.",
+        date: "Feb 20, 2026",
+        author: "Rahul S.",
+        authorRole: "Market Analyst",
+        category: "Market Insights",
+        image: "https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        readTime: "10 min read"
+    },
+    {
+        id: 6,
+        title: "Top 5 Schools in Seawoods for Your Children",
+        excerpt: "A comprehensive guide to the best educational institutions and residential proximity in Seawoods.",
+        date: "Feb 15, 2026",
+        author: "Priya M.",
+        authorRole: "Senior Consultant",
+        category: "Lifestyle",
+        image: "https://images.unsplash.com/photo-1523050853023-8c2d27443ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        readTime: "5 min read"
     }
 ];

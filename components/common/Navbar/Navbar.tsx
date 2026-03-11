@@ -17,7 +17,7 @@ const Navbar = () => {
     const navLinks = [
         { name: 'Home', href: '/' },
         { name: 'About', href: '/about' },
-        { name: 'Blogs', href: '/real-estate-blogs-navi-mumbai' },
+        { name: 'Blogs', href: '/blogs' },
         { name: 'Buy', href: '/flats-for-sale-in-navi-mumbai' },
         { name: 'Rent', href: '/flats-for-rent-in-navi-mumbai' },
         { name: 'Sell', href: '/sell-property-navi-mumbai' },
