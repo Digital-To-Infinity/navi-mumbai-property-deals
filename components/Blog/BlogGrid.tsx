@@ -51,17 +51,24 @@ const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCatego
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-neutral-100 shadow-[0_10px_30px_rgba(0,0,0,0.04)]">
+                    <div className="flex items-center gap-1 bg-neutral-100 p-1.5 rounded-2xl border border-neutral-100 shadow-inner">
                         {["Latest", "Popular", "Trending"].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
-                                className={`px-8 py-3 rounded-xl text-sm font-black transition-all duration-300 ${activeTab === tab
-                                    ? "bg-brand-primary text-white shadow-xl shadow-brand-primary/20"
-                                    : "text-brand-paragraph/40 hover:text-brand-primary hover:bg-brand-primary/5"
+                                className={`relative px-8 py-3 rounded-xl text-sm font-black transition-all duration-300 ${activeTab === tab
+                                    ? "text-white"
+                                    : "text-brand-paragraph/40 hover:text-brand-primary"
                                     }`}
                             >
-                                {tab}
+                                {activeTab === tab && (
+                                    <motion.div
+                                        layoutId="activeSortTab"
+                                        className="absolute inset-0 bg-brand-primary rounded-xl shadow-lg shadow-brand-primary/20"
+                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                    />
+                                )}
+                                <span className="relative z-10">{tab}</span>
                             </button>
                         ))}
                     </div>

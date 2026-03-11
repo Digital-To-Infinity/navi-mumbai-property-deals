@@ -12,14 +12,10 @@ export default function BlogsPage() {
     return (
         <main className="min-h-screen bg-white">
             <BlogHero />
-            <div className="container mx-auto px-4 mt-16 relative z-20">
-                <BlogFilters
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    activeCategory={activeCategory}
-                    setActiveCategory={setActiveCategory}
-                />
-            </div>
+            <BlogFilters
+                activeCategory={activeCategory}
+                setActiveCategory={setActiveCategory}
+            />
             <BlogGrid
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}

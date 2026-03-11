@@ -1,25 +1,24 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
-import { Search, TrendingUp, BookOpen, MapPin, BarChart3, Wallet, X } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { TrendingUp, BookOpen, MapPin, BarChart3, Wallet, Filter, Hash, ArrowRight } from "lucide-react";
 import { blogPosts } from "./Blogdata";
 
 interface BlogFiltersProps {
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
     activeCategory: string;
     setActiveCategory: (category: string) => void;
 }
 
-const BlogFilters = ({ searchQuery, setSearchQuery, activeCategory, setActiveCategory }: BlogFiltersProps) => {
-    // Generate categories dynamically from data
-    const categories = [
-        { name: "All", icon: <TrendingUp className="w-4 h-4" /> },
-        { name: "Market Insights", icon: <BarChart3 className="w-4 h-4" /> },
-        { name: "Buying Guide", icon: <BookOpen className="w-4 h-4" /> },
-        { name: "Investment", icon: <Wallet className="w-4 h-4" /> },
-        { name: "Lifestyle", icon: <MapPin className="w-4 h-4" /> },
-    ];
+const categories = [
+    { name: "All", icon: <TrendingUp size={18} />, color: "from-blue-500 to-indigo-500" },
+    { name: "Market Insights", icon: <BarChart3 size={18} />, color: "from-amber-500 to-orange-500" },
+    { name: "Buying Guide", icon: <BookOpen size={18} />, color: "from-emerald-500 to-teal-500" },
+    { name: "Investment", icon: <Wallet size={18} />, color: "from-rose-500 to-pink-500" },
+    { name: "Lifestyle", icon: <MapPin size={18} />, color: "from-violet-500 to-purple-500" },
+];
+
+export default function BlogFilters({ activeCategory, setActiveCategory }: BlogFiltersProps) {
+    const [hoveredTab, setHoveredTab] = useState<string | null>(null);
 
     const getCount = (cat: string) => {
         if (cat === "All") return blogPosts.length;
@@ -27,128 +26,107 @@ const BlogFilters = ({ searchQuery, setSearchQuery, activeCategory, setActiveCat
     };
 
     return (
-        <div className="space-y-12">
-            {/* Search Bar Section */}
-            <div className="relative max-w-3xl mx-auto group">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative z-10"
-                >
-                    <div className="absolute inset-0 bg-brand-primary/10 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative flex items-center bg-white p-2 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-neutral-100 group-focus-within:border-brand-primary/30 transition-all duration-300">
-                        <div className="flex-1 relative flex items-center">
-                            <Search className="absolute left-6 w-6 h-6 text-brand-paragraph/30 group-focus-within:text-brand-primary transition-colors" />
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Search market insights, area guides, or investment tips..."
-                                className="w-full pl-16 pr-4 py-5 rounded-2xl text-brand-heading font-medium focus:outline-none placeholder:text-brand-paragraph/25 bg-transparent text-lg"
-                            />
-                            {searchQuery && (
-                                <button
-                                    onClick={() => setSearchQuery("")}
-                                    className="p-2 mr-2 hover:bg-neutral-100 rounded-full transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-brand-paragraph/40" />
-                                </button>
-                            )}
-                        </div>
-                        <button className="hidden md:flex px-10 py-5 bg-brand-primary text-white font-black rounded-2xl hover:bg-brand-primary-hover transition-all duration-300 shadow-xl shadow-brand-primary/25 items-center gap-2 group/btn">
-                            Search
-                            <Search className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
-                        </button>
-                    </div>
-                </motion.div>
+        <section className="relative py-16 overflow-hidden" aria-label="Blog Filters">
+            {/* Ambient Background Glows */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-primary/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-                {/* Trending Tags/Info */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="mt-6 flex flex-wrap justify-center gap-6 items-center"
-                >
-                    <span className="text-[11px] font-black text-brand-paragraph/30 uppercase tracking-widest leading-none">Popular Topics:</span>
-                    {["Kharghar", "ROI 2026", "Green Homes", "Ulwe News"].map((tag) => (
-                        <button
-                            key={tag}
-                            onClick={() => setSearchQuery(tag)}
-                            className="text-xs font-bold text-brand-paragraph/50 hover:text-brand-primary transition-colors flex items-center gap-1.5"
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="flex flex-col items-center gap-12">
+
+                    {/* Header Section */}
+                    <div className="text-center space-y-4">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            className="inline-flex items-center gap-2 px-4 py-1.5 mb-12 rounded-full bg-zinc-900 text-white border border-white/10 shadow-2xl"
                         >
-                            <span className="w-1 h-1 rounded-full bg-brand-primary/40" />
-                            {tag}
-                        </button>
-                    ))}
-                </motion.div>
-            </div>
-
-            {/* Premium Categories Grid */}
-            <div className="max-w-5xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="grid grid-cols-2 md:grid-cols-5 gap-4"
-                >
-                    {categories.map((cat, idx) => {
-                        const isActive = activeCategory === cat.name;
-                        const count = getCount(cat.name);
-
-                        return (
-                            <button
-                                key={cat.name}
-                                onClick={() => setActiveCategory(cat.name)}
-                                className={`group relative p-4 rounded-2xl border transition-all duration-300 flex flex-col items-center gap-3 overflow-hidden ${isActive
-                                    ? "bg-brand-primary border-brand-primary shadow-xl shadow-brand-primary/20 -translate-y-1"
-                                    : "bg-white border-neutral-100 hover:border-brand-primary/20 hover:shadow-lg hover:-translate-y-1"
-                                    }`}
-                            >
-                                {/* Background Ornament */}
-                                <div className={`absolute -right-4 -bottom-4 w-20 h-20 rounded-full blur-3xl transition-opacity duration-500 ${isActive ? "bg-white/10 opacity-100" : "bg-brand-primary/5 opacity-0 group-hover:opacity-100"
-                                    }`} />
-
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${isActive ? "bg-white text-brand-primary" : "bg-neutral-50 text-brand-paragraph/40 group-hover:text-brand-primary group-hover:bg-brand-primary/5"
-                                    }`}>
-                                    {cat.icon}
-                                </div>
-                                <div className="text-center">
-                                    <p className={`text-sm font-black transition-colors ${isActive ? "text-white" : "text-brand-heading group-hover:text-brand-primary"
-                                        }`}>
-                                        {cat.name}
-                                    </p>
-                                    <p className={`text-[10px] font-bold uppercase tracking-tighter mt-0.5 transition-colors ${isActive ? "text-white/60" : "text-brand-paragraph/40"
-                                        }`}>
-                                        {count} {count === 1 ? "Article" : "Articles"}
-                                    </p>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </motion.div>
-            </div>
-
-            {/* Results Indicator */}
-            {(searchQuery || activeCategory !== "All") && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex justify-center items-center gap-4 text-sm font-bold text-brand-paragraph/60 bg-neutral-50 py-3 px-6 rounded-full w-fit mx-auto"
-                >
-                    <span>Showing results for</span>
-                    <div className="flex gap-2">
-                        {activeCategory !== "All" && (
-                            <span className="px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-md text-xs">{activeCategory}</span>
-                        )}
-                        {searchQuery && (
-                            <span className="px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-md text-xs">"{searchQuery}"</span>
-                        )}
+                            <Hash size={14} className="text-brand-primary animate-pulse" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Navi Mumbai Intelligence</span>
+                        </motion.div>
+                        <h2 className="text-4xl md:text-6xl font-black text-brand-heading tracking-tight mb-6">
+                            Explore by <span className="text-brand-primary italic">Expertise</span>
+                        </h2>
                     </div>
-                </motion.div>
-            )}
-        </div>
-    );
-};
 
-export default BlogFilters;
+                    {/* Desktop Filter Rail */}
+                    <div className="relative p-2 bg-zinc-100/50 backdrop-blur-md rounded-[3rem] border border-zinc-200/50 flex flex-wrap justify-center gap-2">
+                        {categories.map((cat) => {
+                            const isActive = activeCategory === cat.name;
+                            const count = getCount(cat.name);
+
+                            return (
+                                <button
+                                    key={cat.name}
+                                    onClick={() => setActiveCategory(cat.name)}
+                                    onMouseEnter={() => setHoveredTab(cat.name)}
+                                    onMouseLeave={() => setHoveredTab(null)}
+                                    className={`relative px-8 py-4 rounded-full transition-all duration-500 group flex items-center gap-3 outline-none cursor-pointer ${isActive ? "text-white" : "text-brand-paragraph hover:text-zinc-900"
+                                        }`}
+                                >
+                                    {/* Active Liquid Pill */}
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activePill"
+                                            className="absolute inset-0 bg-brand-primary rounded-full shadow-[0_10px_20px_rgba(var(--brand-primary-rgb),0.3)] z-0"
+                                            transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
+                                        />
+                                    )}
+
+                                    {/* Hover Indicator */}
+                                    {hoveredTab === cat.name && !isActive && (
+                                        <motion.div
+                                            layoutId="hoverPill"
+                                            className="absolute inset-0 bg-white shadow-sm rounded-full z-0"
+                                            transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                                        />
+                                    )}
+
+                                    <span className="relative z-10 flex items-center gap-3">
+                                        <div className={`p-1.5 rounded-lg transition-transform group-hover:rotate-12 ${isActive ? "bg-white/20" : "bg-zinc-200/50"}`}>
+                                            {cat.icon}
+                                        </div>
+                                        <div className="flex flex-col items-start">
+                                            <span className="text-sm font-bold uppercase tracking-wide leading-none">{cat.name}</span>
+                                            <span className={`text-[9px] font-black mt-1 uppercase opacity-100 ${isActive ? "text-white" : "text-brand-primary-hover"}`}>
+                                                {count} Blogs
+                                            </span>
+                                        </div>
+                                    </span>
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Interactive Result Count / Reset Button */}
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeCategory}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="flex items-center gap-8"
+                        >
+                            <div className="flex items-center gap-3 text-brand-paragraph font-bold text-xs uppercase tracking-widest">
+                                <Filter size={16} className="text-brand-primary" />
+                                Showing {getCount(activeCategory)} articles for {activeCategory}
+                            </div>
+
+                            {activeCategory !== "All" && (
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setActiveCategory("All")}
+                                    className="flex items-center gap-2 text-[12px] font-black uppercase text-brand-primary border-b-2 border-brand-primary pb-1 cursor-pointer group"
+                                >
+                                    Clear Selection
+                                    <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                                </motion.button>
+                            )}
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+            </div>
+        </section>
+    );
+}
