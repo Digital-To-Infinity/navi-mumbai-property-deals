@@ -11,11 +11,26 @@ import SellMegaMenu from './SellMegaMenu';
 interface PredefinedLink {
     name: string;
     href: string;
+    title?: string;
 }
 
 const NavLinks = ({ navLinks }: { navLinks: PredefinedLink[] }) => {
     const pathname = usePathname();
     const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+
+    // Map names to SEO-rich titles if not provided
+    const getLinkTitle = (link: PredefinedLink) => {
+        if (link.title) return link.title;
+        const name = link.name.toLowerCase();
+        if (name === 'home') return "Back to Navi Mumbai Property Deals Homepage";
+        if (name === 'about') return "Learn about our 15+ years of real estate excellence in Navi Mumbai";
+        if (name === 'blogs') return "Read latest Navi Mumbai real estate news and market insights";
+        if (name === 'buy') return "Explore verified residential apartments and villas for sale";
+        if (name === 'rent') return "Find luxury flats and houses for rent across Navi Mumbai";
+        if (name === 'sell') return "Sell your property in Navi Mumbai with our expert consultants";
+        if (name === 'contact') return "Get expert real estate advice for your next property deal";
+        return `Navigate to ${link.name}`;
+    };
 
     return (
         <nav
@@ -32,6 +47,7 @@ const NavLinks = ({ navLinks }: { navLinks: PredefinedLink[] }) => {
                 const hasMegaMenu = isBuyLink || isRentLink || isSellLink;
                 const isCurrentlyHovered = hoveredLink === link.name;
                 const menuId = `mega-menu-${normalizedName.replace(/\s+/g, '-')}`;
+                const linkTitle = getLinkTitle(link);
 
                 return (
                     <div
@@ -47,6 +63,7 @@ const NavLinks = ({ navLinks }: { navLinks: PredefinedLink[] }) => {
                                 aria-controls={menuId}
                                 role="tab"
                                 aria-selected={isActive}
+                                title={linkTitle}
                                 className={`relative px-4 py-2 text-base font-bold transition-colors duration-200 flex items-center gap-1 outline-none focus-visible:text-brand-primary-hover cursor-pointer ${isActive ? 'text-brand-primary-hover' : 'text-zinc-600 hover:text-brand-primary-hover'
                                     }`}
                             >
@@ -70,6 +87,7 @@ const NavLinks = ({ navLinks }: { navLinks: PredefinedLink[] }) => {
                                 role="tab"
                                 aria-selected={isActive}
                                 aria-current={isActive ? "page" : undefined}
+                                title={linkTitle}
                                 className={`relative px-4 py-2 text-base font-bold transition-colors duration-200 block outline-none focus-visible:text-brand-primary-hover ${isActive ? 'text-brand-primary-hover' : 'text-zinc-600 hover:text-brand-primary-hover'
                                     }`}
                             >
@@ -107,3 +125,4 @@ const NavLinks = ({ navLinks }: { navLinks: PredefinedLink[] }) => {
 };
 
 export default NavLinks;
+

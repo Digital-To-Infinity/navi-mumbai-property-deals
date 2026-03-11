@@ -4,7 +4,8 @@ import { Laugh, Lightbulb, Home, Quote, Sparkles } from "lucide-react";
 
 const items = [
     {
-        icon: <Laugh className="w-8 h-8 text-brand-primary" />,
+        id: "paradox",
+        icon: <Laugh className="w-8 h-8 text-brand-primary" aria-hidden="true" />,
         title: "The Real Estate Paradox",
         tag: "Funny Logic",
         text: "Why do we park on driveways and drive on parkways? At Navi Mumbai Property Deals, we just make sure your driveway is actually long enough for your car (and your dreams).",
@@ -12,7 +13,8 @@ const items = [
         iconBg: "bg-blue-500/10"
     },
     {
-        icon: <Lightbulb className="w-8 h-8 text-brand-primary" />,
+        id: "golden-rule",
+        icon: <Lightbulb className="w-8 h-8 text-brand-primary" aria-hidden="true" />,
         title: "The Golden Rule",
         tag: "Pro Tip",
         text: "The best time to buy a house was 20 years ago. The second best time is today. Don't wait to buy real estate, buy real estate and then wait!",
@@ -20,7 +22,8 @@ const items = [
         iconBg: "bg-amber-500/10"
     },
     {
-        icon: <Home className="w-8 h-8 text-brand-primary" />,
+        id: "dating-metaphor",
+        icon: <Home className="w-8 h-8 text-brand-primary" aria-hidden="true" />,
         title: "House Hunting vs Dating",
         tag: "Metaphor",
         text: "House hunting is like dating. You see many 'potential' matches until you find 'The One'. Think of us as your expert matchmakers with better floor plans!",
@@ -30,6 +33,7 @@ const items = [
 ];
 
 function Card({ item, index }: { item: typeof items[0], index: number }) {
+    const cardTitleId = `short-break-title-${item.id}`;
     return (
         <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -38,11 +42,12 @@ function Card({ item, index }: { item: typeof items[0], index: number }) {
             transition={{ delay: index * 0.1, duration: 0.8, ease: "circOut" }}
             className="relative h-full"
         >
-            <div
+            <article
                 className="bg-white rounded-[2.5rem] p-10 max-[769px]:p-6 max-[321px]:p-4 border border-neutral-100 shadow-[0_10px_50px_-20px_rgba(0,0,0,0.1)] hover:shadow-[0_40px_80px_-30px_rgba(186,163,96,0.3)] hover:-translate-y-3 transition-all duration-500 group h-full relative overflow-hidden"
+                aria-labelledby={cardTitleId}
             >
                 {/* Background Gradient Blob */}
-                <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br ${item.color}`} />
+                <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br ${item.color}`} aria-hidden="true" />
 
                 <div className="relative z-10">
                     <div className="flex justify-between items-start mb-8">
@@ -60,7 +65,7 @@ function Card({ item, index }: { item: typeof items[0], index: number }) {
                         </span>
                     </div>
 
-                    <h3 className="text-2xl font-black text-brand-heading mb-4 leading-tight group-hover:text-brand-primary transition-colors">
+                    <h3 id={cardTitleId} className="text-2xl font-black text-brand-heading mb-4 leading-tight group-hover:text-brand-primary transition-colors">
                         {item.title}
                     </h3>
 
@@ -70,22 +75,23 @@ function Card({ item, index }: { item: typeof items[0], index: number }) {
                 </div>
 
                 {/* Decorative Quote Mark */}
-                <Quote className="absolute -bottom-4 -right-4 w-24 h-24 text-brand-primary/30 -rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-700" />
-            </div>
+                <Quote className="absolute -bottom-4 -right-4 w-24 h-24 text-brand-primary/30 -rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-transform duration-700" aria-hidden="true" />
+            </article>
         </motion.div>
     );
 }
 
 export default function ShortBreak() {
     return (
-        <section className="py-16 bg-[#fafafa] relative overflow-x-clip">
+        <section className="py-16 bg-[#fafafa] relative overflow-x-clip" aria-labelledby="short-break-heading">
             {/* Ultra-premium background elements */}
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/4" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] translate-y-1/4 -translate-x-1/4" />
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/4" aria-hidden="true" />
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-primary/5 rounded-full blur-[120px] translate-y-1/4 -translate-x-1/4" aria-hidden="true" />
 
             {/* Subtle grid pattern */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle, #b5a36a 1.5px, transparent 1.5px)', backgroundSize: '48px 48px' }}
+                aria-hidden="true"
             />
 
             <div className="container mx-auto px-4 relative z-10">
@@ -99,14 +105,14 @@ export default function ShortBreak() {
                         <div className="flex -space-x-2">
                             {[1, 2, 3].map((i) => (
                                 <div key={i} className="w-6 h-6 rounded-full border-2 border-brand-white bg-brand-primary/20 flex items-center justify-center overflow-hidden">
-                                    <Sparkles className="w-3 h-3 text-brand-primary" />
+                                    <Sparkles className="w-3 h-3 text-brand-primary" aria-hidden="true" />
                                 </div>
                             ))}
                         </div>
                         <span className="text-brand-primary font-bold uppercase tracking-[0.15em] text-[10px]">Short & Sweet</span>
                     </motion.div>
 
-                    <h2 className="text-7xl max-[769px]:text-6xl max-[426px]:text-5xl max-[376px]:text-4xl font-black text-brand-heading mb-8 tracking-tight leading-[1.1]">
+                    <h2 id="short-break-heading" className="text-7xl max-[769px]:text-6xl max-[426px]:text-5xl max-[376px]:text-4xl font-black text-brand-heading mb-8 tracking-tight leading-[1.1]">
                         Pause for a <span className="relative">
                             <span className="relative z-10 italic text-brand-primary">Lighter</span>
                             <motion.svg
@@ -116,6 +122,7 @@ export default function ShortBreak() {
                                 whileInView={{ pathLength: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 1.5, delay: 0.5 }}
+                                aria-hidden="true"
                             >
                                 <path d="M0,10 Q50,0 100,10 T200,10" stroke="#b5a36a" strokeWidth="4" fill="none" />
                             </motion.svg>
@@ -127,9 +134,11 @@ export default function ShortBreak() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 min-[770px]:grid-cols-3 gap-8 md:gap-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 min-[770px]:grid-cols-3 gap-8 md:gap-12" role="list" aria-label="Fun real estate facts and tips">
                     {items.map((item, index) => (
-                        <Card key={index} item={item} index={index} />
+                        <div key={index} role="listitem">
+                            <Card item={item} index={index} />
+                        </div>
                     ))}
                 </div>
             </div>
