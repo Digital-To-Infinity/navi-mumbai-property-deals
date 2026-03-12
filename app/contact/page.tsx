@@ -2,6 +2,8 @@ import ContactHero from "@/components/Contact/ContactHero";
 import ContactForm from "@/components/Contact/ContactForm";
 import ContactInfo from "@/components/Contact/ContactInfo";
 import ContactMap from "@/components/Contact/ContactMap";
+import ExpertAdvisors from "@/components/Contact/ExpertAdvisors";
+import ContactFAQ from "@/components/Contact/ContactFAQ";
 
 export const metadata = {
     title: "Contact Us | Navi Mumbai Property Deals",
@@ -12,6 +14,7 @@ export default function Contact() {
     return (
         <main className="min-h-screen bg-zinc-950">
             <ContactHero />
+
             <div className="relative z-10 bg-zinc-950">
                 <section className="py-24 px-4">
                     <div className="container mx-auto">
@@ -21,7 +24,10 @@ export default function Contact() {
                         </div>
                     </div>
                 </section>
+
+                <ExpertAdvisors />
                 <ContactMap />
+                <ContactFAQ />
             </div>
         </main>
     );
