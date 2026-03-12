@@ -21,7 +21,7 @@ const Navbar = () => {
         { name: 'Buy', href: '/flats-for-sale-in-navi-mumbai' },
         { name: 'Rent', href: '/flats-for-rent-in-navi-mumbai' },
         { name: 'Sell', href: '/sell-property-navi-mumbai' },
-        { name: 'Contact', href: '/contact-us' },
+        { name: 'Contact', href: '/contact' },
     ];
 
     useEffect(() => {
