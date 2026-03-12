@@ -12,22 +12,32 @@ export const metadata = {
 
 export default function Contact() {
     return (
-        <main className="min-h-screen bg-zinc-950">
+        <main className="min-h-screen bg-brand-white">
+            {/* Hero stays dark/image-based */}
             <ContactHero />
 
-            <div className="relative z-10 bg-zinc-950">
-                <section className="py-24 px-4">
+            {/* This section transitions to white background */}
+            <div className="relative z-10 bg-brand-white">
+                <section className="py-16 px-4">
                     <div className="container mx-auto">
-                        <div className="grid lg:grid-cols-2 gap-16 items-start">
+                        <div className="grid lg:grid-cols-2 gap-20 items-start">
                             <ContactInfo />
                             <ContactForm />
                         </div>
                     </div>
                 </section>
 
-                <ExpertAdvisors />
-                <ContactMap />
-                <ContactFAQ />
+                <div className="bg-brand-cream/20">
+                    <ExpertAdvisors />
+                </div>
+
+                <section className="bg-brand-white">
+                    <ContactMap />
+                </section>
+
+                <div className="bg-brand-cream/10">
+                    <ContactFAQ />
+                </div>
             </div>
         </main>
     );
