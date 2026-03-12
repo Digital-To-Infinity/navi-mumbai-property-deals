@@ -14,22 +14,22 @@ const faqs = [
     {
         category: "buying",
         question: "How long does it take to find a property through your agency?",
-        answer: "Typically, our clients find their ideal home within 7-14 days. We leverage our deep local network and 'off-market' listings in Kharghar and Panvel which aren't available on public portals. Our streamlined process ensures you only see the highest-potential matches."
+        answer: "Typically, our clients find their ideal home within 7-14 days. We leverage our deep local network and 'off-market' listings in <strong>Kharghar</strong> and <strong>Panvel</strong> which aren't available on public portals. Our streamlined process ensures you only see the highest-potential matches."
     },
     {
         category: "services",
         question: "Do you charge any brokerage fees for new projects?",
-        answer: "For most RERA-registered new construction projects, where we represent the developer, there is ZERO brokerage fee collected from the buyer. We get compensated by the developers. For resale properties, standard professional fees apply based on the transaction type."
+        answer: "For most <strong>RERA-registered</strong> new construction projects, where we represent the developer, there is ZERO brokerage fee collected from the buyer. We get compensated by the developers. For resale properties, standard professional fees apply based on the transaction type."
     },
     {
         category: "legal",
         question: "Can you help with home loan processing?",
-        answer: "Absolutely. We have strategic partnerships with top banks like HDFC, ICICI, and SBI. We assist with documentation and secure the fastest possible approvals for our clients, often at preferential interest rates."
+        answer: "Absolutely. We have strategic partnerships with top banks like <strong>HDFC</strong>, <strong>ICICI</strong>, and <strong>SBI</strong>. We assist with documentation and secure the fastest possible approvals for our clients, often at preferential interest rates."
     },
     {
         category: "legal",
         question: "What legal checks do you perform on properties?",
-        answer: "Our team performs a rigorous 22-point verification process including Title Deed check, CIDCO Transfer history, Occupation Certificate (OC) status, and RERA compliance. We ensure every transaction is legally sound before you commit."
+        answer: "Our team performs a rigorous 22-point verification process including Title Deed check, <strong>CIDCO Transfer</strong> history, Occupation Certificate (OC) status, and <strong>RERA compliance</strong>. We ensure every transaction is legally sound before you commit."
     },
     {
         category: "buying",
@@ -39,12 +39,12 @@ const faqs = [
     {
         category: "services",
         question: "What areas of Navi Mumbai do you specialize in?",
-        answer: "We have hyper-local expertise in Kharghar, Panvel, Ulwe, Taloja, and Seawoods. These are the fastest-growing hubs with the highest potential for both living and investment appreciation."
+        answer: "We have hyper-local expertise in <strong>Kharghar</strong>, <strong>Panvel</strong>, <strong>Ulwe</strong>, <strong>Taloja</strong>, and <strong>Seawoods</strong>. These are the fastest-growing hubs with the highest potential for both living and investment appreciation, especially with the connectivity of <strong>Atal Setu</strong>."
     },
     {
         category: "legal",
         question: "What hidden costs should I be aware of when buying?",
-        answer: "Beyond the property price, you should budget for Stamp Duty (usually 6-7% in Navi Mumbai), Registration fees, GST (for under-construction units), and CIDCO Transfer charges if applicable. We provide a transparent cost sheet upfront."
+        answer: "Beyond the property price, you should budget for Stamp Duty (usually 6-7% in Navi Mumbai), Registration fees, GST (for under-construction units), and <strong>CIDCO Transfer</strong> charges if applicable. We provide a transparent cost sheet upfront."
     },
     {
         category: "buying",
@@ -78,7 +78,7 @@ export default function ContactFAQ() {
                     className="max-w-4xl mx-auto text-center mb-16"
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-black uppercase tracking-widest mb-6">
-                        <HelpCircle size={14} className="animate-pulse" /> Knowledge Hub
+                        <HelpCircle size={14} className="animate-pulse" aria-hidden="true" /> Knowledge Hub
                     </div>
                     <h2 className="text-5xl md:text-6xl font-black text-brand-heading mb-6 tracking-tight leading-[1.1]">
                         Explore Our <span className="text-brand-primary italic">Knowledge Hub</span>
@@ -102,12 +102,13 @@ export default function ContactFAQ() {
                                 setActiveCategory(cat.id);
                                 setOpenIndex(null);
                             }}
+                            aria-label={`Filter questions by ${cat.label}`}
                             className={`flex items-center gap-3 px-8 py-4 rounded-full border transition-all duration-300 group shadow-sm cursor-pointer ${activeCategory === cat.id
                                 ? "bg-brand-primary border-brand-primary text-white shadow-lg shadow-brand-primary/25 scale-105"
                                 : "bg-white border-neutral-border text-brand-heading hover:border-brand-primary/30 hover:shadow-md"
                                 }`}
                         >
-                            <cat.icon size={18} className={activeCategory === cat.id ? "text-white" : "text-brand-primary"} />
+                            <cat.icon size={18} className={activeCategory === cat.id ? "text-white" : "text-brand-primary"} aria-hidden="true" />
                             <span className="font-bold whitespace-nowrap">{cat.label}</span>
                         </button>
                     ))}
@@ -142,7 +143,7 @@ export default function ContactFAQ() {
                                                 </span>
                                             </div>
                                             <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${openIndex === idx ? 'bg-brand-primary text-white rotate-180 shadow-lg shadow-brand-primary/30' : 'bg-brand-primary/5 text-brand-primary group-hover:bg-brand-primary/10'}`}>
-                                                {openIndex === idx ? <Minus size={22} /> : <Plus size={22} />}
+                                                {openIndex === idx ? <Minus size={22} aria-hidden="true" /> : <Plus size={22} aria-hidden="true" />}
                                             </div>
                                         </button>
 
@@ -175,7 +176,7 @@ export default function ContactFAQ() {
                                     className="py-24 text-center bg-gray-50/50 rounded-[3rem] border-2 border-dashed border-gray-200"
                                 >
                                     <div className="w-20 h-20 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-primary">
-                                        <Search size={40} />
+                                        <Search size={40} aria-hidden="true" />
                                     </div>
                                     <h3 className="text-2xl font-bold text-brand-heading mb-2">No matching questions</h3>
                                     <p className="text-brand-paragraph">Try selecting another category to find what you're looking for.</p>
@@ -191,11 +192,11 @@ export default function ContactFAQ() {
                             className="p-10 rounded-[3.5rem] bg-brand-dark text-white relative group cursor-pointer overflow-hidden shadow-2xl shadow-brand-dark/20 border border-white/5"
                         >
                             <div className="absolute -top-10 -right-10 p-4 opacity-5 group-hover:opacity-10 group-hover:rotate-12 transition-all duration-700">
-                                <MessageCircle size={200} />
+                                <MessageCircle size={200} aria-hidden="true" />
                             </div>
                             <div className="relative z-10">
                                 <div className="w-14 h-14 rounded-2xl bg-brand-primary/20 backdrop-blur-md border border-brand-primary/30 flex items-center justify-center text-brand-primary mb-8 shadow-inner">
-                                    <MessageCircle size={28} />
+                                    <MessageCircle size={28} aria-hidden="true" />
                                 </div>
                                 <h4 className="font-black text-3xl !text-brand-white mb-4 leading-tight">Private <br />Consultation</h4>
                                 <p className="text-brand-muted text-base mb-8 leading-relaxed">
@@ -205,9 +206,10 @@ export default function ContactFAQ() {
                                     href="https://wa.me/919876543210?text=Hi, I have some questions about properties in Navi Mumbai. Can you help me?"
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label="Contact us on WhatsApp for a private consultation"
                                     className="inline-flex items-center gap-3 px-6 py-4 bg-brand-primary text-white font-black uppercase text-xs tracking-widest rounded-2xl group-hover:gap-5 hover:bg-brand-primary-hover transition-all"
                                 >
-                                    Talk to an Expert <ChevronRight size={18} />
+                                    Talk to an Expert <ChevronRight size={18} aria-hidden="true" />
                                 </a>
                             </div>
                         </motion.div>

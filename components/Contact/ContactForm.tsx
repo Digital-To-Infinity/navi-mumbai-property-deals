@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, User, Mail, Phone, MessageSquare, ChevronRight, CheckCircle2, ShieldCheck, Sparkles } from "lucide-react";
+import { Send, User, Mail, Phone, MessageSquare, ChevronRight, CheckCircle2, Sparkles, Building2, Download } from "lucide-react";
 
 const options = [
     { value: "buy", label: "Buying Property" },
@@ -17,6 +17,7 @@ export default function ContactForm() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,7 +62,7 @@ export default function ContactForm() {
                             <div className="mb-12">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
-                                        <Sparkles className="w-5 h-5" />
+                                        <Building2 size={20} aria-hidden="true" />
                                     </div>
                                     <span className="text-brand-primary font-bold tracking-widest uppercase text-sm">Send Inquiry</span>
                                 </div>
@@ -72,40 +73,52 @@ export default function ContactForm() {
                             <form className="space-y-10" onSubmit={handleSubmit}>
                                 <div className="relative group/input">
                                     <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'name' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Full Name *</label>
-                                    <User className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'name' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} />
+                                    <User className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'name' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <input
                                         type="text"
                                         required
+                                        autoComplete="name"
+                                        id="full-name"
                                         className={inputClasses('name')}
                                         onFocus={() => setFocused('name')}
                                         onBlur={() => setFocused(null)}
                                         placeholder="Enter your name"
+                                        aria-describedby="name-label"
                                     />
+                                    <span id="name-label" className="sr-only">Please enter your full name</span>
                                 </div>
 
                                 <div className="relative group/input">
                                     <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'email' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Email Address</label>
-                                    <Mail className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'email' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} />
+                                    <Mail className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'email' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <input
                                         type="email"
+                                        autoComplete="email"
+                                        id="email-address"
                                         className={inputClasses('email')}
                                         onFocus={() => setFocused('email')}
                                         onBlur={() => setFocused(null)}
                                         placeholder="name@example.com"
+                                        aria-describedby="email-label"
                                     />
+                                    <span id="email-label" className="sr-only">Please enter your email address for communication</span>
                                 </div>
 
                                 <div className="relative group/input">
                                     <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'phone' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Phone Number *</label>
-                                    <Phone className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'phone' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} />
+                                    <Phone className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'phone' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <input
                                         type="tel"
                                         required
+                                        autoComplete="tel"
+                                        id="phone-number"
                                         className={inputClasses('phone')}
                                         onFocus={() => setFocused('phone')}
                                         onBlur={() => setFocused(null)}
                                         placeholder="+91 00000 00000"
+                                        aria-describedby="phone-label"
                                     />
+                                    <span id="phone-label" className="sr-only">Please enter your mobile or telephone number</span>
                                 </div>
 
                                 <div className="relative">
@@ -121,7 +134,7 @@ export default function ContactForm() {
                                             animate={{ rotate: isDropdownOpen ? 180 : 0 }}
                                             transition={{ duration: 0.3 }}
                                         >
-                                            <ChevronRight className={`w-5 h-5 rotate-90 transition-colors duration-300 ${isDropdownOpen ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} />
+                                            <ChevronRight className={`w-5 h-5 rotate-90 transition-colors duration-300 ${isDropdownOpen ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                         </motion.div>
                                     </div>
 
@@ -153,7 +166,7 @@ export default function ContactForm() {
                                                                 <span className="text-base">{option.label}</span>
                                                             </div>
                                                             {selectedOption === option.value && (
-                                                                <CheckCircle2 className="w-4 h-4 text-brand-primary" />
+                                                                <CheckCircle2 className="w-4 h-4 text-brand-primary" aria-hidden="true" />
                                                             )}
                                                         </motion.div>
                                                     ))}
@@ -165,7 +178,7 @@ export default function ContactForm() {
 
                                 <div className="relative group/input">
                                     <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'message' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Message / Requirements</label>
-                                    <MessageSquare className={`absolute right-0 top-6 w-5 h-5 transition-colors duration-300 ${focused === 'message' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} />
+                                    <MessageSquare className={`absolute right-0 top-6 w-5 h-5 transition-colors duration-300 ${focused === 'message' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <textarea
                                         rows={4}
                                         className={inputClasses('message')}
@@ -181,14 +194,14 @@ export default function ContactForm() {
                                         disabled={isSubmitting}
                                         whileHover={{ y: -2 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full py-4 rounded-2xl bg-brand-primary text-black font-bold flex items-center justify-center gap-3 transition-all duration-300 shadow-xl shadow-brand-primary/20 hover:shadow-brand-primary/40 relative overflow-hidden group/btn cursor-pointer"
+                                        className="w-full py-4 rounded-2xl bg-brand-primary text-white font-bold flex items-center justify-center gap-3 transition-all duration-300 hover:bg-brand-primary-hover relative overflow-hidden group/btn cursor-pointer"
                                     >
                                         {isSubmitting ? (
                                             <div className="w-6 h-6 border-4 border-black/20 border-t-black rounded-full animate-spin" />
                                         ) : (
                                             <>
                                                 Send Message
-                                                <Send className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                                                <Send className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" aria-hidden="true" />
                                             </>
                                         )}
                                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_2s_infinite]" />
@@ -210,7 +223,7 @@ export default function ContactForm() {
                                 transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
                                 className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mx-auto mb-8 shadow-2xl shadow-emerald-500/20"
                             >
-                                <CheckCircle2 size={48} />
+                                <CheckCircle2 size={48} aria-hidden="true" />
                             </motion.div>
                             <motion.h2
                                 initial={{ opacity: 0, y: 10 }}
@@ -224,14 +237,40 @@ export default function ContactForm() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 }}
-                                className="text-brand-paragraph text-xl max-w-sm mx-auto leading-relaxed"
+                                className="text-brand-paragraph text-xl max-w-sm mx-auto leading-relaxed mb-10"
                             >
                                 We've received your inquiry. One of our property experts will reach out to you within <span className="text-brand-primary font-bold">24 hours</span>.
                             </motion.p>
+
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.8 }}
+                                className="bg-brand-primary/5 rounded-3xl p-8 border border-brand-primary/20 max-w-md mx-auto"
+                            >
+                                <div className="flex items-center gap-4 mb-6 text-left">
+                                    <div className="w-12 h-12 bg-brand-primary rounded-xl flex items-center justify-center text-white shrink-0">
+                                        <Download className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-brand-heading">Exclusive Insight</h4>
+                                        <p className="text-sm text-brand-paragraph">Download our 2026 Navi Mumbai Investment Guide</p>
+                                    </div>
+                                </div>
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="w-full py-4 bg-brand-heading text-white font-bold rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-dark transition-all"
+                                >
+                                    Get the Guide (PDF)
+                                    <ChevronRight className="w-4 h-4" />
+                                </motion.button>
+                            </motion.div>
+
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 1 }}
+                                transition={{ delay: 1.5 }}
                                 className="mt-12"
                             >
                                 <div className="inline-block px-4 py-2 rounded-full bg-zinc-50 border border-neutral-border text-xs text-brand-paragraph/50">

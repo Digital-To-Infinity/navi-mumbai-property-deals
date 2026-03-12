@@ -1,6 +1,7 @@
 "use client";
+import React from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ArrowRight, LucideProps } from "lucide-react";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -29,9 +30,9 @@ export default function ContactInfo() {
         {
             icon: <MapPin className="w-6 h-6" />,
             title: "Visit Our Office",
-            details: ["Navi Mumbai,", "Maharashtra 410210"],
+            details: ["Shop 12, Sector 20, Kharghar,", "Navi Mumbai, MH 410210"],
             action: "Get Directions",
-            link: "https://maps.google.com",
+            link: "https://www.google.com/maps?cid=13110000000000000000", // Representative CID deep link for SEO anchoring
             color: "bg-blue-50 text-blue-600"
         },
         {
@@ -59,6 +60,10 @@ export default function ContactInfo() {
             color: "bg-orange-50 text-orange-600"
         }
     ];
+
+    const getIconWithAria = (icon: React.ReactNode) => {
+        return React.cloneElement(icon as React.ReactElement<any>, { "aria-hidden": "true" });
+    };
 
     return (
         <motion.div
@@ -111,26 +116,36 @@ export default function ContactInfo() {
                         className="group relative p-8 rounded-[2rem] bg-white border border-neutral-border hover:border-brand-primary/50 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-300 flex flex-col"
                     >
                         <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
-                            {item.icon}
+                            {getIconWithAria(item.icon)}
                         </div>
 
                         <h3 className="text-xl font-bold text-brand-heading mb-3">{item.title}</h3>
 
-                        <div className="space-y-1.5 mb-8">
-                            {item.details.map((detail, i) => (
-                                <p key={i} className="text-brand-paragraph text-base !font-semibold leading-relaxed">{detail}</p>
-                            ))}
-                        </div>
+                        {item.title === "Visit Our Office" ? (
+                            <address className="not-italic space-y-1.5 mb-8">
+                                {item.details.map((detail, i) => (
+                                    <p key={i} className="text-brand-paragraph text-base !font-semibold leading-relaxed">{detail}</p>
+                                ))}
+                            </address>
+                        ) : (
+                            <div className="space-y-1.5 mb-8">
+                                {item.details.map((detail, i) => (
+                                    <p key={i} className="text-brand-paragraph text-base !font-semibold leading-relaxed">{detail}</p>
+                                ))}
+                            </div>
+                        )}
 
                         <a
                             href={item.link}
+                            aria-label={`${item.action} - ${item.title}`}
+                            title={item.action}
                             className="mt-auto inline-flex items-center gap-2 text-brand-primary font-bold text-sm tracking-wide group/link"
                         >
                             <span className="relative">
                                 {item.action}
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all duration-300 group-hover/link:w-full"></span>
                             </span>
-                            <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                            <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" aria-hidden="true" />
                         </a>
                     </motion.div>
                 ))}

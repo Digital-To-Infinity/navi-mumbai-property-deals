@@ -91,7 +91,7 @@ export default function ContactMap() {
                             className="group flex items-center gap-5 p-6 rounded-[2rem] bg-white border border-brand-primary/5 shadow-sm hover:shadow-xl hover:border-brand-primary/20 transition-all duration-500"
                         >
                             <div className={`p-4 rounded-2xl bg-brand-primary/10 text-brand-primary group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-500`}>
-                                <item.icon size={26} />
+                                <item.icon size={26} aria-hidden="true" />
                             </div>
                             <div>
                                 <h4 className="text-brand-heading font-black text-lg mb-1">{item.title}</h4>
@@ -118,6 +118,7 @@ export default function ContactMap() {
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
+                                title="Navi Mumbai Property Deals Kharghar Office Location"
                                 className="transition-all duration-700 group-hover:scale-105 group-hover:filter-none grayscale-[0.2] contrast-[1.1] group-hover:grayscale-0"
                             />
 
@@ -136,7 +137,7 @@ export default function ContactMap() {
                                         className="absolute inset-x-[-40px] inset-y-[-40px] bg-brand-primary rounded-full blur-2xl"
                                     />
                                     <div className="relative w-14 h-14 bg-white rounded-2xl shadow-2xl flex items-center justify-center transform rotate-12 group-hover:rotate-0 transition-transform duration-500 border-2 border-brand-primary/20">
-                                        <MapPin size={28} className="text-brand-primary fill-brand-primary/10" />
+                                        <MapPin size={28} className="text-brand-primary fill-brand-primary/10" aria-hidden="true" />
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +161,7 @@ export default function ContactMap() {
                         >
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary">
-                                    <Building2 size={20} />
+                                    <Building2 size={20} aria-hidden="true" />
                                 </div>
                                 <div>
                                     <p className="text-[10px] uppercase font-black text-brand-primary tracking-widest leading-none">Main Office</p>
@@ -184,25 +185,25 @@ export default function ContactMap() {
                             <div className="space-y-8 flex-1">
                                 <div className="flex items-center gap-5">
                                     <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
-                                        <Navigation size={32} className="text-brand-primary" />
+                                        <Navigation size={32} className="text-brand-primary" aria-hidden="true" />
                                     </div>
                                     <div>
                                         <h4 className="font-black text-4xl tracking-tight !text-white leading-none">Platinum Heights</h4>
                                         <p className="text-brand-primary text-sm font-black uppercase tracking-[0.3em] mt-3">Corporate Headquarters</p>
                                     </div>
                                 </div>
-                                <p className="text-brand-muted font-medium text-2xl leading-relaxed max-w-2xl">
+                                <address className="text-brand-muted font-medium text-2xl leading-relaxed max-w-2xl not-italic">
                                     Shop 12, Sector 20, Kharghar,<br />
                                     Navi Mumbai, Maharashtra 410210
-                                </p>
+                                </address>
 
                                 <div className="flex flex-wrap gap-6 mt-10">
                                     <div className="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-white/5 text-base font-bold border border-white/5">
-                                        <Clock size={20} className="text-brand-primary" />
+                                        <Clock size={20} className="text-brand-primary" aria-hidden="true" />
                                         Mon - Sat: 10AM - 8PM
                                     </div>
                                     <div className="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-white/5 text-base font-bold border border-white/5">
-                                        <ShieldCheck size={20} className="text-brand-primary" />
+                                        <ShieldCheck size={20} className="text-brand-primary" aria-hidden="true" />
                                         Verified HQ
                                     </div>
                                 </div>
@@ -213,10 +214,12 @@ export default function ContactMap() {
                                     whileHover={{ scale: 1.05, y: -2 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => window.open('https://maps.app.goo.gl/KhargharLocation', '_blank')}
+                                    aria-label="Navigate to our Kharghar office using Google Maps"
+                                    title="Open Google Maps"
                                     className="w-full md:w-auto px-12 py-6 bg-brand-primary text-brand-white font-black rounded-[1.5rem] flex items-center justify-center gap-4 hover:bg-brand-primary-hover transition-all cursor-pointer text-xl group"
                                 >
                                     Navigate Now
-                                    <ExternalLink size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                    <ExternalLink size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" aria-hidden="true" />
                                 </motion.button>
                             </div>
                         </div>

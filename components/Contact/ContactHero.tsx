@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Phone, Clock, MessageCircle, ArrowRight, UserCheck } from "lucide-react";
 import { useRef } from "react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import ContactSchema from "./ContactSchema";
 
 export default function ContactHero() {
     const containerRef = useRef(null);
@@ -14,10 +16,32 @@ export default function ContactHero() {
 
     const scaleVal = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const checkStatus = () => {
+            const now = new Date();
+            const day = now.getDay();
+            const hour = now.getHours();
+
+            // Mon-Sat: 10AM - 8PM (1-6)
+            if (day >= 1 && day <= 6) {
+                setIsOpen(hour >= 10 && hour < 20);
+            }
+            // Sun: 11AM - 5PM (0)
+            else if (day === 0) {
+                setIsOpen(hour >= 11 && hour < 17);
+            }
+        };
+        checkStatus();
+        const interval = setInterval(checkStatus, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
     const contactStats = [
-        { icon: <Clock className="w-5 h-5" aria-hidden="true" />, label: "Response Time", value: "< 12 Hrs" },
+        { icon: <Clock className="w-5 h-5" aria-hidden="true" />, label: "Office Status", value: isOpen ? "Open Now" : "Closed" },
         { icon: <UserCheck className="w-5 h-5" aria-hidden="true" />, label: "Expert Advisors", value: "15+" },
-        { icon: <MessageCircle className="w-5 h-5" aria-hidden="true" />, label: "Support", value: "24/7" },
+        { icon: <MessageCircle className="w-5 h-5" aria-hidden="true" />, label: "Live Support", value: isOpen ? "Active" : "On Call" },
     ];
 
     return (
@@ -25,6 +49,7 @@ export default function ContactHero() {
             ref={containerRef}
             className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-zinc-950 pt-20 pb-16"
         >
+            <ContactSchema />
             {/* Background Image with Parallax Scale */}
             <motion.div
                 style={{ scale: scaleVal }}
@@ -36,6 +61,7 @@ export default function ContactHero() {
                     fill
                     className="object-cover opacity-100"
                     priority
+                    fetchPriority="high"
                 />
                 {/* <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/40 to-zinc-950" aria-hidden="true" /> */}
                 <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-transparent to-zinc-950/20" aria-hidden="true" />
@@ -152,18 +178,20 @@ export default function ContactHero() {
                                 </span>
                             </motion.button>
 
-                            <Link href="tel:+91XXXXXXXXXX" className="max-[426px]:w-full">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="w-full px-10 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl backdrop-blur-sm hover:bg-white/10 transition-colors cursor-pointer"
-                                >
-                                    <span className="flex items-center gap-3 justify-center">
-                                        <Phone className="w-5 h-5" aria-hidden="true" />
-                                        Call Now
-                                    </span>
-                                </motion.button>
-                            </Link>
+                            {!isOpen && (
+                                <Link href="tel:+919876543210" className="max-[426px]:w-full">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="w-full px-10 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl backdrop-blur-sm hover:bg-white/10 transition-colors cursor-pointer"
+                                    >
+                                        <span className="flex items-center gap-3 justify-center">
+                                            <Phone className="w-5 h-5" aria-hidden="true" />
+                                            Call Now
+                                        </span>
+                                    </motion.button>
+                                </Link>
+                            )}
                         </div>
                     </motion.div>
 
