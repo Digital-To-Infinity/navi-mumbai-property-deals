@@ -1,7 +1,7 @@
 "use client";
 import BlogCard from "./BlogCard";
 import { blogPosts } from "./Blogdata";
-import { SearchX, ArrowRight } from "lucide-react";
+import { SearchX, ArrowRight, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface BlogGridProps {
@@ -79,7 +79,7 @@ const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCatego
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                             transition={{ duration: 0.4 }}
-                            className="flex flex-col items-center justify-center py-32 text-center"
+                            className="flex flex-col items-center justify-center py-20 text-center"
                         >
                             <div className="relative mb-10">
                                 <div className="absolute inset-0 bg-brand-primary/10 rounded-full blur-2xl animate-pulse" />
@@ -96,11 +96,27 @@ const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCatego
                                     setSearchQuery("");
                                     setActiveCategory("All");
                                 }}
-                                className="group relative flex items-center gap-3 bg-brand-heading text-white px-8 py-4 rounded-2xl font-black hover:bg-brand-primary transition-all duration-500 shadow-xl shadow-black/10 hover:shadow-brand-primary/20"
+                                className="group relative flex items-center gap-3 bg-brand-heading text-white px-8 py-4 rounded-2xl font-black hover:bg-brand-primary transition-all duration-500 shadow-xl shadow-black/10 hover:shadow-brand-primary/20 mb-20"
                             >
                                 Reset All Filters
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
+
+                            <div className="w-full pt-20 border-t border-neutral-100/50">
+                                <div className="flex items-center gap-3 mb-10">
+                                    <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500">
+                                        <Flame size={20} className="animate-pulse" />
+                                    </div>
+                                    <h4 className="text-2xl font-black text-brand-heading">
+                                        Most Popular <span className="text-brand-primary italic">Insights</span>
+                                    </h4>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                                    {blogPosts.slice(0, 3).map((post, index) => (
+                                        <BlogCard key={`popular-${post.id}`} post={post} index={index} />
+                                    ))}
+                                </div>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>

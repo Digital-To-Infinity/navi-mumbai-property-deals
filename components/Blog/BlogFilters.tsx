@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, BookOpen, MapPin, BarChart3, Wallet, Filter, Hash, ArrowRight } from "lucide-react";
 import { blogPosts } from "./Blogdata";
@@ -19,6 +20,21 @@ const categories = [
 
 export default function BlogFilters({ activeCategory, setActiveCategory }: BlogFiltersProps) {
     const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const handleCategoryChange = useCallback((category: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (category === "All") {
+            params.delete("category");
+        } else {
+            params.set("category", category);
+        }
+
+        // Update both local state and URL
+        setActiveCategory(category);
+        router.push(`?${params.toString()}`, { scroll: false });
+    }, [router, searchParams, setActiveCategory]);
 
     const getCount = (cat: string) => {
         if (cat === "All") return blogPosts.length;
@@ -58,7 +74,7 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
                             return (
                                 <button
                                     key={cat.name}
-                                    onClick={() => setActiveCategory(cat.name)}
+                                    onClick={() => handleCategoryChange(cat.name)}
                                     onMouseEnter={() => setHoveredTab(cat.name)}
                                     onMouseLeave={() => setHoveredTab(null)}
                                     className={`relative px-8 py-4 rounded-full transition-all duration-500 group flex items-center gap-3 outline-none cursor-pointer ${isActive ? "text-white" : "text-brand-paragraph hover:text-zinc-900"
@@ -68,7 +84,7 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
                                     {isActive && (
                                         <motion.div
                                             layoutId="activePill"
-                                            className="absolute inset-0 bg-brand-primary rounded-full shadow-[0_10px_20px_rgba(var(--brand-primary-rgb),0.3)] z-0"
+                                            className="absolute inset-0 bg-brand-primary rounded-full shadow-[0_10px_20_rgba(var(--brand-primary-rgb),0.3)] z-0"
                                             transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
                                         />
                                     )}
@@ -116,7 +132,7 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    onClick={() => setActiveCategory("All")}
+                                    onClick={() => handleCategoryChange("All")}
                                     className="flex items-center gap-2 text-[12px] font-black uppercase text-brand-primary border-b-2 border-brand-primary pb-1 cursor-pointer group"
                                 >
                                     Clear Selection

@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, TrendingUp, Sparkles, ShieldCheck, Check, Bell, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Mail, TrendingUp, Sparkles, ShieldCheck, Check, Bell, ArrowRight, Users, CheckCircle2 } from "lucide-react";
 
 const Newsletter = () => {
     const [email, setEmail] = useState("");
@@ -47,6 +48,34 @@ const Newsletter = () => {
                         >
                             <Bell className="w-4 h-4 text-brand-primary animate-pulse" />
                             <span className="text-[11px] font-black text-brand-primary tracking-[0.2em] uppercase">Investor Hub</span>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center gap-4 mb-8"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="flex -space-x-3">
+                                    {[1, 2, 3, 4].map((i) => (
+                                        <div key={i} className="w-10 h-10 rounded-full border-2 border-zinc-950 overflow-hidden relative shadow-xl">
+                                            <Image src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="Specialists" fill className="object-cover" />
+                                        </div>
+                                    ))}
+                                    <div className="w-10 h-10 rounded-full border-2 border-zinc-950 bg-brand-primary flex items-center justify-center text-[10px] font-black text-white shadow-xl">
+                                        +5k
+                                    </div>
+                                </div>
+                                <div className="h-4 w-px bg-white/10 mx-2" />
+                                <div className="flex items-center gap-1.5 bg-brand-primary/10 px-3 py-1 rounded-full border border-brand-primary/20">
+                                    <CheckCircle2 size={12} className="text-brand-primary" />
+                                    <span className="text-brand-primary text-[10px] font-black uppercase tracking-widest">Verified</span>
+                                </div>
+                            </div>
+                            <span className="text-zinc-400 text-[11px] font-bold uppercase tracking-[0.2em] flex items-center gap-2">
+                                <Users size={14} className="text-brand-primary" />
+                                Trusted by <span className="text-white">5,200+ Property Specialists</span>
+                            </span>
                         </motion.div>
 
                         <h2 className="text-3xl md:text-5xl font-black !text-white mb-4 tracking-tight">

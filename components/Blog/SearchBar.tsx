@@ -1,19 +1,72 @@
 "use client";
-import { useState } from "react";
-import { Search, X, Loader2, Sparkles } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Search, X, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SearchBar = () => {
-    const [query, setQuery] = useState("");
+interface SearchBarProps {
+    onFocusChange?: (isFocused: boolean) => void;
+}
+
+const SearchBar = ({ onFocusChange }: SearchBarProps) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [query, setQuery] = useState(searchParams.get("q") || "");
     const [isFocused, setIsFocused] = useState(false);
     const [isSearching, setIsSearching] = useState(false);
 
+    const handleFocus = () => {
+        setIsFocused(true);
+        onFocusChange?.(true);
+    };
+
+    const handleBlur = () => {
+        setTimeout(() => {
+            setIsFocused(false);
+            onFocusChange?.(false);
+        }, 200);
+    };
+
+    // Sync query when URL changes (e.g., forward/back button)
+    useEffect(() => {
+        const urlQuery = searchParams.get("q") || "";
+        if (urlQuery !== query) {
+            setQuery(urlQuery);
+        }
+    }, [searchParams]);
+
+    // Real-time search effect
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            const params = new URLSearchParams(searchParams.toString());
+            const currentQ = searchParams.get("q") || "";
+
+            if (query.trim()) {
+                if (query.trim() !== currentQ) {
+                    params.set("q", query.trim());
+                    router.push(`?${params.toString()}`, { scroll: false });
+                }
+            } else if (currentQ) {
+                params.delete("q");
+                router.push(`?${params.toString()}`, { scroll: false });
+            }
+        }, 150); // Small debounce for smooth typing
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [query, router, searchParams]);
+
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!query.trim()) return;
+        // Logical search already handled by useEffect, but we can trigger a visual feedback
         setIsSearching(true);
-        // Simulate search delay for UX
-        setTimeout(() => setIsSearching(false), 1200);
+        setTimeout(() => setIsSearching(false), 500);
+    };
+
+    const handleClear = () => {
+        setQuery("");
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("q");
+        router.push(`?${params.toString()}`, { scroll: false });
     };
 
     return (
@@ -62,8 +115,8 @@ const SearchBar = () => {
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         placeholder="Search Navi Mumbai Real Estate Blogs..."
                         className="w-full bg-transparent border-none outline-none px-5 py-5 text-white text-lg placeholder:font-light font-medium selection:bg-brand-primary selection:text-zinc-950"
                     />
@@ -77,7 +130,7 @@ const SearchBar = () => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.8 }}
                                     type="button"
-                                    onClick={() => setQuery("")}
+                                    onClick={handleClear}
                                     className="p-2 text-zinc-500 hover:text-white transition-colors rounded-full hover:bg-white/5 cursor-pointer"
                                     title="Clear search"
                                 >
@@ -100,38 +153,38 @@ const SearchBar = () => {
                     </div>
                 </div>
 
-                {/* Intelligent Quick Info */}
-                <div className="absolute -bottom-10 left-6 flex items-center gap-4 pointer-events-none">
-                    <div className="flex items-center gap-1.5 opacity-100 group-hover:opacity-100 transition-opacity duration-500">
-                        <Sparkles className="w-4 h-4 text-brand-primary" />
-                        <span className="text-[11px] text-brand-muted font-bold uppercase tracking-thicker">AI Assisted Search</span>
-                    </div>
-                </div>
+
             </form>
 
             {/* Trending / Quick Tags */}
-            <motion.div
-                initial={{ opacity: 0, filter: "blur(10px)" }}
-                animate={{ opacity: 1, filter: "blur(0px)" }}
-                transition={{ delay: 1.2, duration: 1 }}
-                className="mt-12 flex flex-wrap items-center gap-6 px-4"
-            >
-                <span className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.2em]">Popular:</span>
-                <div className="flex flex-wrap gap-4">
-                    {['Market ROI 2026', 'Atal Setu Impact', 'Ulwe Properties', 'NMIA Timeline'].map((tag, idx) => (
-                        <motion.button
-                            key={tag}
-                            whileHover={{ y: -2 }}
-                            type="button"
-                            className="group relative flex items-center text-[12px] text-zinc-400 font-bold transition-all"
-                        >
-                            <span className="text-brand-primary/60 mr-1 group-hover:text-brand-primary transition-colors">#</span>
-                            <span className="group-hover:text-white transition-colors">{tag}</span>
-                            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-brand-primary transition-all duration-300 group-hover:w-full" />
-                        </motion.button>
-                    ))}
-                </div>
-            </motion.div>
+            <AnimatePresence>
+                {!searchParams.get("q") && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                        animate={{ opacity: 1, height: "auto", marginTop: 48 }}
+                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className="flex flex-wrap items-center gap-6 px-4 overflow-hidden"
+                    >
+                        <span className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.2em]">Popular:</span>
+                        <div className="flex flex-wrap gap-4">
+                            {['Market ROI 2026', 'Atal Setu Impact', 'Ulwe Properties', 'NMIA Timeline'].map((tag, idx) => (
+                                <motion.button
+                                    key={tag}
+                                    whileHover={{ y: -2 }}
+                                    type="button"
+                                    className="group relative flex items-center text-[12px] text-zinc-400 font-bold transition-all whitespace-nowrap"
+                                    onClick={() => setQuery(tag)}
+                                >
+                                    <span className="text-brand-primary/60 mr-1 group-hover:text-brand-primary transition-colors">#</span>
+                                    <span className="group-hover:text-white transition-colors">{tag}</span>
+                                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-brand-primary transition-all duration-300 group-hover:w-full" />
+                                </motion.button>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };
