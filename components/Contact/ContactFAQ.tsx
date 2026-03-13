@@ -75,7 +75,7 @@ export default function ContactFAQ() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
-                    className="max-w-4xl mx-auto text-center mb-16"
+                    className="max-w-4xl mx-auto text-center mb-16 max-[426px]:mb-8"
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-black uppercase tracking-widest mb-6">
                         <HelpCircle size={14} className="animate-pulse" aria-hidden="true" /> Knowledge Hub
@@ -103,7 +103,7 @@ export default function ContactFAQ() {
                                 setOpenIndex(null);
                             }}
                             aria-label={`Filter questions by ${cat.label}`}
-                            className={`flex items-center gap-3 px-8 py-4 rounded-full border transition-all duration-300 group shadow-sm cursor-pointer ${activeCategory === cat.id
+                            className={`flex items-center justify-center gap-3 px-8 py-4 rounded-full border transition-all duration-300 group shadow-sm cursor-pointer max-[426px]:w-full ${activeCategory === cat.id
                                 ? "bg-brand-primary border-brand-primary text-white shadow-lg shadow-brand-primary/25 scale-105"
                                 : "bg-white border-neutral-border text-brand-heading hover:border-brand-primary/30 hover:shadow-md"
                                 }`}
@@ -137,12 +137,12 @@ export default function ContactFAQ() {
                                             className="w-full flex items-center justify-between p-4 md:p-6 text-left outline-none cursor-pointer"
                                         >
                                             <div className="flex gap-6 items-center">
-                                                <div className={`w-2 h-2 rounded-full transition-all duration-300 ${openIndex === idx ? 'bg-brand-primary scale-150' : 'bg-gray-300'}`} />
-                                                <span className={`text-base md:text-lg font-bold pr-8 transition-colors duration-300 ${openIndex === idx ? 'text-brand-primary' : 'text-brand-heading group-hover:text-brand-primary-hover'}`}>
+                                                <div className={`w-2 h-2 rounded-full transition-all duration-300 max-[426px]:hidden ${openIndex === idx ? 'bg-brand-primary scale-150' : 'bg-gray-300'}`} />
+                                                <span className={`text-base md:text-lg max-[426px]:text-sm font-bold pr-8 max-[426px]:pr-0 max-[426px]:pl-4 transition-colors duration-300 ${openIndex === idx ? 'text-brand-primary' : 'text-brand-heading group-hover:text-brand-primary-hover'}`}>
                                                     {faq.question}
                                                 </span>
                                             </div>
-                                            <div className={`shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${openIndex === idx ? 'bg-brand-primary text-white rotate-180 shadow-lg shadow-brand-primary/30' : 'bg-brand-primary/5 text-brand-primary group-hover:bg-brand-primary/10'}`}>
+                                            <div className={`shrink-0 w-12 max-[426px]:w-8 h-12 max-[426px]:h-8 rounded-2xl flex items-center justify-center transition-all duration-500 ${openIndex === idx ? 'bg-brand-primary text-white rotate-180 shadow-lg shadow-brand-primary/30' : 'bg-brand-primary/5 text-brand-primary group-hover:bg-brand-primary/10'}`}>
                                                 {openIndex === idx ? <Minus size={22} aria-hidden="true" /> : <Plus size={22} aria-hidden="true" />}
                                             </div>
                                         </button>
@@ -156,10 +156,10 @@ export default function ContactFAQ() {
                                                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                                                     className="overflow-hidden"
                                                 >
-                                                    <div className="px-10 md:px-14 pb-10 text-brand-paragraph text-base leading-relaxed border-t border-brand-primary/5">
-                                                        <div className="pt-6 relative">
-                                                            <div className="absolute left-[-26px] top-6 bottom-0 w-[2px] bg-brand-primary/20" />
-                                                            {faq.answer}
+                                                    <div className="px-10 md:px-14 pb-10 text-brand-paragraph text-base max-[426px]:text-sm leading-relaxed border-t border-brand-primary/5">
+                                                        <div className="pt-6 max-[426px]:pt-2 relative">
+                                                            <div className="absolute left-[-26px] max-[426px]:left-[-16px] top-6 bottom-0 w-[2px] bg-brand-primary/20" />
+                                                            <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
                                                         </div>
                                                     </div>
                                                 </motion.div>
@@ -189,7 +189,7 @@ export default function ContactFAQ() {
                     <div className="lg:col-span-4 lg:sticky lg:top-32">
                         <motion.div
                             whileHover={{ y: -8 }}
-                            className="p-10 rounded-[3.5rem] bg-brand-dark text-white relative group cursor-pointer overflow-hidden shadow-2xl shadow-brand-dark/20 border border-white/5"
+                            className="p-10 max-[376px]:p-6 rounded-[3.5rem] bg-brand-dark text-white relative group cursor-pointer overflow-hidden shadow-2xl shadow-brand-dark/20 border border-white/5"
                         >
                             <div className="absolute -top-10 -right-10 p-4 opacity-5 group-hover:opacity-10 group-hover:rotate-12 transition-all duration-700">
                                 <MessageCircle size={200} aria-hidden="true" />

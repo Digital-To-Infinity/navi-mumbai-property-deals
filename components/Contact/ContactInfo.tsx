@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, ArrowRight, LucideProps } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ArrowRight } from "lucide-react";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -89,7 +89,7 @@ export default function ContactInfo() {
 
                 <motion.h2
                     variants={itemVariants}
-                    className="text-4xl md:text-6xl font-bold text-brand-heading leading-tight"
+                    className="text-4xl md:text-6xl max-[321px]:text-3xl font-bold text-brand-heading leading-tight"
                 >
                     Let's Talk About Your <span className="text-brand-primary relative">
                         Future Home
@@ -113,7 +113,7 @@ export default function ContactInfo() {
                         key={idx}
                         variants={itemVariants}
                         whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                        className="group relative p-8 rounded-[2rem] bg-white border border-neutral-border hover:border-brand-primary/50 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-300 flex flex-col"
+                        className="group relative p-8 max-[376px]:p-6 rounded-[2rem] bg-white border border-neutral-border hover:border-brand-primary/50 hover:shadow-2xl hover:shadow-brand-primary/10 transition-all duration-300 flex flex-col"
                     >
                         <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
                             {getIconWithAria(item.icon)}

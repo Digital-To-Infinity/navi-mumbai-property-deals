@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, User, Mail, Phone, MessageSquare, ChevronRight, CheckCircle2, Sparkles, Building2, Download } from "lucide-react";
+import { Send, User, Mail, Phone, MessageSquare, ChevronRight, CheckCircle2, Building2, Download } from "lucide-react";
 
 const options = [
     { value: "buy", label: "Buying Property" },
@@ -44,7 +44,7 @@ export default function ContactForm() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             id="contact-form"
-            className="group relative p-8 md:p-12 rounded-[3rem] bg-white border border-neutral-border shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] overflow-hidden"
+            className="group relative p-8 md:p-12 max-[426px]:px-4 rounded-[3rem] bg-white border border-neutral-border shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] overflow-hidden"
         >
             {/* Premium Header Decoration */}
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-primary via-brand-primary/50 to-brand-primary" />
@@ -66,8 +66,8 @@ export default function ContactForm() {
                                     </div>
                                     <span className="text-brand-primary font-bold tracking-widest uppercase text-sm">Send Inquiry</span>
                                 </div>
-                                <h2 className="text-3xl md:text-4xl font-bold text-brand-heading mb-4">How can we help?</h2>
-                                <p className="text-brand-paragraph text-lg">Leave your details and our property experts will get back to you within 24 hours.</p>
+                                <h2 className="text-3xl md:text-4xl max-[321px]:text-2xl font-bold text-brand-heading mb-4 max-[321px]:mb-2">How can we help?</h2>
+                                <p className="text-brand-paragraph text-lg max-[321px]:text-base">Leave your details and our property experts will get back to you within 24 hours.</p>
                             </div>
 
                             <form className="space-y-10" onSubmit={handleSubmit}>
