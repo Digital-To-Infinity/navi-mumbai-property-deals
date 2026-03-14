@@ -12,7 +12,6 @@ const breadcrumbLabels: Record<string, string> = {
     "blogs": "Blogs",
     "about": "About",
     "contact": "Contact",
-    "register": "Register",
     "login": "Login",
     "signup": "Sign Up",
     "add-property": "List Property",

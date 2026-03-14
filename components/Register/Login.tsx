@@ -52,72 +52,87 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
 
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="space-y-1.5">
-                    <label className="text-sm font-semibold text-brand-heading ml-1">Email Address</label>
+                    <label htmlFor="email-login" className="text-sm font-semibold text-brand-heading ml-1">Email Address</label>
                     <div className="relative group">
-                        <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${errors.email ? "text-red-400" : "text-neutral-400 group-focus-within:text-brand-primary"}`} />
+                        <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${errors.email ? "text-red-400" : "text-brand-muted group-focus-within:text-brand-primary"}`} />
                         <input
+                            id="email-login"
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="name@example.com"
-                            className={`w-full pl-12 pr-4 py-3.5 bg-neutral-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-4 transition-all text-brand-heading placeholder:text-neutral-400 font-medium ${errors.email ? "border-red-500 focus:ring-red-500/5 focus:border-red-500" : "border-neutral-200 focus:ring-brand-primary/5 focus:border-brand-primary"
+                            autoComplete="email"
+                            aria-describedby={errors.email ? "email-error" : undefined}
+                            aria-invalid={!!errors.email}
+                            className={`w-full pl-12 pr-4 py-3.5 bg-brand-muted/5 border rounded-xl focus:bg-white focus:outline-none focus:ring-4 transition-all text-brand-heading placeholder:text-brand-muted ${errors.email ? "border-red-500 focus:ring-red-500/5 focus:border-red-500" : "border-brand-muted/30 focus:ring-brand-primary/5 focus:border-brand-primary"
                                 }`}
                         />
                     </div>
-                    {errors.email && <p className="text-[11px] text-red-500 font-bold ml-1 uppercase tracking-wide">{errors.email}</p>}
+                    {errors.email && <p id="email-error" role="alert" aria-live="polite" className="text-[11px] text-red-500 font-bold ml-1 uppercase tracking-wide">{errors.email}</p>}
                 </div>
 
                 <div className="space-y-1.5">
                     <div className="flex justify-between items-center ml-1">
-                        <label className="text-sm font-semibold text-brand-heading">Password</label>
-                        <button className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover transition-colors">
+                        <label htmlFor="password-login" className="text-sm font-semibold text-brand-heading">Password</label>
+                        <button type="button" className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover hover:underline transition-colors cursor-pointer">
                             Forgot Password?
                         </button>
                     </div>
                     <div className="relative group">
-                        <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${errors.password ? "text-red-400" : "text-neutral-400 group-focus-within:text-brand-primary transition-colors"}`} />
+                        <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${errors.password ? "text-red-400" : "text-brand-muted group-focus-within:text-brand-primary transition-colors"}`} />
                         <input
+                            id="password-login"
                             type={showPassword ? "text" : "password"}
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
                             placeholder="••••••••"
-                            className={`w-full pl-12 pr-12 py-3.5 bg-neutral-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-4 transition-all text-brand-heading placeholder:text-neutral-400 font-medium tracking-widest ${errors.password ? "border-red-500 focus:ring-red-500/5 focus:border-red-500" : "border-neutral-200 focus:ring-brand-primary/5 focus:border-brand-primary"
+                            autoComplete="current-password"
+                            aria-describedby={errors.password ? "password-error" : undefined}
+                            aria-invalid={!!errors.password}
+                            className={`w-full pl-12 pr-12 py-3.5 bg-brand-muted/5 border rounded-xl focus:bg-white focus:outline-none focus:ring-4 transition-all text-brand-heading placeholder:text-brand-muted tracking-widest ${errors.password ? "border-red-500 focus:ring-red-500/5 focus:border-red-500" : "border-brand-muted/30 focus:ring-brand-primary/5 focus:border-brand-primary"
                                 }`}
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary transition-colors cursor-pointer"
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-mutedbrand-muted hover:text-brand-primary transition-colors cursor-pointer"
                         >
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
-                    {errors.password && <p className="text-[11px] text-red-500 font-bold ml-1 uppercase tracking-wide">{errors.password}</p>}
+                    {errors.password && <p id="password-error" role="alert" aria-live="polite" className="text-[11px] text-red-500 font-bold ml-1 uppercase tracking-wide">{errors.password}</p>}
                 </div>
 
-                <motion.button
-                    type="submit"
-                    whileHover={{ scale: 1.01, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    disabled={Object.values(errors).some((err) => err !== "") || formData.email === "" || formData.password === ""}
-                    className="w-full bg-brand-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-primary-hover shadow-lg shadow-brand-primary/10 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:y-0"
-                >
-                    Log In
-                </motion.button>
+                <div className="space-y-3">
+                    <motion.button
+                        type="submit"
+                        whileHover={{ scale: 1.01, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        disabled={Object.values(errors).some((err) => err !== "") || formData.email === "" || formData.password === ""}
+                        className="w-full bg-brand-primary text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-primary-hover shadow-lg shadow-brand-primary/10 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:y-0"
+                    >
+                        Log In
+                    </motion.button>
+                    <p className="text-[11px] text-center text-brand-paragraph font-bolder uppercase tracking-[0.10em]">
+                        🛡️ SSL Secure & RERA Verified Portal
+                    </p>
+                </div>
             </form>
 
             <div className="relative my-10 flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-neutral-100"></div>
+                    <div className="w-full border-t border-brand-muted/30"></div>
                 </div>
-                <span className="relative px-4 bg-white text-xs font-bold text-neutral-400 uppercase tracking-widest">Or login with</span>
+                <span className="relative px-4 bg-white text-xs font-bold text-brand-muted uppercase tracking-widest">Or login with</span>
             </div>
 
             <button
                 type="button"
-                className="w-full bg-white text-brand-heading py-4 rounded-xl font-bold flex items-center justify-center gap-3 border border-neutral-200 hover:bg-neutral-50 transition-all shadow-sm hover:border-neutral-300 cursor-pointer"
+                aria-label="Log in with Google"
+                className="w-full bg-white text-brand-heading py-4 rounded-xl font-bold flex items-center justify-center gap-3 border border-brand-muted/20 hover:bg-brand-muted/10 transition-all shadow-sm hover:border-brand-muted/20 cursor-pointer"
             >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -144,7 +159,7 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                 Don't have an account?{" "}
                 <button
                     onClick={onSwitch}
-                    className="text-brand-primary font-bold hover:underline decoration-brand-primary decoration-2 underline-offset-2 cursor-pointer"
+                    className="text-brand-primary font-semibold hover:underline decoration-brand-primary decoration-2 underline-offset-2 cursor-pointer"
                 >
                     Join free today
                 </button>

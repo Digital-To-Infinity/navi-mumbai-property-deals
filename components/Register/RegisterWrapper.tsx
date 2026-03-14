@@ -21,10 +21,37 @@ const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
         }
     };
 
+    // SEO: Breadcrumb Schema for structural path
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://navimumbaipropertydeals.com"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Account",
+                "item": `https://navimumbaipropertydeals.com${isLogin ? "/login" : "/signup"}`
+            }
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center p-6 md:p-12 relative overflow-hidden">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
             {/* Professional subtle background pattern */}
-            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#baa360_1px,transparent_1px)] [background-size:20px_20px]"></div>
+            <div
+                className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#baa360_1px,transparent_1px)] [background-size:20px_20px]"
+                style={{ willChange: 'transform' }}
+            ></div>
 
             <motion.div
                 initial={{ opacity: 0, y: 15 }}
@@ -40,11 +67,12 @@ const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
                     >
                         <Image
                             src="/images/nm-property-logo.png"
-                            alt="Navi Mumbai Property Deals"
+                            alt="Navi Mumbai Property Deals Secure Login"
                             width={200}
                             height={70}
-                            className="h-auto w-auto object-contain"
+                            className="h-auto object-contain"
                             priority
+                            fetchPriority="high"
                         />
                     </motion.div>
                     <div className="h-1 w-1/3 bg-brand-primary/50 rounded-full mt-2"></div>
