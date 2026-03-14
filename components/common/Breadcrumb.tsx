@@ -191,8 +191,8 @@ const Breadcrumb = ({ items: customItems, variant = 'default' }: BreadcrumbProps
                                             className={`
                                                 text-[12px] font-extrabold uppercase tracking-wider transition-all duration-300 ml-2
                                                 ${item.active
-                                                    ? 'text-brand-primary-hover cursor-default pointer-events-none'
-                                                    : 'text-zinc-500 hover:text-brand-primary'
+                                                    ? 'text-brand-primary cursor-default pointer-events-none'
+                                                    : 'text-brand-white hover:text-brand-primary'
                                                 }
                                             `}
                                             aria-current={item.active ? 'page' : undefined}

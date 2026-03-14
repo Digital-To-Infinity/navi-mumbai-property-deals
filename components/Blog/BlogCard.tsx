@@ -29,7 +29,7 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
     const handleCopyLink = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        const url = `${window.location.origin}/blogs/${post.id}`;
+        const url = `${window.location.origin}/blogs/${post.slug}`;
         navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
@@ -72,7 +72,7 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
                 {/* Share Utility */}
                 <button
                     onClick={handleCopyLink}
-                    className="absolute top-4 right-4 z-20 p-2.5 rounded-xl bg-white/80 backdrop-blur-md border border-white/40 shadow-xl shadow-black/5 text-brand-heading/60 hover:text-brand-primary transition-all duration-300 group/share overflow-hidden"
+                    className="absolute top-4 right-4 z-20 p-2.5 rounded-xl bg-white/80 backdrop-blur-md border border-white/40 shadow-xl shadow-black/5 text-brand-heading/60 hover:text-brand-primary transition-all duration-300 group/share overflow-hidden cursor-pointer"
                     title="Copy Article Link"
                 >
                     <AnimatePresence mode="wait">
@@ -104,13 +104,13 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
             <div className="p-4 md:p-6 relative">
                 {/* Breadcrumb Micro-component */}
                 <div className="flex items-center gap-1.5 mb-3 text-[10px] font-bold text-brand-paragraph/40 uppercase tracking-widest">
-                    <span>Hub</span>
+                    <span>Blog</span>
                     <ChevronRight size={10} />
                     <span className="text-brand-primary/60">{post.category}</span>
                 </div>
 
                 <Link
-                    href={`/blogs/${post.id}`}
+                    href={`/blogs/${post.slug}`}
                     className="block group/title"
                     title={`Read more about ${post.title} | Navi Mumbai Property Market Insights`}
                 >
@@ -150,7 +150,7 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
 
                     {/* Full Width Button */}
                     <Link
-                        href={`/blogs/${post.id}`}
+                        href={`/blogs/${post.slug}`}
                         title={`Read Article: ${post.title} - Expert Navi Mumbai Property Market Analysis`}
                         className="group/btn relative w-full flex items-center justify-center gap-3 bg-brand-primary hover:bg-brand-primary-hover text-brand-white py-4 px-6 rounded-2xl font-black transition-all duration-500 overflow-hidden"
                     >
