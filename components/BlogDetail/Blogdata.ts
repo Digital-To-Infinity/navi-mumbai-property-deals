@@ -33,15 +33,23 @@ export const blogPosts: BlogPost[] = [
             </blockquote>
 
             <h2>Emerging Hotspots in 2026</h2>
-            <ul>
-                <li><strong>Upper Kharghar:</strong> Proposed corporate parks and high-end residential complexes are making this a luxury hub.</li>
-                <li><strong>Panvel Sub-Offices:</strong> With the Trans-Harbour Link (MTHL) fully integrated, Panvel is now closer to South Mumbai than many western suburbs.</li>
-                <li><strong>Taloja Industrial Belt:</strong> Transformation of industrial peripheries into residential townships for the workforce.</li>
-            </ul>
+            <p>While the whole city is growing, specific nodes are emerging as the preferred choice for premium residential living and high-yield commercial investments.</p>
+            
+            <h3>Upper Kharghar: The Luxury Hub</h3>
+            <p>Known for its hills and clean air, Upper Kharghar is being developed with an emphasis on low-density, high-equity residential projects.</p>
+            <h4>Connectivity to Metro Line 1</h4>
+            <p>The upcoming metro extension will reduce travel time to Central Navi Mumbai by 30%.</p>
+            <h4>Golf Course Views</h4>
+            <p>Premium projects here are capturing the panoramic views of the Parsik Hill and the Kharghar Valley Golf Course.</p>
 
+            <h3>Panvel Sub-Offices: The Logic Corridor</h3>
+            <p>The integration of MTHL has turned Panvel from a terminal point to a central transit hub.</p>
+            <h4>MTHL Integration</h4>
+            <p>Panvel is now practically 20 minutes away from South Mumbai, changing the commute forever.</p>
+            
             <h2>Price Trend Projections</h2>
             <p>We anticipate a steady 8-12% appreciation across premium sectors. Rental yields are also expected to rise as corporate offices shift to Navi Mumbai to escape the high costs of BKC and South Mumbai.</p>
-
+            
             <p>For investors, the window of opportunity is narrowing as prices begin to reflect the full value of the new infrastructure. 2026 will be the year of 'Realized Potential'.</p>
         `,
         date: "March 15, 2026",

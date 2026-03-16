@@ -1,24 +1,60 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowLeft, Share2, Bookmark } from "lucide-react";
 import { BlogPost, blogPosts } from "./Blogdata";
 import BlogSidebar from "./BlogSidebar";
 import BlogMainContent from "./BlogMainContent";
 import CompanyPromo from "./CompanyPromo";
+import { useEffect, useRef, useState } from "react";
 
 interface BlogDetailProps {
     post: BlogPost;
 }
 
 const BlogDetail = ({ post }: BlogDetailProps) => {
-    const { scrollYProgress } = useScroll();
-    const scaleX = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001
-    });
+
+
+    const [isPinned, setIsPinned] = useState(false);
+    const [isAtBottom, setIsAtBottom] = useState(false);
+    const mainContentRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (mainContentRef.current) {
+                const rect = mainContentRef.current.getBoundingClientRect();
+                const navbarHeight = 80; // Approximate top-20
+                const headerHeight = 60; // Approximate blog header height
+                const threshold = navbarHeight + headerHeight;
+
+                // Check if we started the content area
+                if (rect.top <= threshold) {
+                    setIsPinned(true);
+                } else {
+                    setIsPinned(false);
+                }
+
+                // Check if we hit the bottom of content area
+                // We trigger 'isAtBottom' when the bottom of the section is about to leave the "fixed" view area
+                const sidebarVisibleHeight = 600; // Estimated height of sidebars
+                if (rect.bottom <= threshold + sidebarVisibleHeight) {
+                    setIsAtBottom(true);
+                } else {
+                    setIsAtBottom(false);
+                }
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("resize", handleScroll);
+        handleScroll();
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", handleScroll);
+        };
+    }, []);
 
     // Related posts
     const relatedPosts = blogPosts
@@ -27,14 +63,10 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
 
     return (
         <article className="relative min-h-screen bg-white">
-            {/* Reading Progress Bar */}
-            <motion.div
-                className="fixed top-0 left-0 right-0 h-1.5 bg-brand-primary z-50 origin-[0%]"
-                style={{ scaleX }}
-            />
+
 
             {/* Sticky Navigation / Header */}
-            <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-neutral-100 px-4 py-4">
+            <header className="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-neutral-100 px-4 py-4">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <Link
                         href="/blogs"
@@ -61,7 +93,7 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
             <section className="relative w-full bg-neutral-50/30 py-16 border-b border-neutral-100">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col lg:flex-row gap-12 lg:items-center">
-                        <div className="lg:w-3/5">
+                        <div className="lg:w-1/2">
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -103,7 +135,7 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                             </motion.div>
                         </div>
 
-                        <div className="lg:w-2/5">
+                        <div className="lg:w-1/2">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -125,9 +157,11 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
 
             {/* Main Content Layout */}
             <main className="w-full mx-auto px-12 py-16">
-                <div className="flex flex-col lg:flex-row gap-8">
+                <div ref={mainContentRef} className="flex flex-col lg:flex-row gap-8 items-start">
                     {/* Left: Table of Contents */}
-                    <BlogSidebar content={post.content} />
+                    <div className="hidden lg:block w-60 shrink-0 self-stretch">
+                        <BlogSidebar content={post.content} isPinned={isPinned && !isAtBottom} isAtBottom={isAtBottom} />
+                    </div>
 
                     {/* Middle: Main Content */}
                     <div className="flex-1 min-w-0">
@@ -135,7 +169,9 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                     </div>
 
                     {/* Right: Company Promotion */}
-                    <CompanyPromo />
+                    <div className="hidden xl:block w-72 shrink-0 self-stretch">
+                        <CompanyPromo isPinned={isPinned && !isAtBottom} isAtBottom={isAtBottom} />
+                    </div>
                 </div>
             </main>
 
@@ -145,8 +181,8 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                     <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-16">
                             <div>
-                                <h2 className="text-3xl font-black text-brand-heading mb-2 uppercase tracking-tight">Continue Reading</h2>
-                                <p className="text-brand-paragraph/40 font-bold uppercase text-[10px] tracking-[0.3em]">Curated articles from {post.category}</p>
+                                <h2 className="text-3xl font-black text-brand-heading mb-2 uppercase tracking-tight">Related Blogs</h2>
+                                <p className="text-brand-muted font-bold uppercase text-[12px] tracking-[0.2em]">Curated articles from {post.category}</p>
                             </div>
                             <Link href="/blogs" className="text-xs font-black text-brand-primary uppercase tracking-widest hover:underline px-6 py-3 rounded-full bg-brand-primary/5">
                                 View All Articles
