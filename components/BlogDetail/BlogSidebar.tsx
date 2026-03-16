@@ -48,13 +48,14 @@ const BlogSidebar = ({ content, isPinned, isAtBottom }: BlogSidebarProps) => {
                         entriesRef.current.set(entry.target.id, entry);
                     });
 
-                    // Find the active heading: the last one that has passed the threshold
-                    // Threshold is 160px from top (matches scroll-mt-40)
-                    const threshold = 170; // Slightly more than 160 for better trigger
+                    // Finding the active heading: the last one that has passed the threshold
+                    // Threshold is 80px from top (matches top-20 navbar)
+                    const threshold = 81;
 
                     const active = [...tocItems].reverse().find(item => {
                         const entry = entriesRef.current.get(item.id);
                         if (entry) {
+                            // Check if the top of the header is at or above the navbar bottom
                             return entry.boundingClientRect.top <= threshold;
                         }
                         return false;
@@ -62,14 +63,11 @@ const BlogSidebar = ({ content, isPinned, isAtBottom }: BlogSidebarProps) => {
 
                     if (active) {
                         setActiveId(active.id);
-                    } else if (tocItems.length > 0) {
-                        // If we are above the first header, optional: set first one or none
-                        // setActiveId(tocItems[0].id); 
                     }
                 },
                 {
-                    // Large range to keep tracking most headers
-                    rootMargin: "0px 0px -50% 0px",
+                    // Precise margins to track headers as they enter the 'active' area (below navbar)
+                    rootMargin: "-80px 0px -70% 0px",
                     threshold: [0, 1]
                 }
             );

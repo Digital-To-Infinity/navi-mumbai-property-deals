@@ -7,6 +7,7 @@ import { BlogPost, blogPosts } from "./Blogdata";
 import BlogSidebar from "./BlogSidebar";
 import BlogMainContent from "./BlogMainContent";
 import CompanyPromo from "./CompanyPromo";
+import BlogSchema from "./BlogSchema";
 import { useEffect, useRef, useState } from "react";
 
 interface BlogDetailProps {
@@ -63,6 +64,7 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
 
     return (
         <article className="relative min-h-screen bg-white">
+            <BlogSchema post={post} />
 
 
             {/* Sticky Navigation / Header */}
@@ -79,10 +81,16 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                     </Link>
 
                     <div className="flex items-center gap-3">
-                        <button className="p-2.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 text-brand-paragraph hover:text-brand-primary transition-all cursor-pointer shadow-sm">
+                        <button
+                            className="p-2.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 text-brand-paragraph hover:text-brand-primary transition-all cursor-pointer shadow-sm"
+                            aria-label="Share article"
+                        >
                             <Share2 size={18} />
                         </button>
-                        <button className="p-2.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 text-brand-paragraph hover:text-brand-primary transition-all cursor-pointer shadow-sm">
+                        <button
+                            className="p-2.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 text-brand-paragraph hover:text-brand-primary transition-all cursor-pointer shadow-sm"
+                            aria-label="Bookmark article"
+                        >
                             <Bookmark size={18} />
                         </button>
                     </div>
@@ -124,12 +132,21 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                                         {post.author.charAt(0)}
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-sm font-black text-brand-heading uppercase tracking-wide">{post.author}</span>
+                                        <Link
+                                            href={`/author/${post.author.toLowerCase().replace(/\s+/g, '-')}`}
+                                            rel="author"
+                                            className="text-sm font-black text-brand-heading uppercase tracking-wide hover:text-brand-primary transition-colors"
+                                        >
+                                            {post.author}
+                                        </Link>
                                         <span className="text-[10px] font-bold text-brand-paragraph/60 uppercase tracking-widest">{post.authorRole || 'Author'}</span>
                                     </div>
                                 </div>
                                 <div className="h-4 w-px bg-neutral-200 hidden sm:block" />
-                                <span className="text-xs font-bold text-brand-paragraph/60 uppercase tracking-widest">{post.date}</span>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-brand-paragraph/60 uppercase tracking-widest">{post.date}</span>
+                                    <span className="text-[9px] font-black text-brand-primary uppercase tracking-[0.1em] mt-0.5">Fact-Checked by Expert</span>
+                                </div>
                                 <div className="h-4 w-px bg-neutral-200 hidden sm:block" />
                                 <span className="text-xs font-bold text-brand-paragraph/60 uppercase tracking-widest">{post.readTime}</span>
                             </motion.div>
@@ -144,7 +161,7 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                             >
                                 <Image
                                     src={post.image}
-                                    alt={post.title}
+                                    alt={`${post.title} | Navi Mumbai Property Market Insight`}
                                     fill
                                     className="object-cover"
                                     priority
