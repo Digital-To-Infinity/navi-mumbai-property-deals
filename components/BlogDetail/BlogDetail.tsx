@@ -58,7 +58,7 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
             </header>
 
             {/* Hero Section */}
-            <section className="relative w-full bg-neutral-50/30 py-16 lg:py-24 border-b border-neutral-100">
+            <section className="relative w-full bg-neutral-50/30 py-16 border-b border-neutral-100">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col lg:flex-row gap-12 lg:items-center">
                         <div className="lg:w-3/5">
@@ -124,8 +124,8 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
             </section>
 
             {/* Main Content Layout */}
-            <main className="max-w-[1440px] mx-auto px-6 py-20">
-                <div className="flex flex-col lg:flex-row gap-12 xl:gap-20">
+            <main className="w-full mx-auto px-12 py-16">
+                <div className="flex flex-col lg:flex-row gap-8">
                     {/* Left: Table of Contents */}
                     <BlogSidebar content={post.content} />
 
@@ -141,7 +141,7 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
 
             {/* Related Posts */}
             {relatedPosts.length > 0 && (
-                <section className="py-24 bg-neutral-50/50 border-t border-neutral-100 px-6">
+                <section className="py-16 bg-neutral-50/50 border-t border-neutral-100 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="flex items-center justify-between mb-16">
                             <div>

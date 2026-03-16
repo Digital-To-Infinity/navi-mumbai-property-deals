@@ -1,7 +1,5 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface TOCItem {
     id: string;
@@ -9,11 +7,12 @@ interface TOCItem {
     level: number;
 }
 
-interface SidebarTOCProps {
+interface BlogSidebarProps {
     content: string;
 }
 
-const SidebarTOC = ({ content }: SidebarTOCProps) => {
+const BlogSidebar = ({ content }: BlogSidebarProps) => {
+
     const [items, setItems] = useState<TOCItem[]>([]);
     const [activeId, setActiveId] = useState<string>("");
 
@@ -54,10 +53,10 @@ const SidebarTOC = ({ content }: SidebarTOCProps) => {
     if (items.length === 0) return null;
 
     return (
-        <aside className="hidden lg:block w-64 shrink-0 h-fit sticky top-32">
+        <aside className="hidden lg:block w-60 shrink-0 h-fit sticky top-32">
             <div className="space-y-6">
                 <div>
-                    <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-brand-primary mb-6">
+                    <h3 className="text-[14px] font-black uppercase tracking-[0.2em] !text-brand-primary-hover mb-4">
                         Table of Contents
                     </h3>
                     <nav className="flex flex-col gap-1">
@@ -73,19 +72,19 @@ const SidebarTOC = ({ content }: SidebarTOCProps) => {
                                     });
                                 }}
                                 className={`
-                  group flex items-start gap-3 py-2 text-sm transition-all duration-300
-                  ${item.level === 3 ? "ml-4" : ""}
-                  ${activeId === item.id
-                                        ? "text-brand-heading font-black"
-                                        : "text-brand-paragraph/60 font-medium hover:text-brand-primary"
+                                    group flex items-start gap-3 py-2 text-base transition-all duration-300
+                                    ${item.level === 3 ? "ml-4" : ""}
+                                    ${activeId === item.id
+                                        ? "text-brand-heading font-bold"
+                                        : "text-brand-paragraph font-medium hover:text-brand-heading"
                                     }
-                `}
+                                `}
                             >
                                 <span
                                     className={`
-                    mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-all duration-300
-                    ${activeId === item.id ? "bg-brand-primary scale-125 shadow-[0_0_8px_rgba(var(--brand-primary-rgb),0.6)]" : "bg-neutral-200 group-hover:bg-brand-primary/40"}
-                  `}
+                                    mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 transition-all duration-300
+                                    ${activeId === item.id ? "bg-brand-primary scale-125" : "bg-brand-paragraph group-hover:bg-brand-heading"}
+                                `}
                                 />
                                 <span className="leading-tight">{item.text}</span>
                             </a>
@@ -97,4 +96,4 @@ const SidebarTOC = ({ content }: SidebarTOCProps) => {
     );
 };
 
-export default SidebarTOC;
+export default BlogSidebar;

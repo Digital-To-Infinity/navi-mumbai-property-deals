@@ -24,6 +24,7 @@ export const blogPosts: BlogPost[] = [
             <p>The Navi Mumbai real estate market is undergoing a seismic shift as we move into 2026. With the completion of major infrastructure projects and the emergence of new economic hubs, the city is positioning itself as the premier investment destination in the Mumbai Metropolitan Region (MMR).</p>
             
             <h2>The Infrastructure Catalyst</h2>
+            <img src="/images/blogs/infra.png" alt="Navi Mumbai Infrastructure" />
             <p>The primary driver behind the 2026 trends is the operationalization of the Navi Mumbai International Airport (NMIA). This catalyst has triggered a wave of residential and commercial developments along the airport corridor. Areas like Ulwe, Panvel, and Dronagiri are witnessing unprecedented interest from both end-users and investors.</p>
             
             <blockquote>
@@ -61,6 +62,7 @@ export const blogPosts: BlogPost[] = [
             <p>Kharghar remains the "Crown Jewel" of Navi Mumbai. Known for its world-class infrastructure, educational institutions, and scenic beauty (Pandavkada Falls), it's the top choice for first-time home buyers.</p>
 
             <h2>Why Kharghar?</h2>
+            <img src="/images/blogs/kharghar.png" alt="Residential Life in Kharghar" />
             <p>Unlike other nodes, Kharghar offers a balanced lifestyle. It has ample green spaces, wide roads, and a robust social infrastructure. For a first-time buyer, it represents safety and long-term value.</p>
 
             <h2>Step-by-Step Buying Process</h2>
@@ -93,6 +95,7 @@ export const blogPosts: BlogPost[] = [
             <p>The future of living is green. In Navi Mumbai, developers are increasingly adopting sustainable practices, not just as a trend, but as a commitment to a healthier environment.</p>
 
             <h2>What is a Green Project?</h2>
+            <img src="/images/blogs/green.png" alt="Sustainable Green Building" />
             <p>A green building project focuses on efficient resource utilization, energy conservation, and minimizing environmental impact. Key features include rain-water harvesting, solar power integration, and extensive green cover.</p>
 
             <h2>Impact on Lifestyle</h2>
@@ -121,6 +124,7 @@ export const blogPosts: BlogPost[] = [
             <p>Ulwe has emerged as one of the most promising investment destinations in Navi Mumbai. Its proximity to the upcoming international airport and the Navi Mumbai Special Economic Zone (NMSEZ) makes it a hotspot for future growth.</p>
 
             <h2>Infrastructure Advantage</h2>
+            <img src="/images/blogs/infra.png" alt="Infrastructure in Ulwe" />
             <p>The development of the MTHL and the proposed coastal road will provide seamless connectivity to Mumbai. The increasing number of commercial complexes and education hubs in and around Ulwe are significant value drivers.</p>
 
             <h2>High ROI Potential</h2>
@@ -149,6 +153,7 @@ export const blogPosts: BlogPost[] = [
             <p>The Navi Mumbai International Airport (NMIA) is not just an aviation project; it's a game-changer for the entire MMR real estate landscape. Its impact is being felt across residential, commercial, and industrial segments.</p>
 
             <h2>Regional Connectivity</h2>
+            <img src="/images/blogs/airport.png" alt="Navi Mumbai International Airport" />
             <p>The airport will significantly enhance Navi Mumbai's connectivity with global and domestic markets. This will attract multinational corporations, leading to a surge in demand for office spaces and high-end residential projects.</p>
 
             <h2>Skyrocketing Property Values</h2>
@@ -177,6 +182,7 @@ export const blogPosts: BlogPost[] = [
             <p>Seawoods is renowned for its premium residential complexes and excellent social infrastructure, especially its educational institutions. For families, Seawoods offers a perfect blend of modern living and quality education.</p>
 
             <h2>Excellence in Education</h2>
+            <img src="/images/blogs/school.png" alt="Education Hub in Seawoods" />
             <p>The schools in Seawoods are known for their academic rigor, state-of-the-art facilities, and holistic development programs. They provide a nurturing environment for children to excel in both academics and co-curricular activities.</p>
 
             <h2>Proximity to Residential Hubs</h2>
