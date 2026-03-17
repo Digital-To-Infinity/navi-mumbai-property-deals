@@ -3,13 +3,13 @@ import { buyMegaMenuData } from '@/components/common/Navbar/navData';
 import BuySection from '@/components/Home/BuySection';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
-export default function BuyPropertyPage({ params }: PageProps) {
-    const { slug } = params;
+export default async function BuyPropertyPage({ params }: PageProps) {
+    const { slug } = await params;
     const allLinks = Object.values(buyMegaMenuData).flat();
     const linkData = allLinks.find(link => link.href === `/buy/${slug}`);
 
