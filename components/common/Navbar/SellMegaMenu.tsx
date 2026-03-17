@@ -156,23 +156,31 @@ const SellMegaMenu = () => {
                                                     <div className="h-px flex-1 bg-zinc-200/60"></div>
                                                 </h4>
                                                 <div className="flex flex-col gap-1.5">
-                                                    {links.map(link => (
-                                                        <Link
-                                                            key={link.title}
-                                                            href={link.href}
-                                                            title={link.seoTitle}
-                                                            className="group flex items-center gap-3 p-2 -ml-2 rounded-xl hover:bg-zinc-50 transition-all duration-300 outline-none"
-                                                        >
-                                                            <div className="flex-shrink-0 rounded-lg flex items-center justify-center group-hover:bg-brand-primary/10 transition-colors duration-300">
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 group-hover:bg-brand-primary transition-all duration-300"></div>
-                                                            </div>
-                                                            <div className="flex flex-col">
-                                                                <span className="text-sm font-bold text-zinc-900 group-hover:text-brand-primary transition-colors duration-300">
-                                                                    {link.title}
-                                                                </span>
-                                                            </div>
-                                                        </Link>
-                                                    ))}
+                                                    {links.map(link => {
+                                                        const getHref = () => {
+                                                            const type = activeCategory === "For Owner" ? "owner" : "builder";
+                                                            const cat = categoryName === "Residential" ? "residential" : categoryName === "Commercial" ? "commercial" : "plots";
+                                                            return `/sell/${type}/${cat}/${link.href}`;
+                                                        };
+
+                                                        return (
+                                                            <Link
+                                                                key={link.title}
+                                                                href={getHref()}
+                                                                title={link.seoTitle}
+                                                                className="group flex items-center gap-3 p-2 -ml-2 rounded-xl hover:bg-zinc-50 transition-all duration-300 outline-none"
+                                                            >
+                                                                <div className="flex-shrink-0 rounded-lg flex items-center justify-center group-hover:bg-brand-primary/10 transition-colors duration-300">
+                                                                    <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 group-hover:bg-brand-primary transition-all duration-300"></div>
+                                                                </div>
+                                                                <div className="flex flex-col">
+                                                                    <span className="text-sm font-bold text-zinc-900 group-hover:text-brand-primary transition-colors duration-300">
+                                                                        {link.title}
+                                                                    </span>
+                                                                </div>
+                                                            </Link>
+                                                        );
+                                                    })}
                                                 </div>
                                             </motion.div>
                                         ))

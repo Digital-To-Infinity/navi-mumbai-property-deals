@@ -17,11 +17,6 @@ interface MobileMenuProps {
 
 const sellTypes = ["For Owner", "For Builder"] as const;
 
-const sellBasePathMapping: Record<string, string> = {
-    "For Owner": "/sell/owner",
-    "For Builder": "/sell/builder"
-};
-
 const MobileMenu = ({ navLinks, setIsMobileMenuOpen }: MobileMenuProps) => {
     const [isBuyExpanded, setIsBuyExpanded] = useState(false);
     const [isRentExpanded, setIsRentExpanded] = useState(false);
@@ -131,16 +126,25 @@ const MobileMenu = ({ navLinks, setIsMobileMenuOpen }: MobileMenuProps) => {
                                                                                     className="overflow-hidden flex flex-col gap-2 ml-2 pl-2 border-l-2 border-zinc-200"
                                                                                 >
                                                                                     {/* @ts-ignore */}
-                                                                                    {sellPropertyCategories[category].map((item: any) => (
-                                                                                        <Link
-                                                                                            key={item.title}
-                                                                                            href={`${sellBasePathMapping[sellType]}${item.href.replace('/sell', '')}`}
-                                                                                            onClick={() => setIsMobileMenuOpen(false)}
-                                                                                            className="text-sm font-normal text-brand-heading hover:text-brand-primary py-1"
-                                                                                        >
-                                                                                            {item.title}
-                                                                                        </Link>
-                                                                                    ))}
+                                                                                    {sellPropertyCategories[category].map((item: any) => {
+                                                                                        const getHref = () => {
+                                                                                            if (category === "Blogs and Articles") return item.href;
+                                                                                            const type = sellType === "For Owner" ? "owner" : "builder";
+                                                                                            const cat = category === "Residential" ? "residential" : category === "Commercial" ? "commercial" : "plots";
+                                                                                            return `/sell/${type}/${cat}/${item.href}`;
+                                                                                        };
+
+                                                                                        return (
+                                                                                            <Link
+                                                                                                key={item.title}
+                                                                                                href={getHref()}
+                                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                className="text-sm font-normal text-brand-heading hover:text-brand-primary py-1"
+                                                                                            >
+                                                                                                {item.title}
+                                                                                            </Link>
+                                                                                        );
+                                                                                    })}
                                                                                 </motion.div>
                                                                             )}
                                                                         </AnimatePresence>
