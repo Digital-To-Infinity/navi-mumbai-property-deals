@@ -72,7 +72,7 @@ const NavLinks = ({ navLinks }: { navLinks: PredefinedLink[] }) => {
                                     size={16}
                                     className={`transition-transform duration-300 ${isCurrentlyHovered ? 'rotate-180' : ''}`}
                                 />
-                                {isActive && (
+                                {(isActive || isCurrentlyHovered) && (
                                     <motion.div
                                         layoutId="active-underline"
                                         className="absolute bottom-1 left-4 right-4 h-0.5 bg-brand-button"
