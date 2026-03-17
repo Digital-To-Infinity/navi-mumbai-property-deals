@@ -3,13 +3,13 @@ import { rentMegaMenuData } from '@/components/common/Navbar/navData';
 import RentSection from '@/components/Home/RentSection';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
-export default function RentPropertyPage({ params }: PageProps) {
-    const { slug } = params;
+export default async function RentPropertyPage({ params }: PageProps) {
+    const { slug } = await params;
     const allLinks = Object.values(rentMegaMenuData).flat();
     const linkData = allLinks.find(link => link.href === `/rent/${slug}`);
 

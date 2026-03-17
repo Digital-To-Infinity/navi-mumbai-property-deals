@@ -45,8 +45,8 @@ export const rentMegaMenuData = {
     "Rent A Home": [
         { title: "Flats", href: "/rent/flats-for-rent-in-navi-mumbai", seoTitle: "Rental Flats in Navi Mumbai - 1/2/3 BHK Options" },
         { title: "Apartments", href: "/rent/apartments-for-rent-in-navi-mumbai", seoTitle: "Semi-Furnished and Fully-Furnished Apartments for Rent" },
-        { title: "Studio Apartment", href: "/rent/studio-apartments-flats-for-rent-in-navi-mumbai", seoTitle: "Modern Studio Apartments for Rent in Navi Mumbai" },
-        { title: "Independent House", href: "/rent/independent/house-flats-for-rent-in-navi-mumbai", seoTitle: "Spacious Independent Houses for Rent" },
+        { title: "Studio Apartment", href: "/rent/studio-apartments-for-rent-in-navi-mumbai", seoTitle: "Modern Studio Apartments for Rent in Navi Mumbai" },
+        { title: "Independent House", href: "/rent/independent-house-for-rent-in-navi-mumbai", seoTitle: "Spacious Independent Houses for Rent" },
         { title: "Villa", href: "/rent/villas-for-rent-in-navi-mumbai", seoTitle: "Luxurious Private Villas for Rent in Navi Mumbai" }
     ],
     "PG/Co-Living": [
@@ -65,10 +65,10 @@ export const rentMegaMenuData = {
         { title: "CBD Belapur", href: "/rent/belapur-area-for-rent-in-navi-mumbai", seoTitle: "Corporate Rentals in CBD Belapur" }
     ],
     "Blogs and Articles": [
-        { title: "Blogs for Renters", href: "/rent/blogs-for-renters", seoTitle: "Updated Real Estate Renting Guides and Market Tips" },
-        { title: "Articles for Renters", href: "/rent/articles-for-renters", seoTitle: "In-depth Articles on Renting in Navi Mumbai" },
-        { title: "Articles for Real Estate", href: "/rent/articles-for-real-estate", seoTitle: "Expert Market Analysis Articles" },
-        { title: "Blogs for Real Estate", href: "/rent/blogs-for-real-estate", seoTitle: "Industry News and Trends Blog Hub" }
+        { title: "Blogs for Renters", href: "/rent/real-estate-blogs-for-renters", seoTitle: "Updated Real Estate Renting Guides and Market Tips" },
+        { title: "Articles for Renters", href: "/rent/real-estate-articles-for-renters", seoTitle: "In-depth Articles on Renting in Navi Mumbai" },
+        { title: "Articles for Real Estate", href: "/rent/real-estate-market-articles", seoTitle: "Expert Market Analysis Articles" },
+        { title: "Blogs for Real Estate", href: "/rent/real-estate-industry-blogs", seoTitle: "Industry News and Trends Blog Hub" }
     ]
 };
 

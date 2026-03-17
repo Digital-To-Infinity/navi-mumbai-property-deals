@@ -28,9 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${openSans.variable} ${montserrat.variable}`}>
-      <body className="overflow-x-hidden">
+      <body className="">
         <Navbar />
-        <main className="mt-24 overflow-x-hidden">
+        <main className="mt-24">
           <Breadcrumb />
           {children}
         </main>
