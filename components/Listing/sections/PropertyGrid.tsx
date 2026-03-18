@@ -1,7 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Target } from "lucide-react";
-import PropertyCard from "../PropertyCard";
+import PropertyCard from "./PropertyCard";
 import { ListingProperty, ListingMode } from "../listingData";
 import { modeLabel } from "./types";
 
@@ -35,9 +35,7 @@ export default function PropertyGrid({
                         </p>
                         <button
                             onClick={resetFilters}
-                            className="px-5 py-2.5 bg-[#baa360] text-white text-[14px]
-                                       font-bold rounded-full hover:bg-[#8f7b44] transition-colors"
-                        >
+                            className="px-5 py-2.5 bg-[#baa360] text-white text-[14px] font-bold rounded-full hover:bg-[#8f7b44] transition-colors">
                             Reset Filters
                         </button>
                     </motion.div>

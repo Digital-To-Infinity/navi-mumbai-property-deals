@@ -26,6 +26,9 @@ export interface ListingProperty {
     facing: "east" | "west" | "north" | "south" | "north-east" | "north-west" | "south-east" | "south-west";
     amenities: string[];
     age: "0-1" | "1-5" | "5-10" | "10+";
+    floor?: string;
+    totalFloors?: number;
+    parking?: string;
 }
 
 export interface LocalityMetrics {
@@ -67,6 +70,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "east",
         amenities: ["Gym", "Pool", "Parking", "Security"],
         age: "1-5",
+        floor: "18th",
+        totalFloors: 42,
+        parking: "2 Covered",
     },
     {
         id: "lp-002",
@@ -89,6 +95,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "west",
         amenities: ["Pool", "Parking", "Security", "Clubhouse"],
         age: "5-10",
+        floor: "12th",
+        totalFloors: 25,
+        parking: "1 Covered",
     },
     {
         id: "lp-003",
@@ -111,6 +120,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "north-east",
         amenities: ["Gym", "Security", "Park"],
         age: "0-1",
+        floor: "5th",
+        totalFloors: 15,
+        parking: "None",
     },
     {
         id: "lp-004",
@@ -134,6 +146,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "east",
         amenities: ["Gym", "Pool", "Parking", "Private Terrace"],
         age: "10+",
+        floor: "Top",
+        totalFloors: 4,
+        parking: "3 Covered",
     },
     {
         id: "lp-005",
@@ -156,6 +171,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "south",
         amenities: ["Gym", "Pool", "Parking", "Smart Home Tech"],
         age: "0-1",
+        floor: "22nd",
+        totalFloors: 35,
+        parking: "2 Covered",
     },
     {
         id: "lp-006",
@@ -178,6 +196,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "north",
         amenities: ["Gym", "Pool", "Parking", "Clubhouse"],
         age: "1-5",
+        floor: "8th",
+        totalFloors: 20,
+        parking: "1 Covered",
     },
     {
         id: "lp-007",
@@ -200,6 +221,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "east",
         amenities: ["Parking", "Security", "Park"],
         age: "5-10",
+        floor: "2nd",
+        totalFloors: 7,
+        parking: "1 Open",
     },
     {
         id: "lp-008",
@@ -222,6 +246,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "south-east",
         amenities: ["Gym", "Pool", "Parking"],
         age: "1-5",
+        floor: "15th",
+        totalFloors: 18,
+        parking: "1 Covered",
     },
     {
         id: "lp-009",
@@ -244,6 +271,9 @@ export const listingProperties: ListingProperty[] = [
         facing: "east",
         amenities: ["Gym", "Pool", "Parking", "Security", "Garden"],
         age: "0-1",
+        floor: "30th",
+        totalFloors: 40,
+        parking: "2 Covered",
     },
 ];
 

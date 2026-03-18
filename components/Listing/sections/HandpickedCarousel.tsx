@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import PropertyCard from "../PropertyCard";
+import PropertyCard from "./PropertyCard";
 import { ListingProperty, ListingMode } from "../listingData";
 
 interface HandpickedCarouselProps {

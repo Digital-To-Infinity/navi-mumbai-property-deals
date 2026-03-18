@@ -188,7 +188,7 @@ export default function UniversalListingHub({
 
                 <MetricsBar mode={mode} metrics={metricsData} />
 
-                <main className="container mx-auto px-4 sm:px-6 py-8" aria-label="Property listings">
+                <main className="container mx-auto px-4 sm:px-6 py-16" aria-label="Property listings">
                     <div className="flex gap-6 relative">
                         {/* ── Mobile filter toggle ── */}
                         <div className="lg:hidden mb-4 w-full">
