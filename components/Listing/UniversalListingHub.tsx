@@ -17,8 +17,16 @@ import PropertyGrid from "./sections/PropertyGrid";
 import LocalityInsights from "./sections/LocalityInsights";
 import HandpickedCarousel from "./sections/HandpickedCarousel";
 
-// Types
-import { BudgetFilter, ConfigFilter, StatusFilter } from "./sections/types";
+import {
+    BudgetFilter,
+    ConfigFilter,
+    StatusFilter,
+    PostedByFilter,
+    PropertyTypeFilter,
+    FurnishingFilter,
+    FacingFilter,
+    AgeFilter,
+} from "./sections/types";
 
 // ─────────────────────────────────────────────
 //  Types & Props
@@ -38,7 +46,6 @@ interface HubProps {
 
 function pricePasses(property: ListingProperty, budget: BudgetFilter): boolean {
     if (budget === "all") return true;
-    // Very lightweight parsing — extract numeric lakhs/crore value
     const raw = property.price.replace(/[₹,\s]/g, "");
     let crore = 0;
     if (raw.includes("Cr")) crore = parseFloat(raw.replace("Cr", ""));
@@ -65,6 +72,12 @@ export default function UniversalListingHub({
     const [budget, setBudget] = useState<BudgetFilter>("all");
     const [config, setConfig] = useState<ConfigFilter>("all");
     const [status, setStatus] = useState<StatusFilter>("all");
+    const [postedBy, setPostedBy] = useState<PostedByFilter>("all");
+    const [propertyType, setPropertyType] = useState<PropertyTypeFilter>("all");
+    const [furnishing, setFurnishing] = useState<FurnishingFilter>("all");
+    const [facing, setFacing] = useState<FacingFilter>("all");
+    const [age, setAge] = useState<AgeFilter>("all");
+    const [amenities, setAmenities] = useState<string[]>([]);
     const [reraOnly, setReraOnly] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -97,6 +110,14 @@ export default function UniversalListingHub({
         if (!pricePasses(p, budget)) return false;
         if (config !== "all" && p.configuration !== config) return false;
         if (status !== "all" && p.constructionStatus !== status) return false;
+        if (postedBy !== "all" && p.postedBy !== postedBy) return false;
+        if (propertyType !== "all" && p.propertyType !== propertyType) return false;
+        if (furnishing !== "all" && p.furnishing !== furnishing) return false;
+        if (facing !== "all" && p.facing !== facing) return false;
+        if (age !== "all" && p.age !== age) return false;
+        if (amenities.length > 0) {
+            if (!amenities.every((a) => p.amenities.includes(a))) return false;
+        }
         if (reraOnly && !p.isReraVerified) return false;
 
         if (filterKeyword) {
@@ -114,10 +135,26 @@ export default function UniversalListingHub({
         setBudget("all");
         setConfig("all");
         setStatus("all");
+        setPostedBy("all");
+        setPropertyType("all");
+        setFurnishing("all");
+        setFacing("all");
+        setAge("all");
+        setAmenities([]);
         setReraOnly(false);
     };
 
-    const hasActiveFilters = budget !== "all" || config !== "all" || status !== "all" || reraOnly;
+    const hasActiveFilters =
+        budget !== "all" ||
+        config !== "all" ||
+        status !== "all" ||
+        postedBy !== "all" ||
+        propertyType !== "all" ||
+        furnishing !== "all" ||
+        facing !== "all" ||
+        age !== "all" ||
+        amenities.length > 0 ||
+        reraOnly;
     const metricsData = localityMetrics[mode];
     const handpicked = listingProperties.slice(0, 5);
 
@@ -181,6 +218,18 @@ export default function UniversalListingHub({
                             setConfig={setConfig}
                             status={status}
                             setStatus={setStatus}
+                            postedBy={postedBy}
+                            setPostedBy={setPostedBy}
+                            propertyType={propertyType}
+                            setPropertyType={setPropertyType}
+                            furnishing={furnishing}
+                            setFurnishing={setFurnishing}
+                            facing={facing}
+                            setFacing={setFacing}
+                            age={age}
+                            setAge={setAge}
+                            amenities={amenities}
+                            setAmenities={setAmenities}
                             reraOnly={reraOnly}
                             setReraOnly={setReraOnly}
                             hasActiveFilters={hasActiveFilters}

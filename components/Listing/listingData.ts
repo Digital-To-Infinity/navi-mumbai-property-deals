@@ -20,6 +20,12 @@ export interface ListingProperty {
     isFeatured?: boolean;
     image: string;
     builder: string;
+    postedBy: "owner" | "agent" | "builder";
+    propertyType: "residential" | "commercial" | "plot" | "industrial";
+    furnishing: "furnished" | "semi-furnished" | "unfurnished";
+    facing: "east" | "west" | "north" | "south" | "north-east" | "north-west" | "south-east" | "south-west";
+    amenities: string[];
+    age: "0-1" | "1-5" | "5-10" | "10+";
 }
 
 export interface LocalityMetrics {
@@ -55,6 +61,12 @@ export const listingProperties: ListingProperty[] = [
         isFeatured: true,
         image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Rustomjee Group",
+        postedBy: "builder",
+        propertyType: "residential",
+        furnishing: "furnished",
+        facing: "east",
+        amenities: ["Gym", "Pool", "Parking", "Security"],
+        age: "1-5",
     },
     {
         id: "lp-002",
@@ -71,6 +83,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: true,
         image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Hiranandani Group",
+        postedBy: "agent",
+        propertyType: "residential",
+        furnishing: "semi-furnished",
+        facing: "west",
+        amenities: ["Pool", "Parking", "Security", "Clubhouse"],
+        age: "5-10",
     },
     {
         id: "lp-003",
@@ -87,6 +105,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: true,
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Lodha Group",
+        postedBy: "builder",
+        propertyType: "residential",
+        furnishing: "unfurnished",
+        facing: "north-east",
+        amenities: ["Gym", "Security", "Park"],
+        age: "0-1",
     },
     {
         id: "lp-004",
@@ -104,6 +128,12 @@ export const listingProperties: ListingProperty[] = [
         isFeatured: true,
         image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Shapoorji Pallonji",
+        postedBy: "owner",
+        propertyType: "residential",
+        furnishing: "furnished",
+        facing: "east",
+        amenities: ["Gym", "Pool", "Parking", "Private Terrace"],
+        age: "10+",
     },
     {
         id: "lp-005",
@@ -120,6 +150,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: true,
         image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "L&T Realty",
+        postedBy: "builder",
+        propertyType: "residential",
+        furnishing: "semi-furnished",
+        facing: "south",
+        amenities: ["Gym", "Pool", "Parking", "Smart Home Tech"],
+        age: "0-1",
     },
     {
         id: "lp-006",
@@ -136,6 +172,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: true,
         image: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Godrej Properties",
+        postedBy: "agent",
+        propertyType: "residential",
+        furnishing: "furnished",
+        facing: "north",
+        amenities: ["Gym", "Pool", "Parking", "Clubhouse"],
+        age: "1-5",
     },
     {
         id: "lp-007",
@@ -152,6 +194,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: true,
         image: "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "CIDCO",
+        postedBy: "owner",
+        propertyType: "residential",
+        furnishing: "unfurnished",
+        facing: "east",
+        amenities: ["Parking", "Security", "Park"],
+        age: "5-10",
     },
     {
         id: "lp-008",
@@ -168,6 +216,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: false,
         image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Dosti Realty",
+        postedBy: "agent",
+        propertyType: "residential",
+        furnishing: "semi-furnished",
+        facing: "south-east",
+        amenities: ["Gym", "Pool", "Parking"],
+        age: "1-5",
     },
     {
         id: "lp-009",
@@ -184,6 +238,12 @@ export const listingProperties: ListingProperty[] = [
         isReraVerified: true,
         image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         builder: "Tata Housing",
+        postedBy: "builder",
+        propertyType: "residential",
+        furnishing: "unfurnished",
+        facing: "east",
+        amenities: ["Gym", "Pool", "Parking", "Security", "Garden"],
+        age: "0-1",
     },
 ];
 

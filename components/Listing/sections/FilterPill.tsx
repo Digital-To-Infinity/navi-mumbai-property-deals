@@ -10,11 +10,10 @@ export default function FilterPill({ label, active, onClick }: FilterPillProps) 
     return (
         <button
             onClick={onClick}
-            className={`px-3.5 py-2 rounded-xl text-[13px] font-bold
-                       border transition-all duration-250 whitespace-nowrap
+            className={`px-3.5 py-1.5 rounded-xl text-[12px] font-bold cursor-pointer border transition-all duration-250 whitespace-nowrap
                        ${active
-                    ? "bg-[#baa360] text-white border-[#baa360] shadow-md"
-                    : "bg-white text-zinc-600 border-zinc-200 hover:border-[#baa360]/50 hover:text-[#baa360]"
+                    ? "bg-brand-primary text-white border-brand-primary"
+                    : "bg-white text-brand-paragraph border-brand-muted/40 hover:border-brand-primary/50 hover:text-brand-primary"
                 }`}
         >
             {label}

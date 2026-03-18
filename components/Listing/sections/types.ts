@@ -13,12 +13,23 @@ export type ConfigFilter =
     | "commercial"
     | "plot";
 export type StatusFilter = "all" | "ready-to-move" | "under-construction" | "new-launch";
+export type PostedByFilter = "all" | "owner" | "agent" | "builder";
+export type PropertyTypeFilter = "all" | "residential" | "commercial" | "plot" | "industrial";
+export type FurnishingFilter = "all" | "furnished" | "semi-furnished" | "unfurnished";
+export type FacingFilter = "all" | "east" | "west" | "north" | "south" | "north-east" | "north-west" | "south-east" | "south-west";
+export type AgeFilter = "all" | "0-1" | "1-5" | "5-10" | "10+";
 
 export interface FilterState {
     budget: BudgetFilter;
     config: ConfigFilter;
     status: StatusFilter;
     reraOnly: boolean;
+    postedBy: PostedByFilter;
+    propertyType: PropertyTypeFilter;
+    furnishing: FurnishingFilter;
+    facing: FacingFilter;
+    age: AgeFilter;
+    amenities: string[];
 }
 
 export const modeAccent: Record<
