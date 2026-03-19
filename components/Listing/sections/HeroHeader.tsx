@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { motion } from "framer-motion";
 import { BadgeCheck, MapPin, TrendingUp, X } from "lucide-react";
 import { modeLabel } from "./types";

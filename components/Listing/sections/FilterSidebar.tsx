@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import FilterGroup from "./FilterGroup";
+import FilterPill from "./FilterPill";
 import {
     SlidersHorizontal,
     X,
@@ -12,9 +14,10 @@ import {
     Compass,
     Sparkles,
     Calendar,
+    ArrowUpDown,
+    Maximize2,
 } from "lucide-react";
-import FilterGroup from "./FilterGroup";
-import FilterPill from "./FilterPill";
+
 import {
     BudgetFilter,
     ConfigFilter,
@@ -24,6 +27,8 @@ import {
     FurnishingFilter,
     FacingFilter,
     AgeFilter,
+    SortFilter,
+    AreaFilter,
 } from "./types";
 
 interface FilterSidebarProps {
@@ -47,6 +52,10 @@ interface FilterSidebarProps {
     setAge: (val: AgeFilter) => void;
     amenities: string[];
     setAmenities: (val: string[]) => void;
+    area: AreaFilter;
+    setArea: (val: AreaFilter) => void;
+    sortBy: SortFilter;
+    setSortBy: (val: SortFilter) => void;
     reraOnly: boolean;
     setReraOnly: (reraOnly: boolean) => void;
     hasActiveFilters: boolean;
@@ -74,6 +83,10 @@ export default function FilterSidebar({
     setAge,
     amenities,
     setAmenities,
+    area,
+    setArea,
+    sortBy,
+    setSortBy,
     reraOnly,
     setReraOnly,
     hasActiveFilters,
@@ -147,6 +160,34 @@ export default function FilterSidebar({
                     </div>
 
                     <div className="space-y-1">
+                        {/* Sort By filter */}
+                        <FilterGroup title="Sort By" icon={<ArrowUpDown className="w-4 h-4" />} activeCount={sortBy !== "relevance" ? 1 : 0}>
+                            <div className="flex flex-col gap-2 pt-1">
+                                {(
+                                    [
+                                        ["relevance", "Relevance"],
+                                        ["price-low", "Price: Low to High"],
+                                        ["price-high", "Price: High to Low"],
+                                        ["newest", "Newest First"],
+                                        ["area-high", "Area: High to Low"],
+                                        ["area-low", "Area: Low to High"],
+                                    ] as [SortFilter, string][]
+                                ).map(([val, lbl]) => (
+                                    <button
+                                        key={val}
+                                        onClick={() => setSortBy(val)}
+                                        className={`text-left px-4 py-2 rounded-xl text-[13px] cursor-pointer font-semibold border transition-all duration-200
+                                                   ${sortBy === val
+                                                ? "bg-brand-primary text-white border-brand-primary"
+                                                : "bg-white text-brand-paragraph border-brand-muted/40 hover:border-brand-primary hover:text-brand-primary"
+                                            }`}
+                                    >
+                                        {lbl}
+                                    </button>
+                                ))}
+                            </div>
+                        </FilterGroup>
+
                         {/* Budget filter */}
                         <FilterGroup title="Budget" icon={<Sparkles className="w-4 h-4" />} activeCount={budget !== "all" ? 1 : 0}>
                             <div className="flex flex-wrap gap-2 pt-1">
@@ -167,6 +208,40 @@ export default function FilterSidebar({
                                         onClick={() => setBudget(val)}
                                     />
                                 ))}
+                            </div>
+                        </FilterGroup>
+
+                        {/* Area filter */}
+                        <FilterGroup title="Area (sq. ft.)" icon={<Maximize2 className="w-4 h-4" />} activeCount={(area.min || area.max) ? 1 : 0}>
+                            <div className="grid grid-cols-2 gap-3 pt-2">
+                                <div className="space-y-1.5">
+                                    <label className="text-[11px] font-bold text-brand-paragraph uppercase tracking-wider ml-1">Min Area</label>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            placeholder="Min"
+                                            value={area.min}
+                                            onChange={(e) => setArea({ ...area, min: e.target.value })}
+                                            className="w-full bg-brand-muted/10 border border-brand-muted/30 rounded-xl px-3 py-2 text-[13px] 
+                                                       font-semibold text-brand-heading focus:outline-none focus:ring-2 focus:ring-brand-primary/20 
+                                                       focus:border-brand-primary transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <label className="text-[11px] font-bold text-brand-paragraph uppercase tracking-wider ml-1">Max Area</label>
+                                    <div className="relative">
+                                        <input
+                                            type="number"
+                                            placeholder="Max"
+                                            value={area.max}
+                                            onChange={(e) => setArea({ ...area, max: e.target.value })}
+                                            className="w-full bg-brand-muted/10 border border-brand-muted/30 rounded-xl px-3 py-2 text-[13px] 
+                                                       font-semibold text-brand-heading focus:outline-none focus:ring-2 focus:ring-brand-primary/20 
+                                                       focus:border-brand-primary transition-all"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </FilterGroup>
 

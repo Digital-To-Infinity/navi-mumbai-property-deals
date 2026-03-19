@@ -18,6 +18,12 @@ export type PropertyTypeFilter = "all" | "residential" | "commercial" | "plot" |
 export type FurnishingFilter = "all" | "furnished" | "semi-furnished" | "unfurnished";
 export type FacingFilter = "all" | "east" | "west" | "north" | "south" | "north-east" | "north-west" | "south-east" | "south-west";
 export type AgeFilter = "all" | "0-1" | "1-5" | "5-10" | "10+";
+export type SortFilter = "relevance" | "price-low" | "price-high" | "newest" | "area-high" | "area-low";
+
+export interface AreaFilter {
+    min: string;
+    max: string;
+}
 
 export interface FilterState {
     budget: BudgetFilter;
@@ -30,6 +36,8 @@ export interface FilterState {
     facing: FacingFilter;
     age: AgeFilter;
     amenities: string[];
+    area: AreaFilter;
+    sortBy: SortFilter;
 }
 
 export const modeAccent: Record<

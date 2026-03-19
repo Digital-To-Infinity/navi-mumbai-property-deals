@@ -26,6 +26,8 @@ import {
     FurnishingFilter,
     FacingFilter,
     AgeFilter,
+    SortFilter,
+    AreaFilter,
 } from "./sections/types";
 
 
@@ -40,16 +42,24 @@ interface HubProps {
 //  Helpers
 function pricePasses(property: ListingProperty, budget: BudgetFilter): boolean {
     if (budget === "all") return true;
-    const raw = property.price.replace(/[₹,\s]/g, "");
-    let crore = 0;
-    if (raw.includes("Cr")) crore = parseFloat(raw.replace("Cr", ""));
-    else if (raw.includes("L")) crore = parseFloat(raw.replace("L", "")) / 100;
-    if (budget === "under60L") return crore < 0.6;
-    if (budget === "60L-1Cr") return crore >= 0.6 && crore < 1;
-    if (budget === "1Cr-2Cr") return crore >= 1 && crore < 2;
-    if (budget === "2Cr-5Cr") return crore >= 2 && crore < 5;
-    if (budget === "above5Cr") return crore >= 5;
+    const lakhs = parsePrice(property.price);
+    if (budget === "under60L") return lakhs < 60;
+    if (budget === "60L-1Cr") return lakhs >= 60 && lakhs < 100;
+    if (budget === "1Cr-2Cr") return lakhs >= 100 && lakhs < 200;
+    if (budget === "2Cr-5Cr") return lakhs >= 200 && lakhs < 500;
+    if (budget === "above5Cr") return lakhs >= 500;
     return true;
+}
+
+function parsePrice(price: string): number {
+    const raw = price.replace(/[₹,\s]/g, "");
+    if (raw.includes("Cr")) return parseFloat(raw.replace("Cr", "")) * 100;
+    if (raw.includes("L")) return parseFloat(raw.replace("L", ""));
+    return 0;
+}
+
+function parseArea(area: string): number {
+    return parseFloat(area.replace(/[,\ssq.ft]/gi, ""));
 }
 
 //  Main Component
@@ -69,6 +79,8 @@ export default function UniversalListingHub({
     const [facing, setFacing] = useState<FacingFilter>("all");
     const [age, setAge] = useState<AgeFilter>("all");
     const [amenities, setAmenities] = useState<string[]>([]);
+    const [area, setArea] = useState<AreaFilter>({ min: "", max: "" });
+    const [sortBy, setSortBy] = useState<SortFilter>("relevance");
     const [reraOnly, setReraOnly] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -111,6 +123,11 @@ export default function UniversalListingHub({
         }
         if (reraOnly && !p.isReraVerified) return false;
 
+        // Area Filter
+        const pArea = parseArea(p.area);
+        if (area.min && pArea < parseFloat(area.min)) return false;
+        if (area.max && pArea > parseFloat(area.max)) return false;
+
         if (filterKeyword) {
             const kw = filterKeyword.toLowerCase();
             const match =
@@ -120,6 +137,13 @@ export default function UniversalListingHub({
             if (!match) return true;
         }
         return true;
+    }).sort((a, b) => {
+        if (sortBy === "price-low") return parsePrice(a.price) - parsePrice(b.price);
+        if (sortBy === "price-high") return parsePrice(b.price) - parsePrice(a.price);
+        if (sortBy === "area-high") return parseArea(b.area) - parseArea(a.area);
+        if (sortBy === "area-low") return parseArea(a.area) - parseArea(b.area);
+        if (sortBy === "newest") return b.id.localeCompare(a.id); // Mock logic for newest
+        return 0;
     });
 
     const resetFilters = () => {
@@ -132,6 +156,8 @@ export default function UniversalListingHub({
         setFacing("all");
         setAge("all");
         setAmenities([]);
+        setArea({ min: "", max: "" });
+        setSortBy("relevance");
         setReraOnly(false);
     };
 
@@ -145,6 +171,9 @@ export default function UniversalListingHub({
         facing !== "all" ||
         age !== "all" ||
         amenities.length > 0 ||
+        area.min !== "" ||
+        area.max !== "" ||
+        sortBy !== "relevance" ||
         reraOnly;
     const metricsData = localityMetrics[mode];
     const handpicked = listingProperties.slice(0, 5);
@@ -237,6 +266,10 @@ export default function UniversalListingHub({
                             setAge={setAge}
                             amenities={amenities}
                             setAmenities={setAmenities}
+                            area={area}
+                            setArea={setArea}
+                            sortBy={sortBy}
+                            setSortBy={setSortBy}
                             reraOnly={reraOnly}
                             setReraOnly={setReraOnly}
                             hasActiveFilters={hasActiveFilters}
