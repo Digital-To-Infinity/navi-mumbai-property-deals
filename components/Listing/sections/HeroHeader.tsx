@@ -1,8 +1,14 @@
 "use client";
+import React from "react";
 import { motion } from "framer-motion";
 import { BadgeCheck, MapPin, TrendingUp, X } from "lucide-react";
 import { modeLabel } from "./types";
 import type { ListingMode } from "./types";
+
+interface Breadcrumb {
+    label: string;
+    href: string;
+}
 
 interface HeroHeaderProps {
     mode: ListingMode;
@@ -11,6 +17,7 @@ interface HeroHeaderProps {
     filteredCount: number;
     hasActiveFilters: boolean;
     onResetFilters: () => void;
+    breadcrumbs?: Breadcrumb[];
 }
 
 export default function HeroHeader({
@@ -20,6 +27,7 @@ export default function HeroHeader({
     filteredCount,
     hasActiveFilters,
     onResetFilters,
+    breadcrumbs = [],
 }: HeroHeaderProps) {
     return (
         <header
@@ -237,8 +245,8 @@ export default function HeroHeader({
                                     className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                                     style={{
                                         background: `rgba(${stat.color === "#22c55e"
-                                                ? "34,197,94"
-                                                : "186,163,96"
+                                            ? "34,197,94"
+                                            : "186,163,96"
                                             },0.12)`,
                                         color: stat.color,
                                     }}

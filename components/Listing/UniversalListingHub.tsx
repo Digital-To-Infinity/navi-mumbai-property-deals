@@ -1,15 +1,6 @@
 "use client";
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { SlidersHorizontal, Target } from "lucide-react";
-import {
-    listingProperties,
-    localityMetrics,
-    localityInsight,
-    type ListingMode,
-    type ListingProperty,
-} from "./listingData";
-
-// Sections
+import { useState, useRef, useCallback, useEffect } from "react";
+import { SlidersHorizontal } from "lucide-react";
 import HeroHeader from "./sections/HeroHeader";
 import MetricsBar from "./sections/MetricsBar";
 import FilterSidebar from "./sections/FilterSidebar";
@@ -17,6 +8,14 @@ import PropertyGrid from "./sections/PropertyGrid";
 import LocalityInsights from "./sections/LocalityInsights";
 import HandpickedCarousel from "./sections/HandpickedCarousel";
 import SellingProcess from "./sections/SellingProcess";
+
+import {
+    listingProperties,
+    localityMetrics,
+    localityInsight,
+    type ListingMode,
+    type ListingProperty,
+} from "./listingData";
 
 import {
     BudgetFilter,
@@ -29,22 +28,16 @@ import {
     AgeFilter,
 } from "./sections/types";
 
-// ─────────────────────────────────────────────
-//  Types & Props
-// ─────────────────────────────────────────────
 
+//  Types & Props
 interface HubProps {
     mode: ListingMode;
     pageTitle: string;
     pageSubtitle: string;
-    /** Optional: filter properties by slug/keyword */
-    filterKeyword?: string;
+    filterKeyword?: string;  /* Optional: filter properties by slug/keyword */
 }
 
-// ─────────────────────────────────────────────
 //  Helpers
-// ─────────────────────────────────────────────
-
 function pricePasses(property: ListingProperty, budget: BudgetFilter): boolean {
     if (budget === "all") return true;
     const raw = property.price.replace(/[₹,\s]/g, "");
@@ -59,10 +52,7 @@ function pricePasses(property: ListingProperty, budget: BudgetFilter): boolean {
     return true;
 }
 
-// ─────────────────────────────────────────────
 //  Main Component
-// ─────────────────────────────────────────────
-
 export default function UniversalListingHub({
     mode,
     pageTitle,
@@ -159,6 +149,21 @@ export default function UniversalListingHub({
     const metricsData = localityMetrics[mode];
     const handpicked = listingProperties.slice(0, 5);
 
+    const breadcrumbs = [
+        { label: mode === "buy" ? "Buy" : mode === "rent" ? "Rent" : "Sell", href: `/${mode}` },
+        ...(filterKeyword
+            ? [
+                {
+                    label: filterKeyword
+                        .split("-")
+                        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                        .join(" "),
+                    href: "",
+                },
+            ]
+            : []),
+    ];
+
     return (
         <div className="min-h-screen bg-[#fafaf9] relative">
             {/* Mesh background */}
@@ -185,13 +190,14 @@ export default function UniversalListingHub({
                     filteredCount={filtered.length}
                     hasActiveFilters={hasActiveFilters}
                     onResetFilters={resetFilters}
+                    breadcrumbs={breadcrumbs}
                 />
 
                 <MetricsBar mode={mode} metrics={metricsData} />
 
                 <main className="container mx-auto px-4 sm:px-6 py-16" aria-label="Property listings">
                     <div className="flex gap-6 relative">
-                        {/* ── Mobile filter toggle ── */}
+                        {/* Mobile filter toggle */}
                         <div className="lg:hidden mb-4 w-full">
                             <button
                                 onClick={() => setSidebarOpen(true)}
