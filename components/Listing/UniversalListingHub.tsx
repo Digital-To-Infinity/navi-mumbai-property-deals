@@ -16,6 +16,7 @@ import FilterSidebar from "./sections/FilterSidebar";
 import PropertyGrid from "./sections/PropertyGrid";
 import LocalityInsights from "./sections/LocalityInsights";
 import HandpickedCarousel from "./sections/HandpickedCarousel";
+import SellingProcess from "./sections/SellingProcess";
 
 import {
     BudgetFilter,
@@ -245,6 +246,8 @@ export default function UniversalListingHub({
                 </main>
 
                 <LocalityInsights mode={mode} insight={localityInsight} />
+
+                {mode === "sell" && <SellingProcess />}
 
                 <HandpickedCarousel
                     carouselRef={carouselRef}

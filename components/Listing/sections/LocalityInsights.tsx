@@ -36,6 +36,92 @@ export default function LocalityInsights({ mode, insight }: LocalityInsightsProp
         sell: "Why Sell"
     };
 
+    const cardConfigs = {
+        buy: {
+            market: { title: "Market Overview", subtitle: "Strategic Advantage", icon: Building2, color: "brand-primary", text: insight.whyInvest, highlightLabel: "Investment Highlights", highlights: insight.highlights },
+            connectivity: { title: "Connectivity", subtitle: "Seamless Access", icon: Train, color: "blue-500", text: insight.connectivity, highlightLabel: "Transport Highlights", highlights: insight.connectivityHighlights },
+            infrastructure: { title: "Infrastructure", subtitle: "Future Growth", icon: Plane, color: "violet-500", text: insight.infrastructure, highlightLabel: "Development Highlights", highlights: insight.infraHighlights }
+        },
+        rent: {
+            market: {
+                title: "Lifestyle Index",
+                subtitle: "Quality of Living",
+                icon: Building2,
+                color: "brand-primary",
+                text: "Experience an elevated metropolitan lifestyle in India's most organized city. Navi Mumbai's urban planning ensures a perfect balance between luxury high-rises and 40% open green spaces, offering a superior air quality index and a high standard of living compared to traditional Mumbai corridors.",
+                highlightLabel: "Lifestyle Highlights",
+                highlights: [
+                    "Premium Schools (DPS, Ryan, Podar)",
+                    "Multispeciality Healthcare (MGM, Apollo)",
+                    "Iconic Central Park & Golf Course",
+                    "Premium Malls (Nexus Seawoods, Inorbit)",
+                    "Over 40% Planned Open Green Spaces"
+                ]
+            },
+            connectivity: {
+                title: "Commuter Friendly",
+                subtitle: "Daily Convenience",
+                icon: Train,
+                color: "blue-500",
+                text: "Navi Mumbai's transit network is anchored by the newly launched Metro and the Atal Setu (MTHL), reducing travel time to South Mumbai to just 20 minutes. The robust suburban rail system and the highly efficient Navi Mumbai Municipal Transport (NMMT) bus network provide seamless intra-city movement.",
+                highlightLabel: "Transit Options",
+                highlights: [
+                    "MTHL (Atal Setu): 20m drive to SoBo",
+                    "Navi Mumbai Metro Line 1, 2 & 3",
+                    "Dedicated Cycle Tracks & Wide Roads",
+                    "Connected to Mumbai via 3 Rail Lines",
+                    "Upcoming NMIA (International Airport)"
+                ]
+            },
+            infrastructure: {
+                title: "Urban Amenities",
+                subtitle: "Modern Living",
+                icon: Zap,
+                color: "violet-500",
+                text: "Live in a futuristic urban ecosystem designed for seamless daily convenience. From the highly planned CIDCO nodes providing reliable 24/7 utility support to the advanced fiber-optic digital backbone, every detail is engineered to ensure a hassle-free and technologically advanced residential experience.",
+                highlightLabel: "Utility Highlights",
+                highlights: [
+                    "24/7 Uninterrupted Power & Water Supply",
+                    "Smart City Surveillance & Security",
+                    "Gigabit Fiber-optic Connectivity",
+                    "Planned Underground Drainage Systems",
+                    "Ample Public Recreational Parks"
+                ]
+            }
+        },
+        sell: {
+            market: {
+                title: "Market Liquidity",
+                subtitle: "High Demand Velocity",
+                icon: Building2,
+                color: "brand-primary",
+                text: "Navi Mumbai is currently experiencing a peak in buyer inquiries. Properties here liquidate 30% faster than the Mumbai average due to high migration and corporate shifts.",
+                highlightLabel: "Liquidity Factors",
+                highlights: ["High Buyer-to-Seller Ratio", "Average Closing: 45 Days", "9.2/10 Demand Index"]
+            },
+            connectivity: {
+                title: "Capital Growth",
+                subtitle: "Asset Appreciation",
+                icon: Zap,
+                color: "blue-500",
+                text: "The MTHL and upcoming International Airport have created a massive equity surge. Property values in premium nodes have seen a 16.1% YoY increase.",
+                highlightLabel: "Appreciation Triggers",
+                highlights: ["Airport Connectivity Premium", "MTHL Impact: +20% Value", "NMIA Operational Surge"]
+            },
+            infrastructure: {
+                title: "Seller Exposure",
+                subtitle: "Global Visibility",
+                icon: Plane,
+                color: "violet-500",
+                text: "List your property to reach over 50,000+ monthly active buyers. Our platform ensures your asset reaches premium HNI and corporate investors.",
+                highlightLabel: "Marketing Edge",
+                highlights: ["Verified Premium Buyers", "Zero Brokerage for Owners", "Professional Photography"]
+            }
+        }
+    };
+
+    const config = cardConfigs[mode === 'sell' ? 'sell' : mode === 'rent' ? 'rent' : 'buy'];
+
     return (
         <section
             aria-labelledby="locality-insights-heading"
@@ -101,7 +187,12 @@ export default function LocalityInsights({ mode, insight }: LocalityInsightsProp
                             transition={{ delay: 0.5, duration: 1 }}
                             className="text-brand-paragraph text-lg font-medium max-w-2xl mx-auto leading-relaxed"
                         >
-                            Deep dive into the regional fundamentals, infrastructure growth, and connectivity maps of India's fastest-growing residential corridor.
+                            {mode === 'sell'
+                                ? "Unlock the maximum potential of your property with real-time market trends, equity analysis, and superior reach for Navi Mumbai's premium assets."
+                                : mode === 'rent'
+                                    ? "Find your perfect home in a neighborhood that balances metropolitan energy with serene open spaces and world-class connectivity."
+                                    : "Deep dive into the regional fundamentals, infrastructure growth, and connectivity maps of India's fastest-growing residential corridor."
+                            }
                         </motion.p>
                     </div>
                 </div>
@@ -114,50 +205,33 @@ export default function LocalityInsights({ mode, insight }: LocalityInsightsProp
                     viewport={{ once: true, margin: "-100px" }}
                     className="grid grid-cols-1 md:grid-cols-3 gap-8"
                 >
-                    {/* Market Overview */}
+                    {/* Market / Liquidity */}
                     <motion.article
                         variants={itemVariants}
                         whileHover="hover"
                         initial="initial"
                         animate="initial"
-                        onHoverStart={() => { }}
-                        className="group relative flex flex-col h-full bg-white rounded-[32px] p-8 border border-zinc-100 shadow-sm transition-all duration-500 hover:border-[#baa360]/30"
-                        style={{
-                            boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.05)"
-                        }}
+                        className={`group relative flex flex-col h-full bg-white rounded-[32px] p-8 border border-zinc-100 shadow-sm transition-all duration-500 hover:border-[#baa360]/30`}
+                        style={{ boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.05)" }}
                     >
-                        <motion.div
-                            variants={{
-                                initial: { y: 0 },
-                                hover: { y: -8 }
-                            }}
-                            className="flex flex-col h-full"
-                        >
+                        <motion.div variants={{ initial: { y: 0 }, hover: { y: -8 } }} className="flex flex-col h-full">
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
-                                    <Building2 className="w-5 h-5 text-brand-primary" aria-hidden="true" />
+                                <div className={`w-10 h-10 rounded-xl bg-[#baa360]/10 flex items-center justify-center transition-transform duration-500 group-hover:scale-110`}>
+                                    <config.market.icon className="w-5 h-5 text-[#baa360]" aria-hidden="true" />
                                 </div>
-                                <span className="text-[14px] font-bold text-brand-muted uppercase tracking-widest">
-                                    Market Overview
-                                </span>
+                                <span className="text-[14px] font-bold text-brand-muted uppercase tracking-widest">{config.market.title}</span>
                             </div>
-
-                            <h3 className="text-xl font-bold text-brand-heading mb-4 transition-colors">Strategic Advantage</h3>
-                            <p className="text-brand-paragraph text-[15px] font-medium leading-relaxed mb-6">
-                                {insight.whyInvest}
-                            </p>
-
-                            {insight.highlights && insight.highlights.length > 0 && (
+                            <h3 className="text-xl font-bold text-brand-heading mb-4 transition-colors">{config.market.subtitle}</h3>
+                            <p className="text-brand-paragraph text-[15px] font-medium leading-relaxed mb-6">{config.market.text}</p>
+                            {config.market.highlights && (
                                 <div className="space-y-3 mt-auto pt-6 border-t border-brand-muted/20">
-                                    <span className="text-[12px] font-black uppercase tracking-widest text-brand-primary">Investment Highlights</span>
-                                    {insight.highlights.map((highlight, index) => (
-                                        <div key={index} className="flex items-start gap-2 mt-4">
-                                            <div className="w-5 h-5 rounded-full bg-brand-primary/20 flex items-center justify-center flex-shrink-0 transition-colors">
-                                                <Zap className="w-3 h-3 text-brand-primary" />
+                                    <span className="text-[12px] font-black uppercase tracking-widest text-[#baa360]">{config.market.highlightLabel}</span>
+                                    {config.market.highlights.map((h, i) => (
+                                        <div key={i} className="flex items-start gap-2 mt-4">
+                                            <div className="w-5 h-5 rounded-full bg-[#baa360]/20 flex items-center justify-center flex-shrink-0">
+                                                <Zap className="w-3 h-3 text-[#baa360]" />
                                             </div>
-                                            <span className="text-brand-paragraph text-[14px] font-medium leading-tight">
-                                                {highlight}
-                                            </span>
+                                            <span className="text-brand-paragraph text-[14px] font-medium leading-tight">{h}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -165,49 +239,33 @@ export default function LocalityInsights({ mode, insight }: LocalityInsightsProp
                         </motion.div>
                     </motion.article>
 
-                    {/* Connectivity */}
+                    {/* Connectivity / Capital Growth */}
                     <motion.article
                         variants={itemVariants}
                         whileHover="hover"
                         initial="initial"
                         animate="initial"
                         className="group relative flex flex-col h-full bg-white rounded-[32px] p-8 border border-zinc-100 shadow-sm transition-all duration-500 hover:border-blue-200"
-                        style={{
-                            boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.05)"
-                        }}
+                        style={{ boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.05)" }}
                     >
-                        <motion.div
-                            variants={{
-                                initial: { y: 0 },
-                                hover: { y: -8 }
-                            }}
-                            className="flex flex-col h-full"
-                        >
+                        <motion.div variants={{ initial: { y: 0 }, hover: { y: -8 } }} className="flex flex-col h-full">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
-                                    <Train className="w-5 h-5 text-blue-500" aria-hidden="true" />
+                                    <config.connectivity.icon className="w-5 h-5 text-blue-500" aria-hidden="true" />
                                 </div>
-                                <span className="text-[14px] font-bold text-brand-muted uppercase tracking-widest">
-                                    Connectivity
-                                </span>
+                                <span className="text-[14px] font-bold text-brand-muted uppercase tracking-widest">{config.connectivity.title}</span>
                             </div>
-
-                            <h3 className="text-xl font-bold text-brand-heading mb-4 transition-colors">Seamless Access</h3>
-                            <p className="text-brand-paragraph text-[15px] leading-relaxed font-medium mb-8 flex-grow">
-                                {insight.connectivity}
-                            </p>
-
-                            {insight.connectivityHighlights && insight.connectivityHighlights.length > 0 && (
+                            <h3 className="text-xl font-bold text-brand-heading mb-4 transition-colors">{config.connectivity.subtitle}</h3>
+                            <p className="text-brand-paragraph text-[15px] leading-relaxed font-medium mb-8 flex-grow">{config.connectivity.text}</p>
+                            {config.connectivity.highlights && (
                                 <div className="space-y-3 pt-6 border-t border-brand-muted/20">
-                                    <span className="text-[12px] font-black uppercase tracking-widest text-blue-500/60">Transport Highlights</span>
-                                    {insight.connectivityHighlights.map((highlight, index) => (
-                                        <div key={index} className="flex items-start gap-2 mt-4">
-                                            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 transition-colors">
+                                    <span className="text-[12px] font-black uppercase tracking-widest text-blue-500/60">{config.connectivity.highlightLabel}</span>
+                                    {config.connectivity.highlights.map((h, i) => (
+                                        <div key={i} className="flex items-start gap-2 mt-4">
+                                            <div className="w-5 h-5 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
                                                 <Zap className="w-3 h-3 text-blue-500" />
                                             </div>
-                                            <span className="text-brand-paragraph text-[14px] font-medium leading-tight">
-                                                {highlight}
-                                            </span>
+                                            <span className="text-brand-paragraph text-[14px] font-medium leading-tight">{h}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -215,49 +273,33 @@ export default function LocalityInsights({ mode, insight }: LocalityInsightsProp
                         </motion.div>
                     </motion.article>
 
-                    {/* Infrastructure */}
+                    {/* Infrastructure / Seller Exposure */}
                     <motion.article
                         variants={itemVariants}
                         whileHover="hover"
                         initial="initial"
                         animate="initial"
                         className="group relative flex flex-col h-full bg-white rounded-[32px] p-8 border border-zinc-100 shadow-sm transition-all duration-500 hover:border-violet-200"
-                        style={{
-                            boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.05)"
-                        }}
+                        style={{ boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.05)" }}
                     >
-                        <motion.div
-                            variants={{
-                                initial: { y: 0 },
-                                hover: { y: -8 }
-                            }}
-                            className="flex flex-col h-full"
-                        >
+                        <motion.div variants={{ initial: { y: 0 }, hover: { y: -8 } }} className="flex flex-col h-full">
                             <div className="flex items-center gap-3 mb-6">
                                 <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
-                                    <Plane className="w-5 h-5 text-violet-500" aria-hidden="true" />
+                                    <config.infrastructure.icon className="w-5 h-5 text-violet-500" aria-hidden="true" />
                                 </div>
-                                <span className="text-[14px] font-bold text-brand-muted uppercase tracking-widest">
-                                    Infrastructure
-                                </span>
+                                <span className="text-[14px] font-bold text-brand-muted uppercase tracking-widest">{config.infrastructure.title}</span>
                             </div>
-
-                            <h3 className="text-xl font-bold text-brand-heading mb-4 group-hover:text-violet-500 transition-colors">Future Growth</h3>
-                            <p className="text-brand-paragraph text-[15px] leading-relaxed font-medium mb-8 flex-grow">
-                                {insight.infrastructure}
-                            </p>
-
-                            {insight.infraHighlights && insight.infraHighlights.length > 0 && (
+                            <h3 className="text-xl font-bold text-brand-heading mb-4 group-hover:text-violet-500 transition-colors">{config.infrastructure.subtitle}</h3>
+                            <p className="text-brand-paragraph text-[15px] leading-relaxed font-medium mb-8 flex-grow">{config.infrastructure.text}</p>
+                            {config.infrastructure.highlights && (
                                 <div className="space-y-3 pt-6 border-t border-brand-muted/20">
-                                    <span className="text-[12px] font-black uppercase tracking-widest text-violet-500/60">Development Highlights</span>
-                                    {insight.infraHighlights.map((highlight, index) => (
-                                        <div key={index} className="flex items-start gap-2 mt-4">
-                                            <div className="w-5 h-5 rounded-full bg-violet-50 flex items-center justify-center flex-shrink-0 transition-colors">
+                                    <span className="text-[12px] font-black uppercase tracking-widest text-violet-500/60">{config.infrastructure.highlightLabel}</span>
+                                    {config.infrastructure.highlights.map((h, i) => (
+                                        <div key={i} className="flex items-start gap-2 mt-4">
+                                            <div className="w-5 h-5 rounded-full bg-violet-50 flex items-center justify-center flex-shrink-0">
                                                 <Zap className="w-2.5 h-2.5 text-violet-500" />
                                             </div>
-                                            <span className="text-brand-paragraph text-[14px] font-medium leading-tight">
-                                                {highlight}
-                                            </span>
+                                            <span className="text-brand-paragraph text-[14px] font-medium leading-tight">{h}</span>
                                         </div>
                                     ))}
                                 </div>
