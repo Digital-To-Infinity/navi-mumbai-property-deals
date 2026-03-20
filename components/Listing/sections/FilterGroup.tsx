@@ -21,7 +21,9 @@ export default function FilterGroup({
 
     return (
         <div 
-            className="pb-6 mb-2 border-b border-zinc-50 last:border-0 last:pb-0 last:mb-0"
+            className="pb-6 mb-2 border-b border-zinc-50 last:border-0 last:pb-0 last:mb-0 group/fgroup"
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
         >
             <button
                 onClick={() => setIsOpen(!isOpen)}

@@ -53,17 +53,17 @@ export default function HandpickedCarousel({
                         <div className="relative group/title">
                             <h2
                                 id="recommendations-heading"
-                                className="flex items-start text-3xl sm:text-5xl max-[321px]:text-2xl font-black text-brand-heading tracking-tighter leading-tight sm:leading-none"
+                                className="flex items-start min-[770px]:items-center text-3xl sm:text-5xl max-[321px]:text-2xl font-black text-brand-heading tracking-tighter leading-tight sm:leading-none"
                             >
                                 <motion.span
-                                    className="inline-block text-brand-primary mr-3 mt-1 sm:mt-1.5 filter drop-shadow-[0_0_8px_rgba(186,163,96,0.3)]"
+                                    className="inline-block text-brand-primary mr-3 mt-1 sm:mt-1.5 min-[770px]:mt-0 filter drop-shadow-[0_0_8px_rgba(186,163,96,0.3)]"
                                     animate={{ rotate: [0, 10, -10, 0] }}
                                     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                                     whileHover={{ scale: 1.2, rotate: 180 }}
                                 >
                                     ✦
                                 </motion.span>
-                                <span className="relative flex flex-col items-start overflow-hidden pb-1">
+                                <span className="relative flex flex-col min-[770px]:flex-row min-[770px]:items-center min-[770px]:gap-x-3 items-start overflow-hidden pb-1">
                                     <span>Handpicked</span>
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-brand-primary to-brand-primary-hover bg-[length:200%_auto] animate-shimmer">
                                         Recommendations

@@ -207,7 +207,7 @@ export default function UniversalListingHub({
             : []),
     ], [mode, filterKeyword]);
 
-    // FAQ Data based on mode
+    // FAQ Data
     const faqs = useMemo(() => (
         mode === "buy"
             ? [
@@ -288,7 +288,7 @@ export default function UniversalListingHub({
 
                 <main className="container mx-auto px-4 sm:px-6 py-16" aria-label="Property listings">
                     <div className="flex flex-col lg:flex-row gap-6 relative">
-                        {/* Mobile & Tablet Filter Row (Sticky) */}
+                        {/* Mobile & Tablet Filter Row */}
                         <div className="lg:hidden sticky top-[0px] z-[50] bg-white/95 backdrop-blur-md -mx-4 px-4 py-3 border-b border-zinc-100 shadow-sm animate-fade-in">
                             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 min-h-[50px]">
                                 {/* Sort Dropdown */}

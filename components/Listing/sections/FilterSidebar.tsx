@@ -489,7 +489,7 @@ export default function FilterSidebar({
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-white rounded-[32px] border border-zinc-100 shadow-[0_8px_40px_rgba(0,0,0,0.03)] sticky top-28 overflow-hidden"
+                    className="bg-white rounded-[32px] border border-zinc-100 shadow-[0_8px_40px_rgba(0,0,0,0.03)] sticky top-28"
                 >
                     {/* Desktop Header */}
                     <div className="p-7 pb-4">
@@ -514,7 +514,7 @@ export default function FilterSidebar({
                         <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-[0.2em] ml-1">Refine Listings</p>
                     </div>
 
-                    <div className="px-7 py-2 max-h-[calc(100vh-250px)] overflow-y-auto no-scrollbar scroll-smooth">
+                    <div className="px-7 py-2">
                         {filterContent}
                     </div>
 
