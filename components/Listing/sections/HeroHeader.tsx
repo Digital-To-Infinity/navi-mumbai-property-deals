@@ -1,14 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { BadgeCheck, MapPin, TrendingUp, X } from "lucide-react";
 import { modeLabel } from "./types";
 import type { ListingMode } from "./types";
-
-interface Breadcrumb {
-    label: string;
-    href: string;
-}
 
 interface HeroHeaderProps {
     mode: ListingMode;
@@ -16,8 +10,7 @@ interface HeroHeaderProps {
     pageSubtitle: string;
     filteredCount: number;
     hasActiveFilters: boolean;
-    onResetFilters: () => void;
-    breadcrumbs?: Breadcrumb[];
+    onResetFilters: () => void
 }
 
 export default function HeroHeader({
@@ -27,7 +20,6 @@ export default function HeroHeader({
     filteredCount,
     hasActiveFilters,
     onResetFilters,
-    breadcrumbs = [],
 }: HeroHeaderProps) {
     return (
         <header
@@ -107,7 +99,7 @@ export default function HeroHeader({
                                 className="w-2 h-2 rounded-full bg-[#baa360] animate-pulse"
                                 aria-hidden="true"
                             />
-                            <span className="text-[11px] font-black uppercase tracking-[0.15em] text-[#8f7b44]">
+                            <span className="text-[11px] max-[321px]:text-[10px] font-black uppercase tracking-[0.15em] text-brand-primary-hover">
                                 {modeLabel[mode]} · Navi Mumbai
                             </span>
                             <span
@@ -126,7 +118,7 @@ export default function HeroHeader({
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.55, delay: 0.08 }}
-                            className="text-[32px] sm:text-[42px] lg:text-[52px] font-black leading-[1.08] tracking-tight mb-4 text-brand-paragraph"
+                            className="text-[32px] sm:text-[42px] lg:text-[52px] max-[321px]:text-[30px] font-black leading-[1.08] tracking-tight mb-4 text-brand-paragraph"
                         >
                             {(() => {
                                 const words = pageTitle.split(" ");

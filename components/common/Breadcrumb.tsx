@@ -149,7 +149,7 @@ const Breadcrumb = ({ items: customItems, variant = 'default' }: BreadcrumbProps
     }
 
     return (
-        <div className="w-full bg-brand-dark bg-[radial-gradient(circle_at_30%_50%,rgba(186,163,96,0.08)_0%,transparent_50%),radial-gradient(circle_at_70%_50%,rgba(186,163,96,0.05)_0%,transparent_50%)] backdrop-blur-md border-b border-white/5 py-3 relative z-40 group/breadcrumb overflow-hidden">
+        <div className="w-full bg-brand-dark bg-[radial-gradient(circle_at_30%_50%,rgba(186,163,96,0.08)_0%,transparent_50%),radial-gradient(circle_at_70%_50%,rgba(186,163,96,0.05)_0%,transparent_50%)] backdrop-blur-md border-b border-white/5 py-3 max-[426px]:py-0 relative z-40 group/breadcrumb overflow-hidden">
             {/* Interactive Shine Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent -translate-x-full group-hover/breadcrumb:translate-x-full transition-transform duration-[2500ms] ease-in-out pointer-events-none" />
 
@@ -158,7 +158,7 @@ const Breadcrumb = ({ items: customItems, variant = 'default' }: BreadcrumbProps
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
 
-            <div className="max-w-[1400px] mx-auto px-6 lg:px-12 max-[426px]:px-2 max-[426px]:py-1 flex items-center justify-between">
+            <div className="max-w-[1400px] mx-auto px-6 lg:px-12 max-[426px]:px-2 max-[769px]:py-1 max-[426px]:py-4 flex items-center justify-between">
                 <nav aria-label="Breadcrumb" className="flex items-center text-sm">
                     <motion.ol
                         variants={container}

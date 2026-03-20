@@ -1,6 +1,8 @@
 "use client";
-import { useState, useRef, useCallback, useEffect, useMemo } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import React, { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
+import { Calendar, Compass, SlidersHorizontal, X } from "lucide-react";
 import HeroHeader from "./sections/HeroHeader";
 import MetricsBar from "./sections/MetricsBar";
 import FilterSidebar from "./sections/FilterSidebar";
@@ -30,7 +32,6 @@ import {
     SortFilter,
     AreaFilter,
 } from "./sections/types";
-
 
 import {
     generatePropertyListSchema,
@@ -186,6 +187,7 @@ export default function UniversalListingHub({
         area.max !== "" ||
         sortBy !== "relevance" ||
         reraOnly;
+
     const metricsData = localityMetrics[mode];
     const handpicked = listingProperties.slice(0, 5);
 
@@ -280,30 +282,413 @@ export default function UniversalListingHub({
                     filteredCount={filtered.length}
                     hasActiveFilters={hasActiveFilters}
                     onResetFilters={resetFilters}
-                    breadcrumbs={breadcrumbs}
                 />
 
                 <MetricsBar mode={mode} metrics={metricsData} />
 
                 <main className="container mx-auto px-4 sm:px-6 py-16" aria-label="Property listings">
-                    <div className="flex gap-6 relative">
-                        {/* Mobile filter toggle */}
-                        <div className="lg:hidden mb-4 w-full">
-                            <button
-                                onClick={() => setSidebarOpen(true)}
-                                className="flex items-center gap-2 px-5 py-3 bg-white border border-zinc-200
-                                           rounded-2xl text-[14px] font-bold text-zinc-700
-                                           shadow-sm hover:border-[#baa360]/50 transition-colors"
-                            >
-                                <SlidersHorizontal className="w-4 h-4 text-[#baa360]" aria-hidden="true" />
-                                Filters
-                                {hasActiveFilters && (
-                                    <span className="ml-1 w-5 h-5 rounded-full bg-[#baa360] text-white
-                                                   text-[10px] font-black flex items-center justify-center">
-                                        !
-                                    </span>
-                                )}
-                            </button>
+                    <div className="flex flex-col lg:flex-row gap-6 relative">
+                        {/* Mobile & Tablet Filter Row (Sticky) */}
+                        <div className="lg:hidden sticky top-[0px] z-[50] bg-white/95 backdrop-blur-md -mx-4 px-4 py-3 border-b border-zinc-100 shadow-sm animate-fade-in">
+                            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 min-h-[50px]">
+                                {/* Sort Dropdown */}
+                                <FilterDropdown
+                                    label="Sort"
+                                    icon={<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" /></svg>}
+                                    value={sortBy === "relevance" ? "" : "Applied"}
+                                    active={sortBy !== "relevance"}
+                                >
+                                    <div className="flex flex-col gap-1 p-3 min-w-[240px]">
+                                        {(
+                                            [
+                                                ["relevance", "Relevance"],
+                                                ["price-low", "Price: Low to High"],
+                                                ["price-high", "Price: High to Low"],
+                                                ["newest", "Newest First"],
+                                                ["area-high", "Area: High to Low"],
+                                                ["area-low", "Area: Low to High"],
+                                            ] as [SortFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ x: 4, backgroundColor: "rgba(186,163,96,0.05)" }}
+                                                onClick={() => setSortBy(val)}
+                                                className={`text-left px-5 py-4 rounded-2xl text-[13px] font-bold transition-all
+                                                           ${sortBy === val ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20" : "text-zinc-600"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Budget Dropdown */}
+                                <FilterDropdown
+                                    label="Budget"
+                                    value={budget === "all" ? "" : budget}
+                                    active={budget !== "all"}
+                                >
+                                    <div className="p-5 grid grid-cols-2 gap-3 min-w-[300px]">
+                                        {(
+                                            [
+                                                ["all", "Any"],
+                                                ["under60L", "< ₹60L"],
+                                                ["60L-1Cr", "₹60L–1Cr"],
+                                                ["1Cr-2Cr", "₹1–2Cr"],
+                                                ["2Cr-5Cr", "₹2–5Cr"],
+                                                ["above5Cr", "> ₹5Cr"],
+                                            ] as [BudgetFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => setBudget(val)}
+                                                className={`px-3 py-3 rounded-2xl text-[12px] font-bold border transition-all
+                                                           ${budget === val ? "bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* BHK Dropdown */}
+                                <FilterDropdown
+                                    label="BHK"
+                                    value={config === "all" ? "" : config}
+                                    active={config !== "all"}
+                                >
+                                    <div className="p-5 grid grid-cols-3 gap-3 min-w-[300px]">
+                                        {(
+                                            [
+                                                ["all", "Any"],
+                                                ["1bhk", "1 BHK"],
+                                                ["2bhk", "2 BHK"],
+                                                ["3bhk", "3 BHK"],
+                                                ["4bhk+", "4 BHK+"],
+                                                ["studio", "Studio"],
+                                            ] as [ConfigFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ scale: 1.08 }}
+                                                whileTap={{ scale: 0.92 }}
+                                                onClick={() => setConfig(val)}
+                                                className={`px-2 py-3 rounded-2xl text-[11px] font-black border transition-all text-center
+                                                           ${config === val ? "bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Property Type */}
+                                <FilterDropdown
+                                    label="Type"
+                                    value={propertyType === "all" ? "" : propertyType}
+                                    active={propertyType !== "all"}
+                                >
+                                    <div className="p-4 flex flex-col gap-1 min-w-[240px]">
+                                        {(
+                                            [
+                                                ["all", "Any"],
+                                                ["residential", "Residential"],
+                                                ["commercial", "Commercial"],
+                                                ["plot", "Plots"],
+                                                ["industrial", "Industrial"],
+                                            ] as [PropertyTypeFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ x: 6, backgroundColor: "rgba(186,163,96,0.05)" }}
+                                                onClick={() => setPropertyType(val)}
+                                                className={`text-left px-5 py-4 rounded-2xl text-[13px] font-bold transition-all
+                                                           ${propertyType === val ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20" : "text-zinc-600"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Status */}
+                                <FilterDropdown
+                                    label="Status"
+                                    value={status === "all" ? "" : status}
+                                    active={status !== "all"}
+                                >
+                                    <div className="p-4 flex flex-col gap-1 min-w-[260px]">
+                                        {(
+                                            [
+                                                ["all", "Any Status"],
+                                                ["ready-to-move", "Ready to Move"],
+                                                ["under-construction", "Under Construction"],
+                                                ["new-launch", "New Launch"],
+                                            ] as [StatusFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ x: 6, backgroundColor: "rgba(186,163,96,0.05)" }}
+                                                onClick={() => setStatus(val)}
+                                                className={`text-left px-5 py-4 rounded-2xl text-[13px] font-bold transition-all
+                                                           ${status === val ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20" : "text-zinc-600"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Posted By */}
+                                <FilterDropdown
+                                    label="Posted"
+                                    value={postedBy === "all" ? "" : postedBy}
+                                    active={postedBy !== "all"}
+                                >
+                                    <div className="p-5 grid grid-cols-2 gap-3 min-w-[280px]">
+                                        {(
+                                            [
+                                                ["all", "All"],
+                                                ["owner", "Owner"],
+                                                ["agent", "Agent"],
+                                                ["builder", "Builder"],
+                                            ] as [PostedByFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => setPostedBy(val)}
+                                                className={`px-4 py-3 rounded-2xl text-[12px] font-bold border transition-all text-center
+                                                           ${postedBy === val ? "bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Area Dropdown */}
+                                <FilterDropdown
+                                    label="Area"
+                                    value={area.min || area.max ? "Applied" : ""}
+                                    active={!!(area.min || area.max)}
+                                    icon={<SlidersHorizontal className="w-4 h-4" />}
+                                >
+                                    <div className="p-6 space-y-4 min-w-[300px]">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-500">
+                                                <SlidersHorizontal className="w-4 h-4" />
+                                            </div>
+                                            <h4 className="text-[12px] font-black text-zinc-800 uppercase tracking-widest">Area (sq.ft)</h4>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="space-y-1">
+                                                <span className="text-[10px] font-bold text-zinc-400 ml-1">MINIMUM</span>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    value={area.min}
+                                                    onChange={(e) => setArea({ ...area, min: e.target.value })}
+                                                    className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-[12px] font-bold focus:outline-none focus:border-brand-primary transition-all"
+                                                />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <span className="text-[10px] font-bold text-zinc-400 ml-1">MAXIMUM</span>
+                                                <input
+                                                    type="number"
+                                                    placeholder="Any"
+                                                    value={area.max}
+                                                    onChange={(e) => setArea({ ...area, max: e.target.value })}
+                                                    className="w-full bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-[12px] font-bold focus:outline-none focus:border-brand-primary transition-all"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Furnishing */}
+                                <FilterDropdown
+                                    label="Furnishing"
+                                    value={furnishing === "all" ? "" : furnishing}
+                                    active={furnishing !== "all"}
+                                >
+                                    <div className="p-5 flex flex-wrap gap-2 min-w-[280px]">
+                                        {(
+                                            [
+                                                ["all", "All"],
+                                                ["furnished", "Furnished"],
+                                                ["semi-furnished", "Semi"],
+                                                ["unfurnished", "Unfurnished"],
+                                            ] as [FurnishingFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => setFurnishing(val)}
+                                                className={`px-4 py-3 rounded-2xl text-[12px] font-bold border transition-all flex-1 text-center
+                                                           ${furnishing === val ? "bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Facing */}
+                                <FilterDropdown
+                                    label="Facing"
+                                    value={facing === "all" ? "" : facing}
+                                    active={facing !== "all"}
+                                    icon={<Compass className="w-4 h-4" />}
+                                >
+                                    <div className="p-5 grid grid-cols-2 gap-3 min-w-[260px]">
+                                        {(
+                                            [
+                                                ["all", "Any"],
+                                                ["east", "East"],
+                                                ["west", "West"],
+                                                ["north", "North"],
+                                                ["south", "South"],
+                                            ] as [FacingFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                onClick={() => setFacing(val)}
+                                                className={`px-3 py-3 rounded-2xl text-[12px] font-bold border transition-all text-center
+                                                           ${facing === val ? "bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Age of Property */}
+                                <FilterDropdown
+                                    label="Age"
+                                    value={age === "all" ? "" : age}
+                                    active={age !== "all"}
+                                    icon={<Calendar className="w-4 h-4" />}
+                                >
+                                    <div className="p-5 flex flex-wrap gap-2 min-w-[300px]">
+                                        {(
+                                            [
+                                                ["all", "Any"],
+                                                ["0-1", "0-1 Yr"],
+                                                ["1-5", "1-5 Yrs"],
+                                                ["5-10", "5-10 Yrs"],
+                                                ["10+", "10+ Yrs"],
+                                            ] as [AgeFilter, string][]
+                                        ).map(([val, lbl]) => (
+                                            <motion.button
+                                                key={val}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                onClick={() => setAge(val)}
+                                                className={`px-4 py-3 rounded-2xl text-[12px] font-bold border transition-all flex-1 min-w-[80px] text-center
+                                                           ${age === val ? "bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                            >
+                                                {lbl}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Amenities */}
+                                <FilterDropdown
+                                    label="Amenities"
+                                    value={amenities.length > 0 ? `${amenities.length}` : ""}
+                                    active={amenities.length > 0}
+                                >
+                                    <div className="p-6 space-y-4 min-w-[320px]">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500">
+                                                <X className="w-4 h-4 rotate-45" />
+                                            </div>
+                                            <h4 className="text-[12px] font-black text-zinc-800 uppercase tracking-widest">Amenities</h4>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["Gym", "Pool", "Parking", "Security", "Clubhouse", "Park"].map((amenity) => (
+                                                <motion.button
+                                                    key={amenity}
+                                                    whileHover={{ scale: 1.02 }}
+                                                    whileTap={{ scale: 0.98 }}
+                                                    onClick={() => {
+                                                        if (amenities.includes(amenity)) {
+                                                            setAmenities(amenities.filter((a) => a !== amenity));
+                                                        } else {
+                                                            setAmenities([...amenities, amenity]);
+                                                        }
+                                                    }}
+                                                    className={`px-4 py-3 rounded-2xl text-[11px] font-bold border transition-all text-center
+                                                               ${amenities.includes(amenity) ? "bg-brand-primary text-white border-brand-primary shadow-sm" : "bg-white border-zinc-100 text-zinc-600 hover:border-brand-primary/30"}`}
+                                                >
+                                                    {amenity}
+                                                </motion.button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </FilterDropdown>
+
+                                {/* Quality / RERA */}
+                                <FilterDropdown
+                                    label="Quality"
+                                    value={reraOnly ? "RERA" : ""}
+                                    active={reraOnly}
+                                >
+                                    <div className="p-6 space-y-4 min-w-[280px]">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-500">
+                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            </div>
+                                            <h4 className="text-[12px] font-black text-zinc-800 uppercase tracking-widest">Verification</h4>
+                                        </div>
+                                        <motion.button
+                                            whileHover={{ scale: 1.01 }}
+                                            onClick={() => setReraOnly(!reraOnly)}
+                                            className={`w-full flex items-center justify-between p-5 rounded-2xl border transition-all
+                                                       ${reraOnly ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-white border-zinc-100 text-zinc-600 hover:border-emerald-200/50'}`}
+                                        >
+                                            <span className="text-[13px] font-black">RERA Verified</span>
+                                            <div className={`w-11 h-6 rounded-full transition-colors relative flex items-center ${reraOnly ? 'bg-emerald-500' : 'bg-zinc-200'}`}>
+                                                <motion.div 
+                                                    animate={{ x: reraOnly ? 22 : 2 }}
+                                                    className="w-5 h-5 bg-white rounded-full shadow-sm"
+                                                />
+                                            </div>
+                                        </motion.button>
+                                    </div>
+                                </FilterDropdown>
+                            </div>
+
+                            {/* Active Filter Pills */}
+                            {hasActiveFilters && (
+                                <div className="flex items-center gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
+                                    <button 
+                                        onClick={resetFilters}
+                                        className="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:bg-zinc-200 transition-colors"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </button>
+                                    {budget !== "all" && <QuickPill label={`Budget: ${budget}`} onClick={() => setBudget("all")} />}
+                                    {config !== "all" && <QuickPill label={`BHK: ${config}`} onClick={() => setConfig("all")} />}
+                                    {status !== "all" && <QuickPill label={`Status: ${status}`} onClick={() => setStatus("all")} />}
+                                    {propertyType !== "all" && <QuickPill label={`Type: ${propertyType}`} onClick={() => setPropertyType("all")} />}
+                                    {postedBy !== "all" && <QuickPill label={`Posted: ${postedBy}`} onClick={() => setPostedBy("all")} />}
+                                    {furnishing !== "all" && <QuickPill label={`Furnishing: ${furnishing}`} onClick={() => setFurnishing("all")} />}
+                                    {facing !== "all" && <QuickPill label={`Facing: ${facing}`} onClick={() => setFacing("all")} />}
+                                    {age !== "all" && <QuickPill label={`Age: ${age}`} onClick={() => setAge("all")} />}
+                                    {amenities.length > 0 && <QuickPill label={`${amenities.length} Amenities`} onClick={() => setAmenities([])} />}
+                                    {reraOnly && <QuickPill label="RERA Only" onClick={() => setReraOnly(false)} />}
+                                    {(area.min || area.max) && <QuickPill label="Area Filter" onClick={() => setArea({ min: "", max: "" })} />}
+                                </div>
+                            )}
                         </div>
 
                         <FilterSidebar
@@ -360,6 +745,147 @@ export default function UniversalListingHub({
 
                 <FAQ faqs={faqs} mode={mode} />
             </div>
+        </div>
+    );
+}
+
+// Helper component for Quick Filter Pills
+function QuickPill({ label, onClick }: { label: string, onClick: () => void }) {
+    return (
+        <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onClick}
+            className="flex items-center gap-2 px-4 py-2 bg-brand-primary/10 text-brand-primary border border-brand-primary/20 rounded-full whitespace-nowrap text-[11px] font-black hover:bg-brand-primary/20 transition-all shadow-sm"
+        >
+            <span className="max-w-[120px] truncate">{label}</span>
+            <X className="w-3 h-3 flex-shrink-0" />
+        </motion.button>
+    );
+}
+
+// Helper component for Dropdown Filters
+function FilterDropdown({ label, icon, value, active, children }: { label: string, icon?: React.ReactNode, value: string, active: boolean, children: React.ReactNode }) {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [coords, setCoords] = useState({ top: 0, left: 0 });
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const updatePosition = useCallback(() => {
+        if (dropdownRef.current) {
+            const rect = dropdownRef.current.getBoundingClientRect();
+            let left = rect.left;
+            const menuWidth = 320;
+            if (left + menuWidth > window.innerWidth - 12) {
+                left = window.innerWidth - menuWidth - 12;
+            }
+            if (left < 12) left = 12;
+
+            setCoords({ 
+                top: rect.bottom + 12, 
+                left: left
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        if (isOpen) {
+            updatePosition();
+            window.addEventListener('scroll', updatePosition, true);
+            window.addEventListener('resize', updatePosition);
+            
+            const handleClickOutside = (event: MouseEvent) => {
+                const target = event.target as Element;
+                if (dropdownRef.current && !dropdownRef.current.contains(target) && !target.closest(".filter-portal-content")) {
+                    setIsOpen(false);
+                }
+            };
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                window.removeEventListener('scroll', updatePosition, true);
+                window.removeEventListener('resize', updatePosition);
+                document.addEventListener("mousedown", handleClickOutside);
+            };
+        }
+    }, [isOpen, updatePosition]);
+
+    if (!mounted) return null;
+
+    return (
+        <div className="relative flex-shrink-0" ref={dropdownRef}>
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`flex items-center gap-2.5 px-6 py-4 rounded-[24px] whitespace-nowrap text-[13px] font-black transition-all duration-300 border relative group
+                           ${active 
+                               ? "bg-zinc-900 text-white border-zinc-900 shadow-[0_12px_24px_rgba(0,0,0,0.15)] scale-[1.02]" 
+                               : "bg-white border-zinc-100 text-zinc-800 hover:border-brand-primary/40 hover:bg-zinc-50 shadow-sm"}`}
+            >
+                {/* Active Indicator Line */}
+                {active && (
+                    <motion.div 
+                        layoutId="active-line"
+                        className="absolute -bottom-[2px] left-1/2 -translate-x-1/2 w-8 h-[3px] bg-brand-primary rounded-full shadow-[0_0_8px_rgba(186,163,96,0.5)]" 
+                    />
+                )}
+                
+                {icon && <span className={`${active ? "text-brand-primary" : "text-brand-primary"} transition-colors`}>{icon}</span>}
+                {label}
+                {value && (
+                    <motion.span 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className={`text-[10px] px-2 py-0.5 rounded-full ml-0.5 font-black ${active ? "bg-brand-primary text-white" : "bg-brand-primary text-white"}`}
+                    >
+                        {value}
+                    </motion.span>
+                )}
+                <svg className={`w-3 h-3 transition-transform duration-500 ease-in-out ${isOpen ? "rotate-180" : ""} ${active ? "text-white/40" : "text-zinc-300"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3.5} d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            {createPortal(
+                <AnimatePresence>
+                    {isOpen && (
+                        <div className="filter-portal fixed inset-0 z-[10000] pointer-events-none">
+                            <div 
+                                onClick={() => setIsOpen(false)}
+                                className="absolute inset-0 bg-black/[0.02] pointer-events-auto"
+                            />
+                            
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.92, y: 10 }}
+                                transition={{ type: "spring", damping: 28, stiffness: 400 }}
+                                style={{ 
+                                    top: coords.top, 
+                                    left: coords.left,
+                                    position: "fixed" 
+                                }}
+                                className="filter-portal-content pointer-events-auto bg-white rounded-[32px] border border-zinc-100 shadow-[0_32px_80px_rgba(0,0,0,0.28)] overflow-hidden min-w-[280px] w-auto max-w-[calc(100vw-24px)]"
+                            >
+                                <div className="max-h-[60vh] overflow-y-auto no-scrollbar scroll-smooth">
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.1 }}
+                                    >
+                                        {children}
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>,
+                document.body
+            )}
         </div>
     );
 }

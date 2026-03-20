@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className={`${openSans.variable} ${montserrat.variable}`}>
       <body className="">
         <Navbar />
-        <main className="mt-24">
+        <main className="mt-24 max-[426px]:mt-16">
           <Breadcrumb />
           {children}
         </main>

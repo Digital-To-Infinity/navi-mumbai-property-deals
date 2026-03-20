@@ -119,7 +119,7 @@ export default function SellingProcess() {
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
                             whileHover={{ y: -5 }}
-                            className="p-8 rounded-[32px] bg-white border border-brand-muted/20 shadow-sm hover:shadow-xl hover:border-brand-primary/20 transition-all duration-300 group"
+                            className="p-8 max-[376px]:p-6 max-[321px]:p-4 rounded-[32px] bg-white border border-brand-muted/20 shadow-sm hover:shadow-xl hover:border-brand-primary/20 transition-all duration-300 group"
                         >
                             <div className={`w-14 h-14 rounded-2xl ${step.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                                 <step.icon className={`w-7 h-7 ${step.iconColor}`} />
@@ -139,10 +139,10 @@ export default function SellingProcess() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-20 flex flex-col items-center"
+                    className="mt-20 max-[426px]:mt-10 flex flex-col items-center"
                 >
                     <button
-                        className="relative group px-10 py-4 rounded-full overflow-hidden text-white text-[14px] 
+                        className="relative group px-10 max-[376px]:px-8 max-[321px]:px-4 py-4 max-[321px]:py-3 rounded-full overflow-hidden text-white text-[14px] max-[376px]:text-[13px] max-[321px]:text-[12px]
                                    font-black uppercase tracking-widest transition-all duration-500 hover:scale-[1.05] 
                                    active:scale-[0.98] shadow-[0_8px_24px_rgba(186,163,96,0.35)] 
                                    hover:shadow-[0_12px_48px_rgba(186,163,96,0.5)] cursor-pointer"
@@ -160,7 +160,7 @@ export default function SellingProcess() {
                         />
                         <span className="relative z-10 flex items-center gap-3">
                             List Your Property for Free
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" aria-hidden="true" />
+                            <ArrowRight className="w-5 max-[321px]:w-4 h-5 max-[321px]:h-4 group-hover:translate-x-2 transition-transform duration-300" aria-hidden="true" />
                         </span>
                     </button>
                     <p className="mt-4 text-brand-paragraph font-extrabold text-sm uppercase tracking-wider flex items-center gap-2">

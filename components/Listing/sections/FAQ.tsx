@@ -85,7 +85,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs, mode = "buy" }) => {
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
                 {/* Centered Header Section */}
-                <div className="max-w-3xl mx-auto text-center mb-20">
+                <div className="max-w-3xl mx-auto text-center mb-20 max-[426px]:mb-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +141,7 @@ const FAQ: React.FC<FAQProps> = ({ faqs, mode = "buy" }) => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-brand-paragraph text-lg mb-10 leading-relaxed max-w-4xl mx-auto"
+                        className="text-brand-paragraph text-lg mb-10 leading-relaxed max-w-6xl mx-auto"
                     >
                         Navigating the Navi Mumbai property market can be complex.
                         We&apos;ve compiled the most essential information to help you make informed decisions.
@@ -189,15 +189,15 @@ const FAQ: React.FC<FAQProps> = ({ faqs, mode = "buy" }) => {
 
                                         <button
                                             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                            className="w-full px-8 py-5 flex items-center justify-between gap-6 text-left group-focus:outline-none relative z-10 cursor-pointer"
+                                            className="w-full px-8 max-[426px]:px-4 py-5 max-[426px]:py-4 flex items-center justify-between gap-6 max-[426px]:gap-0 text-left group-focus:outline-none relative z-10 cursor-pointer"
                                         >
-                                            <div className="flex items-center gap-6">
-                                                <div className={`flex-shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-500 ${openIndex === index ? "text-white" : "bg-white text-brand-paragraph border border-brand-paragraph/20 group-hover:border-brand-primary group-hover:text-brand-primary"
+                                            <div className="flex items-center gap-6 max-[426px]:gap-2">
+                                                <div className={`flex-shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-500 max-[426px]:hidden ${openIndex === index ? "text-white" : "bg-white text-brand-paragraph border border-brand-paragraph/20 group-hover:border-brand-primary group-hover:text-brand-primary"
                                                     }`}
                                                     style={{ backgroundColor: openIndex === index ? style.accent : undefined }}>
                                                     <HelpCircle className="w-6 h-6" />
                                                 </div>
-                                                <span className="text-lg font-semibold tracking-tight transition-colors duration-300 text-brand-heading group-hover:text-brand-primary">
+                                                <span className="text-lg max-[426px]:text-base max-[426px]:ml-2 font-semibold tracking-tight transition-colors duration-300 text-brand-heading group-hover:text-brand-primary">
                                                     {faq.question}
                                                 </span>
                                             </div>
@@ -216,8 +216,8 @@ const FAQ: React.FC<FAQProps> = ({ faqs, mode = "buy" }) => {
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                                                 >
-                                                    <div className="px-10 pb-10 pl-[88px] relative z-10">
-                                                        <div className="text-brand-paragraph text-[18px] leading-relaxed max-w-3xl">
+                                                    <div className="px-10 pb-10 pl-[88px] max-[426px]:pl-6 relative z-10">
+                                                        <div className="text-brand-paragraph text-[18px] max-[426px]:text-base leading-relaxed max-w-3xl">
                                                             {faq.answer}
                                                         </div>
                                                     </div>
