@@ -1,8 +1,7 @@
 "use client";
-import React from 'react';
 import Image from 'next/image';
 import { motion, Variants } from 'framer-motion';
-import { MapPin, Maximize2, Building2, Calendar, Sofa, Compass, BadgeCheck, CheckCircle2, PhoneCall, Mail, User, Phone, ArrowLeft, Shield, Car, Heart, Share2, Dumbbell, Waves, Map, Camera, Wind, Lock, Trees } from 'lucide-react';
+import { MapPin, Maximize2, Building2, Calendar, Sofa, Compass, BadgeCheck, CheckCircle2, PhoneCall, Mail, User, ArrowLeft, Shield, Car, Share2, Dumbbell, Waves, Wind, Lock, Trees, Bookmark } from 'lucide-react';
 import type { ListingProperty } from '../listingData';
 import Link from 'next/link';
 
@@ -46,7 +45,7 @@ export default function PropertyDetails({ property }: Props) {
                         <Share2 className="w-4 h-4" />
                     </button>
                     <button className="p-2 rounded-full bg-white shadow-sm hover:shadow-md hover:text-brand-primary transition-all duration-300">
-                        <Heart className="w-4 h-4" />
+                        <Bookmark className="w-4 h-4" />
                     </button>
                 </div>
             </div>
@@ -174,14 +173,14 @@ export default function PropertyDetails({ property }: Props) {
                     <motion.div variants={fadeUp} className="bg-white p-6 sm:p-8 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-zinc-100">
                         <h2 className="text-2xl font-extrabold text-brand-heading mb-6 border-b border-zinc-100 pb-4">Description</h2>
                         <h3 className="text-xl font-bold text-zinc-900 mb-1">{property.title}</h3>
-                        <p className="text-sm font-semibold text-zinc-500 mb-6 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5"/> {property.address}</p>
+                        <p className="text-sm font-semibold text-zinc-500 mb-6 flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {property.address}</p>
                         <div className="prose prose-zinc max-w-none text-brand-paragraph font-medium leading-relaxed">
                             <p>
                                 Welcome to this exquisitely designed {property.bhk} residence located in the prime neighborhood of {property.location}.
                                 With an expansive super built-up area of {property.area}, this {property.furnishing} property offers a perfect blend of luxury, comfort, and state-of-the-art aesthetics.
                             </p>
                             <p className="mt-4">
-                                Developed by the renowned <strong>{property.builder}</strong>, the architecture embraces modern living with spacious interiors, excellent cross-ventilation, and abundant natural light. {property.isReraVerified ? "Being a RERA-registered property, it guarantees absolute transparency and trust." : ""} 
+                                Developed by the renowned <strong>{property.builder}</strong>, the architecture embraces modern living with spacious interiors, excellent cross-ventilation, and abundant natural light. {property.isReraVerified ? "Being a RERA-registered property, it guarantees absolute transparency and trust." : ""}
                             </p>
                             <p className="mt-4">
                                 Ideal for discerning buyers seeking an upgraded lifestyle in one of Navi Mumbai's most sought-after localities. Enjoy close proximity to premium schools, top-tier healthcare facilities, commercial hubs, and seamless transit networks.
@@ -218,7 +217,7 @@ export default function PropertyDetails({ property }: Props) {
                                     <div className="text-4xl font-black text-white">{property.price}</div>
                                     <div className="text-sm text-zinc-400 font-semibold mt-1">@ {property.pricePerSqft}</div>
                                 </div>
-                                
+
                                 {property.rentPrice && (
                                     <div className="border-t border-zinc-700/50 pt-4">
                                         <p className="text-zinc-400 font-bold uppercase tracking-wider text-xs mb-1">Expected Rent</p>
@@ -230,7 +229,7 @@ export default function PropertyDetails({ property }: Props) {
                                     <PhoneCall className="w-5 h-5" />
                                     Contact Seller
                                 </button>
-                                
+
                                 <button className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-3.5 rounded-xl transition-all active:scale-95 border border-zinc-600 flex items-center justify-center gap-2">
                                     <Mail className="w-5 h-5" />
                                     Enquire Now

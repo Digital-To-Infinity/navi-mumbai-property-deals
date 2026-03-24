@@ -1,5 +1,5 @@
 import BuySection from '@/components/Home/BuySection';
-import React from 'react';
+
 
 export default function BuyPage() {
     return (

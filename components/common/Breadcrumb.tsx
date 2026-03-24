@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronRight, Home, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { listingProperties, titleToSlug } from '@/components/Listing/listingData';
 
 // Mapping for SEO-optimized labels based on URL slugs
 const breadcrumbLabels: Record<string, string> = {
@@ -22,6 +23,15 @@ const breadcrumbLabels: Record<string, string> = {
     "residential-plots-for-sale-in-navi-mumbai": "Residential Plots",
     "villas-for-sale-in-navi-mumbai": "Luxury Villas",
     "flats-for-rent-in-navi-mumbai": "Rental Flats",
+    "apartments-for-rent-in-navi-mumbai": "Apartments for Rent",
+    "studio-apartments-for-rent-in-navi-mumbai": "Studio Apartments",
+    "independent-house-for-rent-in-navi-mumbai": "Independent Houses",
+    "villas-for-rent-in-navi-mumbai": "Private Villas",
+    "properties-for-sale-in-vashi-navi-mumbai": "Properties for Sale in Vashi Navi Mumbai",
+    "properties-for-sale-in-nerul-navi-mumbai": "Properties for Sale in Nerul Navi Mumbai",
+    "properties-for-sale-in-belapur-navi-mumbai": "Properties for Sale in Belapur Navi Mumbai",
+    "properties-for-sale-in-kharghar-navi-mumbai": "Properties for Sale in Kharghar Navi Mumbai",
+    "properties-for-sale-in-panvel-navi-mumbai": "Properties for Sale in Panvel Navi Mumbai",
     "paying-guest-accommodations-navi-mumbai": "PG & Co-Living",
     "commercial-office-space-for-sale-in-navi-mumbai": "Office Spaces",
     "real-estate-blogs-navi-mumbai": "Expert Blogs",
@@ -55,18 +65,40 @@ const Breadcrumb = ({ items: customItems, variant = 'default' }: BreadcrumbProps
         const pathSegments = pathname.split('/').filter(item => item !== '');
         items = [
             { label: "Home", href: "/" },
-            ...pathSegments.map((segment, index) => {
+            ...pathSegments.flatMap((segment, index) => {
                 const href = `/${pathSegments.slice(0, index + 1).join('/')}`;
                 const isLast = index === pathSegments.length - 1;
-                let label = breadcrumbLabels[segment];
 
+                // SPECIAL LOGIC: Handle root property slugs (e.g., /property-name-category-in-navi-mumbai)
+                if (isLast && segment.includes('-in-navi-mumbai')) {
+                    const propertyMatch = listingProperties.find(p => segment.startsWith(titleToSlug(p.title) + '-'));
+                    if (propertyMatch) {
+                        const suffix = segment.replace(titleToSlug(propertyMatch.title) + '-', '');
+                        const isRent = suffix.includes('rent');
+                        const mode = isRent ? 'rent' : 'buy';
+                        const modeLabel = isRent ? 'Rent Property' : 'Buy Property';
+
+                        const categoryLabel = breadcrumbLabels[suffix] ||
+                            suffix.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+                        // Split into: Mode -> Category -> Property
+                        return [
+                            { label: modeLabel, href: `/${mode}` },
+                            { label: categoryLabel, href: `/${mode}/${suffix}` },
+                            { label: propertyMatch.title, href: href, active: true }
+                        ];
+                    }
+                }
+
+                // Default logic
+                let label = breadcrumbLabels[segment];
                 if (!label) {
                     label = segment
                         .replace(/-/g, ' ')
                         .replace(/\b\w/g, l => l.toUpperCase());
                 }
 
-                return { label, href, active: isLast };
+                return [{ label, href, active: isLast }];
             })
         ];
     }
