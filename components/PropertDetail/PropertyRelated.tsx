@@ -1,7 +1,6 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import { listingProperties, type ListingProperty } from '../Listing/listingData';
 import PropertyCard from '../Listing/sections/PropertyCard';
 import { usePathname } from 'next/navigation';
@@ -50,14 +49,10 @@ export default function PropertyRelated({ property }: Props) {
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
                     >
-                        <h2 className="text-4xl md:text-5xl font-black text-brand-heading tracking-tight leading-[1.1]">
-                            Similar <span className="text-brand-primary relative inline-block">
-                                Properties
-                                <svg className="absolute -bottom-2 left-0 w-full h-2 text-[#baa360]/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                    <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="4" fill="transparent" />
-                                </svg>
-                            </span> 
+                        <h2 className="text-3xl md:text-4xl font-black text-brand-heading tracking-tight leading-[1.1]">
+                            Similar <span className='text-brand-primary italic'>Properties</span>
                         </h2>
+                         <div className="h-1.5 w-26 bg-brand-primary rounded-full mt-2"></div>
                     </motion.div>
                 </div>
             

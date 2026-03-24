@@ -1,5 +1,4 @@
 "use client";
-import React from 'react';
 import { motion } from 'framer-motion';
 import { PhoneCall, Mail, User, Shield, Map as MapIcon, ExternalLink } from 'lucide-react';
 import type { ListingProperty } from '../../components/Listing/listingData';

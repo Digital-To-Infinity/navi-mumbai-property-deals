@@ -1,8 +1,7 @@
 "use client";
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap } from 'lucide-react';
-import type { ListingProperty } from '../../listingData';
+import type { ListingProperty } from '../../components/Listing/listingData';
 import { fadeUp } from './variants';
 
 interface Props {
@@ -13,7 +12,7 @@ const PropertyFeatures = ({ property }: Props) => {
     return (
         <motion.section initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-12">
             <div className="flex flex-col gap-2 mb-8">
-                <h2 className="text-3xl font-extrabold text-brand-heading tracking-tight">Key Features</h2>
+                <h2 className="text-3xl font-extrabold text-brand-heading tracking-tight">Key <span className='text-brand-primary italic'>Features</span></h2>
                 <div className="h-1.5 w-20 bg-brand-primary rounded-full"></div>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">

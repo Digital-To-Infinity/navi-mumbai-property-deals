@@ -1,8 +1,7 @@
 "use client";
-import React from 'react';
 import { motion } from 'framer-motion';
 import { GraduationCap, Hospital, ShoppingBag, Trees, MapPin } from 'lucide-react';
-import type { ListingProperty } from '../../listingData';
+import type { ListingProperty } from '../../components/Listing/listingData';
 import { fadeUp } from './variants';
 
 const getCategoryIcon = (category: string) => {
@@ -23,7 +22,7 @@ const PropertyNearbyPlaces = ({ property }: Props) => {
     return (
         <motion.section initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             <div className="flex flex-col gap-2 mb-8">
-                <h2 className="text-3xl font-extrabold text-brand-heading tracking-tight">Places Nearby</h2>
+                <h2 className="text-3xl font-extrabold text-brand-heading tracking-tight">Places <span className='text-brand-primary italic'>Nearby</span></h2>
                 <div className="h-1.5 w-20 bg-brand-primary rounded-full"></div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

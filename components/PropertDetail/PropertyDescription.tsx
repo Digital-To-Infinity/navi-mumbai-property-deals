@@ -1,11 +1,8 @@
 "use client";
-import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin } from 'lucide-react';
-import type { ListingProperty } from '../../listingData';
+import type { ListingProperty } from '../../components/Listing/listingData';
 import { fadeUp } from './variants';
-
-// Wait, I used 'lucide-center' by mistake in my thought but I should use 'lucide-react'.
 
 interface Props {
     property: ListingProperty;

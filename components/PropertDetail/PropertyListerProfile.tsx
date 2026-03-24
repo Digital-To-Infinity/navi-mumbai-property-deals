@@ -1,5 +1,4 @@
 "use client";
-import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { BadgeCheck, Shield, Star, Award, Briefcase, Layout, PhoneCall, MessageSquare } from 'lucide-react';
@@ -14,7 +13,7 @@ const PropertyListerProfile = ({ property }: Props) => {
     return (
         <motion.section initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="mb-0">
             <div className="flex flex-col gap-2 mb-10">
-                <h2 className="text-3xl font-extrabold text-brand-heading tracking-tight capitalize">Meet the {property.postedBy}</h2>
+                <h2 className="text-3xl font-extrabold text-brand-heading tracking-tight capitalize">Meet the <span className='text-brand-primary italic'>{property.postedBy}</span></h2>
                 <div className="h-1.5 w-20 bg-brand-primary rounded-full"></div>
             </div>
 

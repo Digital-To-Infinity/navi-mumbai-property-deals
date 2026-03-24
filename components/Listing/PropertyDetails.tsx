@@ -11,6 +11,7 @@ import PropertyNearbyPlaces from '../PropertDetail/PropertyNearbyPlaces';
 import PropertyFeatures from '../PropertDetail/PropertyFeatures';
 import PropertyListerProfile from '../PropertDetail/PropertyListerProfile';
 import PropertyRelated from '../PropertDetail/PropertyRelated';
+import PropertyImageGallery from '../PropertDetail/PropertyImageGallery';
 import { stagger } from '../PropertDetail/variants';
 
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
 
 export default function PropertyDetails({ property }: Props) {
     return (
-        <div className="w-full mx-auto px-10 py-4 font-sans leading-relaxed">
+        <div className="w-full mx-auto px-10 max-[426px]:px-4 py-4 font-sans leading-relaxed">
             {/* Top Navigation */}
             <PropertyNavigation />
 
@@ -33,7 +34,7 @@ export default function PropertyDetails({ property }: Props) {
                     <PropertyAmenities property={property} />
                 </div>
 
-                {/* Right Sticky Sidebar (4 Columns) */}
+                {/* Right Sticky Sidebar */}
                 <PropertySidebar property={property} />
             </motion.div>
 
@@ -41,6 +42,7 @@ export default function PropertyDetails({ property }: Props) {
             <div className="mt-16 border-t border-zinc-100 pt-16 flex flex-col gap-16">
                 <PropertyNearbyPlaces property={property} />
                 <PropertyFeatures property={property} />
+                <PropertyImageGallery property={property} />
                 <PropertyListerProfile property={property} />
                 <PropertyRelated property={property} />
             </div>

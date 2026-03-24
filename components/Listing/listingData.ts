@@ -54,6 +54,7 @@ export interface ListingProperty {
         about?: string;
         verified?: boolean;
     };
+    gallery?: string[];
 }
 
 export interface LocalityMetrics {
@@ -122,7 +123,14 @@ export const listingProperties: ListingProperty[] = [
             totalProperties: 124,
             about: "Leading real estate developers in Navi Mumbai, dedicated to building luxurious landmarks for over a decade. We pride ourselves on timely delivery and exceptional quality standards.",
             verified: true
-        }
+        },
+        gallery: [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        ]
     },
     {
         id: "lp-002",
@@ -150,6 +158,11 @@ export const listingProperties: ListingProperty[] = [
         floor: "12th",
         totalFloors: 25,
         parking: "1 Covered",
+        gallery: [
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        ]
     },
     {
         id: "lp-003",
@@ -177,6 +190,10 @@ export const listingProperties: ListingProperty[] = [
         floor: "5th",
         totalFloors: 15,
         parking: "None",
+        gallery: [
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+            "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+        ]
     },
     {
         id: "lp-004",

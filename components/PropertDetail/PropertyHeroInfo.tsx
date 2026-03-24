@@ -1,9 +1,8 @@
 "use client";
-import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin, BadgeCheck, Building2, Maximize2, Compass, Calendar } from 'lucide-react';
-import type { ListingProperty } from '../../listingData';
+import type { ListingProperty } from '../../components/Listing/listingData';
 import { fadeUp } from './variants';
 
 interface Props {
@@ -38,7 +37,7 @@ const PropertyHeroInfo = ({ property }: Props) => {
                 </p>
             </motion.div>
 
-            {/* Image Gallery */}
+            {/* Hero Image */}
             <motion.div variants={fadeUp} className="w-full h-[400px] sm:h-[500px] relative rounded-3xl overflow-hidden shadow-xl border border-white group">
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10 pointer-events-none" />
                 <Image

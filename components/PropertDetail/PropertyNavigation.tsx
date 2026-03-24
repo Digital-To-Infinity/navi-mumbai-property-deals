@@ -1,11 +1,10 @@
 "use client";
-import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Share2, Bookmark } from 'lucide-react';
 
 const PropertyNavigation = () => {
     return (
-        <div className="flex justify-between items-center mb-16">
+        <div className="flex justify-between items-center mb-16 max-[426px]:mb-8">
             <Link href="/buy" className="inline-flex items-center text-base font-semibold text-brand-heading hover:text-brand-primary-hover transition-colors">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Properties
