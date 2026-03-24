@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Building2, Save, Send, Sparkles, X, Home, Info, MapPin, IndianRupee, Layers, Users, Map, CheckCircle2 } from "lucide-react";
-
+import { motion } from "framer-motion";
+import { Send, Sparkles, X, Info } from "lucide-react";
 import BasicInfo from "./BasicInfo";
 import Pricing from "./Pricing";
 import LocationInfo from "./LocationInfo";
@@ -54,23 +53,12 @@ const AddProperty = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        // Basic Validation
-        const isRent = formData.purpose === "rent";
-        const hasTitle = formData.title.trim() !== "";
-        const hasPrice = isRent ? formData.rentPrice.trim() !== "" : formData.price.trim() !== "";
-        const hasLocation = formData.location.trim() !== "";
-
-        if (!hasTitle || !hasPrice || !hasLocation) {
-            alert("Please fill in the mandatory fields: Title, Price/Rent, and Location.");
-            return;
-        }
 
         setIsSubmitting(true);
-        
+
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        
+
         setIsSubmitting(false);
         setIsSuccess(true);
         console.log("Form Data Submitted:", formData);
@@ -112,7 +100,7 @@ const AddProperty = () => {
     };
 
     return (
-        <div className="relative min-h-screen bg-[#fafaf9] pt-24 pb-32">
+        <div className="relative min-h-screen bg-[#fafaf9] py-12">
             {/* Ambient background decorative elements */}
             <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
                 <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[160px]" />
@@ -129,22 +117,24 @@ const AddProperty = () => {
                 }}
             />
 
-            <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-5xl">
+            <div className="w-full mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
                 {/* Header Section */}
-                <motion.header 
+                <motion.header
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-16 text-center space-y-4"
+                    className="mb-20 text-center space-y-6"
                 >
-                    <div className="inline-flex items-center gap-2 px-6 py-2 bg-brand-primary/10 text-brand-primary rounded-full text-[12px] font-black uppercase tracking-widest border border-brand-primary/20 shadow-sm">
+                    <div className="inline-flex items-center gap-2 px-6 py-2 bg-brand-primary/10 text-brand-primary rounded-full text-[12px] font-black uppercase tracking-widest border border-brand-primary/20 shadow-sm backdrop-blur-md">
                         <Sparkles className="w-4 h-4" /> Property Listing Hub
                     </div>
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-900 tracking-tight leading-tight">
-                        List Your Property <br className="hidden sm:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-emerald-600 to-indigo-600 animate-shimmer">in Navi Mumbai</span>
-                    </h1>
-                    <p className="text-lg text-zinc-500 font-medium max-w-2xl mx-auto leading-relaxed">
-                        Reach thousands of verified buyers and tenants directly. Fill in the details below to showcase your property in style.
+                    <div className="space-y-2">
+                        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-brand-dark tracking-tighter leading-none">
+                            List Your Property <br className="hidden sm:block" />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-brand-primary-hover to-brand-primary animate-shimmer whitespace-nowrap">in Navi Mumbai</span>
+                        </h1>
+                    </div>
+                    <p className="text-xl text-brand-paragraph font-medium max-w-5xl mx-auto leading-relaxed opacity-80">
+                        Join the most exclusive real estate network. Reach thousands of verified buyers and tenants with our premium listing experience.
                     </p>
                 </motion.header>
 
@@ -159,7 +149,7 @@ const AddProperty = () => {
                     <NearbyPlaces formData={formData} updateFormData={updateFormData} />
 
                     {/* Bottom Actions */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
@@ -175,14 +165,14 @@ const AddProperty = () => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-4 h-full"> 
-                            <button 
+                        <div className="flex flex-col sm:flex-row gap-4 h-full">
+                            <button
                                 type="button"
                                 className="px-10 py-5 bg-white border border-zinc-100 rounded-[32px] text-zinc-500 text-lg font-black hover:bg-zinc-50 transition-all flex items-center justify-center gap-3 shadow-sm"
                             >
                                 <X className="w-5 h-5" /> Cancel Listing
                             </button>
-                            <button 
+                            <button
                                 type="submit"
                                 disabled={isSubmitting}
                                 className={`px-10 py-5 ${isSubmitting ? 'bg-zinc-400' : 'bg-brand-primary'} text-white rounded-[32px] text-lg font-black shadow-2xl shadow-brand-primary/20 hover:bg-brand-primary-hover transition-all flex items-center justify-center gap-3 relative overflow-hidden group`}
@@ -204,10 +194,10 @@ const AddProperty = () => {
                 </form>
             </div>
 
-            <SuccessModal 
-                isOpen={isSuccess} 
-                onClose={handleCloseSuccess} 
-                propertyTitle={formData.title} 
+            <SuccessModal
+                isOpen={isSuccess}
+                onClose={handleCloseSuccess}
+                propertyTitle={formData.title}
             />
         </div>
     );

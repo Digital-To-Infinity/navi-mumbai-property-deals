@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Layers, Compass, Calendar, Car, Sofa, Ruler } from "lucide-react";
+import { Layers, Compass, Calendar, Car, Sofa, Ruler, Grid3X3 } from "lucide-react";
+import CustomDropdown from "./CustomDropdown";
 
 interface PropertyDetailsProps {
     formData: any;
@@ -44,37 +45,35 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ formData, updateFormD
                 </div>
 
                 {/* Furnishing */}
-                <div className="space-y-2">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1">Furnishing Status</label>
-                    <select
-                        value={formData.furnishing}
-                        onChange={(e) => updateFormData("furnishing", e.target.value)}
-                        className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all appearance-none cursor-pointer"
-                    >
-                        <option value="unfurnished">Unfurnished</option>
-                        <option value="semi-furnished">Semi-Furnished</option>
-                        <option value="furnished">Fully Furnished</option>
-                    </select>
-                </div>
+                <CustomDropdown
+                    label="Furnishing Status"
+                    options={[
+                        { value: "unfurnished", label: "Unfurnished" },
+                        { value: "semi-furnished", label: "Semi-Furnished" },
+                        { value: "furnished", label: "Fully Furnished" },
+                    ]}
+                    value={formData.furnishing}
+                    onChange={(val) => updateFormData("furnishing", val)}
+                    icon={<Sofa className="w-5 h-5" />}
+                />
 
                 {/* Facing */}
-                <div className="space-y-2">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1">Facing Direction</label>
-                    <select
-                        value={formData.facing}
-                        onChange={(e) => updateFormData("facing", e.target.value)}
-                        className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all appearance-none cursor-pointer"
-                    >
-                        <option value="east">East</option>
-                        <option value="west">West</option>
-                        <option value="north">North</option>
-                        <option value="south">South</option>
-                        <option value="north-east">North-East</option>
-                        <option value="north-west">North-West</option>
-                        <option value="south-east">South-East</option>
-                        <option value="south-west">South-West</option>
-                    </select>
-                </div>
+                <CustomDropdown
+                    label="Facing Direction"
+                    options={[
+                        { value: "east", label: "East" },
+                        { value: "west", label: "West" },
+                        { value: "north", label: "North" },
+                        { value: "south", label: "South" },
+                        { value: "north-east", label: "North-East" },
+                        { value: "north-west", label: "North-West" },
+                        { value: "south-east", label: "South-East" },
+                        { value: "south-west", label: "South-West" },
+                    ]}
+                    value={formData.facing}
+                    onChange={(val) => updateFormData("facing", val)}
+                    icon={<Compass className="w-5 h-5" />}
+                />
 
                 {/* Floor Information */}
                 <div className="space-y-2 group">
@@ -104,26 +103,20 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ formData, updateFormD
                 </div>
 
                 {/* Parking */}
-                <div className="space-y-2 group">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors">Parking Available</label>
-                    <div className="relative">
-                        <select
-                            value={formData.parking}
-                            onChange={(e) => updateFormData("parking", e.target.value)}
-                            className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all appearance-none cursor-pointer"
-                        >
-                            <option value="None">None</option>
-                            <option value="1 Covered">1 Covered</option>
-                            <option value="2 Covered">2 Covered</option>
-                            <option value="1 Open">1 Open</option>
-                            <option value="2 Open">2 Open</option>
-                            <option value="3+ Covered">3+ Covered</option>
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-300 pointer-events-none">
-                           <Car className="w-5 h-5" />
-                        </div>
-                    </div>
-                </div>
+                <CustomDropdown
+                    label="Parking Available"
+                    options={[
+                        { value: "None", label: "None" },
+                        { value: "1 Covered", label: "1 Covered" },
+                        { value: "2 Covered", label: "2 Covered" },
+                        { value: "1 Open", label: "1 Open" },
+                        { value: "2 Open", label: "2 Open" },
+                        { value: "3+ Covered", label: "3+ Covered" },
+                    ]}
+                    value={formData.parking}
+                    onChange={(val) => updateFormData("parking", val)}
+                    icon={<Car className="w-5 h-5" />}
+                />
 
                 {/* Construction Status */}
                 <div className="space-y-2">

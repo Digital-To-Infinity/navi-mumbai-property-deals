@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Info, Home, User, CheckCircle2 } from "lucide-react";
+import { Info, User, CheckCircle2, Building2, LayoutGrid } from "lucide-react";
+import CustomDropdown from "./CustomDropdown";
 
 interface BasicInfoProps {
     formData: any;
@@ -65,37 +66,35 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ formData, updateFormData }) => {
                 </div>
 
                 {/* Property Type */}
-                <div className="space-y-2">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1">Property Type</label>
-                    <select
-                        value={formData.propertyType}
-                        onChange={(e) => updateFormData("propertyType", e.target.value)}
-                        className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all appearance-none cursor-pointer"
-                    >
-                        <option value="residential">Residential</option>
-                        <option value="commercial">Commercial</option>
-                        <option value="plot">Plot</option>
-                        <option value="industrial">Industrial</option>
-                    </select>
-                </div>
+                <CustomDropdown
+                    label="Property Type"
+                    options={[
+                        { value: "residential", label: "Residential" },
+                        { value: "commercial", label: "Commercial" },
+                        { value: "plot", label: "Plot" },
+                        { value: "industrial", label: "Industrial" },
+                    ]}
+                    value={formData.propertyType}
+                    onChange={(val) => updateFormData("propertyType", val)}
+                    icon={<Building2 className="w-5 h-5" />}
+                />
 
                 {/* Configuration */}
-                <div className="space-y-2">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1">Configuration (BHK)</label>
-                    <select
-                        value={formData.configuration}
-                        onChange={(e) => updateFormData("configuration", e.target.value)}
-                        className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all appearance-none cursor-pointer"
-                    >
-                        <option value="1bhk">1 BHK</option>
-                        <option value="2bhk">2 BHK</option>
-                        <option value="3bhk">3 BHK</option>
-                        <option value="4bhk+">4 BHK+</option>
-                        <option value="studio">Studio</option>
-                        <option value="commercial">Commercial</option>
-                        <option value="plot">Plot</option>
-                    </select>
-                </div>
+                <CustomDropdown
+                    label="Configuration (BHK)"
+                    options={[
+                        { value: "1bhk", label: "1 BHK" },
+                        { value: "2bhk", label: "2 BHK" },
+                        { value: "3bhk", label: "3 BHK" },
+                        { value: "4bhk+", label: "4 BHK+" },
+                        { value: "studio", label: "Studio" },
+                        { value: "commercial", label: "Commercial" },
+                        { value: "plot", label: "Plot" },
+                    ]}
+                    value={formData.configuration}
+                    onChange={(val) => updateFormData("configuration", val)}
+                    icon={<LayoutGrid className="w-5 h-5" />}
+                />
 
                 {/* Posted By */}
                 <div className="space-y-2">

@@ -2,6 +2,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Train, Plus, Trash2, MapPin, School, Hospital, ShoppingBag } from "lucide-react";
+import CustomDropdown from "./CustomDropdown";
 
 interface NearbyPlacesProps {
     formData: any;
@@ -93,17 +94,15 @@ const NearbyPlaces: React.FC<NearbyPlacesProps> = ({ formData, updateFormData })
                                 />
                             </div>
 
-                            <div className="w-full md:w-48 space-y-2 group">
-                                <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest px-1">Category</label>
-                                <select
+                            <div className="w-full md:w-48">
+                                <CustomDropdown
+                                    label="Category"
+                                    options={CATEGORIES.map(c => ({ value: c.label, label: c.label }))}
                                     value={place.category}
-                                    onChange={(e) => updatePlace(index, "category", e.target.value)}
-                                    className="w-full bg-white border border-zinc-100 rounded-xl px-4 py-3 text-[13px] font-bold focus:outline-none focus:border-brand-primary transition-all cursor-pointer"
-                                >
-                                    {CATEGORIES.map((c) => (
-                                        <option key={c.label} value={c.label}>{c.label}</option>
-                                    ))}
-                                </select>
+                                    onChange={(val) => updatePlace(index, "category", val)}
+                                    // Dynamic icon selection based on category
+                                    icon={CATEGORIES.find(c => c.label === place.category)?.icon || <MapPin className="w-4 h-4" />}
+                                />
                             </div>
 
                             <motion.button

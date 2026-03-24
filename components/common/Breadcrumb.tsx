@@ -15,7 +15,7 @@ const breadcrumbLabels: Record<string, string> = {
     "contact": "Contact",
     "login": "Login",
     "signup": "Sign Up",
-    "add-property": "List Property",
+    "add-property": "Add Property",
     "flats-for-sale-in-navi-mumbai": "Flats for Sale",
     "apartments-for-sale-in-navi-mumbai": "Apartments for Sale",
     "studio-apartments-for-sale-in-navi-mumbai": "Studio Apartments",
