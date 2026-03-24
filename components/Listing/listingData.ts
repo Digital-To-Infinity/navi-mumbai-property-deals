@@ -42,6 +42,18 @@ export interface ListingProperty {
     floor?: string;
     totalFloors?: number;
     parking?: string;
+    suitableFor?: string[]; // New field for rent suitability (e.g., ["Family", "Bachelor"])
+    availableFrom?: string; // New field for rent availability (e.g., "Immediately", "1st April")
+    nearbyPlaces?: { name: string; distance: string; category: string }[];
+    features?: string[];
+    listerDetails?: {
+        image?: string;
+        experience?: string;
+        rating?: number;
+        totalProperties?: number;
+        about?: string;
+        verified?: boolean;
+    };
 }
 
 export interface LocalityMetrics {
@@ -88,6 +100,29 @@ export const listingProperties: ListingProperty[] = [
         floor: "18th",
         totalFloors: 42,
         parking: "2 Covered",
+        suitableFor: ["Family", "Bachelor", "Company Lease"],
+        availableFrom: "Immediately",
+        nearbyPlaces: [
+            { name: "Ryan International School", distance: "0.8 km", category: "Education" },
+            { name: "MGM Hospital", distance: "1.2 km", category: "Healthcare" },
+            { name: "Central Park", distance: "0.5 km", category: "Recreation" },
+            { name: "Glomax Mall", distance: "1.5 km", category: "Shopping" }
+        ],
+        features: [
+            "Vastu Compliant Design",
+            "Italian Marble Flooring",
+            "High-speed Elevators",
+            "24/7 Power Backup",
+            "CCTV Surveillance"
+        ],
+        listerDetails: {
+            image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80",
+            experience: "15+ Years",
+            rating: 4.8,
+            totalProperties: 124,
+            about: "Leading real estate developers in Navi Mumbai, dedicated to building luxurious landmarks for over a decade. We pride ourselves on timely delivery and exceptional quality standards.",
+            verified: true
+        }
     },
     {
         id: "lp-002",
