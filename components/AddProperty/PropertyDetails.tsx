@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Layers, Compass, Calendar, Car, Sofa, Ruler, Grid3X3 } from "lucide-react";
+import { Layers, Compass, Calendar, Car, Sofa, Ruler, Grid3X3, Home, Hammer, Sparkles, Clock, History, CalendarDays, Check, Layout, Square } from "lucide-react";
 import CustomDropdown from "./CustomDropdown";
 
 interface PropertyDetailsProps {
@@ -28,18 +28,23 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ formData, updateFormD
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {/* Area */}
-                <div className="space-y-2 group">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors">Total Area (sq.ft)</label>
-                    <div className="relative">
+                <div className="space-y-4 group">
+                    <label className="text-[12px] font-black text-brand-paragraph uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors flex items-center gap-2">
+                       <Ruler className="w-4 h-4" /> Total Area
+                    </label>
+                    <div className="relative flex items-center group">
+                        <div className="absolute left-5 text-brand-paragraph group-focus-within:text-brand-primary transition-colors">
+                           <Square className="w-5 h-5" />
+                        </div>
                         <input
                             type="text"
-                            placeholder="e.g. 1,200 sq.ft"
+                            placeholder="e.g. 1,200"
                             value={formData.area}
                             onChange={(e) => updateFormData("area", e.target.value)}
-                            className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
+                            className="w-full bg-zinc-50/50 border border-brand-muted/50 rounded-2xl pl-14 pr-24 py-4 text-[15px] font-black focus:outline-none focus:border-brand-primary focus:bg-white transition-all placeholder:text-[14px] placeholder:text-brand-muted placeholder:font-semibold"
                         />
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-300">
-                           <Ruler className="w-5 h-5" />
+                        <div className="absolute right-3 py-1.5 px-3 bg-brand-primary/10 rounded-xl text-brand-primary text-[10px] font-black uppercase tracking-wider">
+                           SQ.FT
                         </div>
                     </div>
                 </div>
@@ -77,27 +82,27 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ formData, updateFormD
 
                 {/* Floor Information */}
                 <div className="space-y-2 group">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors">Floor Number</label>
+                    <label className="text-[12px] font-black text-brand-paragraph uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors">Floor Number</label>
                     <div className="relative">
                         <input
                             type="text"
                             placeholder="e.g. 15th"
                             value={formData.floor}
                             onChange={(e) => updateFormData("floor", e.target.value)}
-                            className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
+                            className="w-full bg-zinc-50/50 border border-brand-muted/50 rounded-2xl px-5 py-4 text-[14px] font-semibold focus:outline-none focus:border-brand-primary focus:bg-white transition-all placeholder:text-[14px] placeholder:text-brand-muted"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-2 group">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors">Total Floors</label>
+                    <label className="text-[12px] font-black text-brand-paragraph uppercase tracking-widest px-1 group-focus-within:text-brand-primary transition-colors">Total Floors</label>
                     <div className="relative">
                         <input
                             type="number"
                             placeholder="e.g. 25"
                             value={formData.totalFloors}
                             onChange={(e) => updateFormData("totalFloors", e.target.value)}
-                            className="w-full bg-zinc-50/50 border border-zinc-100 rounded-2xl px-5 py-4 text-[14px] font-bold focus:outline-none focus:border-brand-primary focus:bg-white transition-all shadow-sm"
+                            className="w-full bg-zinc-50/50 border border-brand-muted/50 rounded-2xl px-5 py-4 text-[14px] font-semibold focus:outline-none focus:border-brand-primary focus:bg-white transition-all placeholder:text-[14px] placeholder:text-brand-muted"
                         />
                     </div>
                 </div>
@@ -119,40 +124,89 @@ const PropertyDetails: React.FC<PropertyDetailsProps> = ({ formData, updateFormD
                 />
 
                 {/* Construction Status */}
-                <div className="space-y-2">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1">Construction Status</label>
-                    <div className="flex p-1.5 bg-zinc-100/50 rounded-2xl gap-1">
-                        {["ready-to-move", "under-construction", "new-launch"].map((status) => (
-                            <button
-                                key={status}
-                                onClick={() => updateFormData("constructionStatus", status)}
-                                className={`flex-1 py-3 px-2 rounded-xl text-[10px] font-black transition-all uppercase tracking-tighter
-                                    ${formData.constructionStatus === status 
-                                        ? "bg-white text-zinc-900 shadow-sm border border-zinc-100" 
-                                        : "text-zinc-400 hover:text-zinc-600"}`}
-                            >
-                                {status.replace("-", " ")}
-                            </button>
-                        ))}
+                {formData.purpose === "sell" && (
+                    <div className="space-y-4 md:col-span-2 lg:col-span-3">
+                        <label className="text-[12px] font-black text-brand-paragraph uppercase tracking-widest px-1">Construction Status</label>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            {[
+                                { id: "ready-to-move", label: "Ready to Move", icon: Home, desc: "Immediate possession" },
+                                { id: "under-construction", label: "Under Construction", icon: Hammer, desc: "Work in progress" },
+                                { id: "new-launch", label: "New Launch", icon: Sparkles, desc: "Newly announced project" }
+                            ].map(({ id, label, icon: Icon, desc }) => {
+                                const isActive = formData.constructionStatus === id;
+                                return (
+                                    <button
+                                        key={id}
+                                        type="button"
+                                        onClick={() => updateFormData("constructionStatus", id)}
+                                        className={`group relative flex items-center gap-4 p-4 rounded-3xl transition-all duration-300 border-2 text-left cursor-pointer
+                                            ${isActive 
+                                                ? "bg-brand-primary/5 border-brand-primary" 
+                                                : "bg-zinc-50/30 border-zinc-100 hover:border-brand-primary/30 hover:bg-white"}`}
+                                    >
+                                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 flex-shrink-0
+                                            ${isActive 
+                                                ? "bg-brand-primary text-white scale-105 shadow-brand-primary/20" 
+                                                : "bg-zinc-100 text-brand-paragraph group-hover:bg-brand-primary/10 group-hover:text-brand-primary"}`}
+                                        >
+                                            <Icon className="w-6 h-6" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className={`text-[13px] font-black leading-tight transition-colors
+                                                ${isActive ? "text-brand-heading" : "text-brand-paragraph group-hover:text-brand-heading"}`}
+                                            >
+                                                {label}
+                                            </span>
+                                            <span className={`text-[12px] font-bold transition-colors
+                                                ${isActive ? "text-brand-primary/70" : "text-brand-paragraph/50 group-hover:text-brand-paragraph/70"}`}
+                                            >
+                                                {desc}
+                                            </span>
+                                        </div>
+                                        {isActive && (
+                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 bg-brand-primary text-white rounded-full flex items-center justify-center shadow-md animate-in zoom-in duration-300 border-2 border-white">
+                                                <Check className="w-3.5 h-3.5" />
+                                            </div>
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
+                )}
 
-                {/* Age Area */}
-                <div className="space-y-2">
-                    <label className="text-[11px] font-black text-zinc-400 uppercase tracking-widest px-1">Age of Property</label>
-                    <div className="flex p-1.5 bg-zinc-100/50 rounded-2xl gap-1">
-                        {["0-1", "1-5", "5-10", "10+"].map((age) => (
-                            <button
-                                key={age}
-                                onClick={() => updateFormData("age", age)}
-                                className={`flex-1 py-3 px-2 rounded-xl text-[11px] font-black transition-all uppercase
-                                    ${formData.age === age 
-                                        ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20" 
-                                        : "text-zinc-400 hover:text-zinc-600"}`}
-                            >
-                                {age === "10+" ? "10+ Yrs" : age + " Yrs"}
-                            </button>
-                        ))}
+                {/* Age of Property */}
+                <div className="space-y-4 md:col-span-2 lg:col-span-3">
+                    <label className="text-[12px] font-black text-brand-paragraph uppercase tracking-widest px-1">Age of Property</label>
+                    <div className="flex p-1.5 bg-brand-muted/10 rounded-[28px] gap-1 relative overflow-hidden">
+                        {[
+                            { value: "0-1", label: "New (0-1 Yrs)", icon: Sparkles },
+                            { value: "1-5", label: "1-5 Years", icon: CalendarDays },
+                            { value: "5-10", label: "5-10 Years", icon: History },
+                            { value: "10+", label: "10+ Years", icon: Clock }
+                        ].map((item) => {
+                            const isActive = formData.age === item.value;
+                            return (
+                                <button 
+                                    key={item.value}
+                                    type="button"
+                                    onClick={() => updateFormData("age", item.value)}
+                                    className={`relative flex-1 py-4 rounded-2xl text-[12px] font-black transition-all cursor-pointer flex items-center justify-center gap-2 z-10 cursor-pointer
+                                        ${isActive ? "text-white" : "text-brand-paragraph hover:text-brand-heading"}`}
+                                >
+                                    <item.icon className={`w-4 h-4 transition-colors ${isActive ? "text-white" : "text-brand-paragraph/60"}`} />
+                                    <span className="hidden sm:inline">{item.label}</span>
+                                    <span className="sm:hidden">{item.value === "10+" ? "10+" : item.value}</span>
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="active-age-bg"
+                                            className="absolute inset-0 bg-brand-primary rounded-2xl -z-10"
+                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                        />
+                                    )}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
