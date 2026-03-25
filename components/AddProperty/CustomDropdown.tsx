@@ -148,7 +148,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
                 <button
                     ref={buttonRef}
                     type="button"
-                    className={`w-full bg-zinc-50/50 border rounded-2xl px-5 py-4 text-[14px] font-bold flex items-center justify-between transition-all duration-300 relative overflow-hidden cursor-pointer ${
+                    className={`w-full bg-zinc-50/50 border rounded-2xl px-5 py-2.5 text-[14px] font-bold flex items-center justify-between transition-all duration-300 relative overflow-hidden cursor-pointer ${
                         isOpen 
                         ? "border-brand-primary bg-white ring-[6px] ring-brand-primary/5" 
                         : "border-brand-muted/50 hover:border-brand-primary/40 hover:bg-white"

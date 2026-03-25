@@ -23,6 +23,7 @@ const AddProperty = () => {
         postedBy: "owner",
         listerName: "",
         price: "",
+        priceType: "fixed", // fixed or negotiable
         rentPrice: "",
         pricePerSqft: "",
         securityDeposit: "",
@@ -74,6 +75,7 @@ const AddProperty = () => {
             postedBy: "owner",
             listerName: "",
             price: "",
+            priceType: "fixed",
             rentPrice: "",
             pricePerSqft: "",
             securityDeposit: "",
