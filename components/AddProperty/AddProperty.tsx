@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Sparkles, X, Info } from "lucide-react";
 import BasicInfo from "./BasicInfo";
+import PropertyDescription from "./PropertyDescription";
 import Pricing from "./Pricing";
 import LocationInfo from "./LocationInfo";
 import PropertyDetails from "./PropertyDetails";
@@ -42,6 +43,7 @@ const AddProperty = () => {
         nearbyPlaces: [],
         suitableFor: [],
         availableFrom: "",
+        description: "",
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,6 +94,7 @@ const AddProperty = () => {
             nearbyPlaces: [],
             suitableFor: [],
             availableFrom: "",
+            description: "",
         });
     };
 
@@ -140,6 +143,7 @@ const AddProperty = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-12">
                     <BasicInfo formData={formData} updateFormData={updateFormData} />
+                    <PropertyDescription formData={formData} updateFormData={updateFormData} />
                     <Pricing formData={formData} updateFormData={updateFormData} />
                     <LocationInfo formData={formData} updateFormData={updateFormData} />
                     <PropertyDetails formData={formData} updateFormData={updateFormData} />

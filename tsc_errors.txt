@@ -1,0 +1,1 @@
+﻿components/AddProperty/PropertyDescription.tsx(13,8): error TS2613: Module '"C:/Users/admin/Desktop/navi-mumbai-property-deals/node_modules/@tiptap/extension-text-style/dist/index"' has no default export. Did you mean to use 'import { TextStyle } from "C:/Users/admin/Desktop/navi-mumbai-property-deals/node_modules/@tiptap/extension-text-style/dist/index"' instead?
