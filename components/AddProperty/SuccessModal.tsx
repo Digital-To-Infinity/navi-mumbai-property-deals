@@ -33,9 +33,9 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, propertyTi
                         {/* Close Button */}
                         <button 
                             onClick={onClose}
-                            className="absolute right-8 top-8 p-3 rounded-full hover:bg-zinc-100 transition-all text-zinc-400"
+                            className="absolute right-6 top-6 p-2 rounded-full hover:bg-red-50 hover:text-red-500 transition-all duration-300 text-zinc-400 cursor-pointer group"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
                         </button>
 
                         {/* Animated Icon Container */}
@@ -72,23 +72,17 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isOpen, onClose, propertyTi
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={onClose}
-                                className="flex items-center justify-center gap-3 py-4 bg-zinc-900 text-white rounded-[24px] text-[15px] font-black shadow-xl shadow-zinc-900/20 hover:bg-zinc-800 transition-all"
+                                className="flex items-center justify-center gap-3 py-4 bg-brand-primary text-white rounded-[24px] text-[15px] font-black hover:bg-brand-primary-hover transition-all cursor-pointer"
                             >
                                 <Home className="w-5 h-5" /> Back Home
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="flex items-center justify-center gap-3 py-4 bg-brand-primary/10 text-brand-primary rounded-[24px] text-[15px] font-black border border-brand-primary/20 transition-all"
+                                className="flex items-center justify-center gap-3 py-4 bg-brand-primary/10 text-brand-primary rounded-[24px] text-[15px] font-black border border-brand-primary/20 hover:border-brand-primary transition-all cursor-pointer"
                             >
                                 <Share2 className="w-5 h-5" /> Share Link
                             </motion.button>
-                        </div>
-
-                        {/* Extra Insight */}
-                        <div className="mt-10 pt-10 border-t border-zinc-100 flex items-center gap-4 justify-center">
-                            <Sparkles className="w-5 h-5 text-amber-500" />
-                            <p className="text-[12px] font-black text-zinc-400 uppercase tracking-widest">TIP: Premium ads get 5x more leads</p>
                         </div>
                     </motion.div>
                 </div>
