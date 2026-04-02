@@ -6,6 +6,7 @@ import PropertyHeroInfo from './PropertyHeroInfo';
 import PropertyKeyDetails from './PropertyKeyDetails';
 import PropertyDescription from './PropertyDescription';
 import PropertyAmenities from './PropertyAmenities';
+import PropertyLocalityReviews from './PropertyLocalityReviews';
 import PropertySidebar from './PropertySidebar';
 import PropertyNearbyPlaces from './PropertyNearbyPlaces';
 import PropertyFeatures from './PropertyFeatures';
@@ -47,6 +48,7 @@ export default function PropertyDetails({ property, slug }: Props) {
                 <PropertyKeyDetails property={property} />
                 <PropertyDescription property={property} />
                 <PropertyAmenities property={property} />
+                <PropertyLocalityReviews property={property} />
                 <div className="border-t border-zinc-100 pt-16 flex flex-col gap-16">
                     <PropertyNearbyPlaces property={property} />
                     <PropertyFeatures property={property} />

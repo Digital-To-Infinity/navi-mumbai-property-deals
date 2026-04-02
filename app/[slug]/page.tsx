@@ -27,11 +27,11 @@ export async function generateStaticParams() {
             base + '-properties-for-sale-in-navi-mumbai',
             base + '-properties-for-rent-in-navi-mumbai'
         ];
-        
+
         dynamicSuffixes.forEach(suffix => {
             slugs.push(`${base}-${suffix}`);
         });
-        
+
         return slugs;
     });
 
