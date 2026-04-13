@@ -231,7 +231,7 @@ export default function Footer() {
                     className="pt-8 border-t border-zinc-700 flex flex-col md:flex-row items-center justify-between gap-4"
                 >
                     <p className="text-brand-muted text-sm text-center md:text-left">
-                        &copy; {currentYear} Navi Mumbai Property Deals. All rights reserved.
+                        &copy; {currentYear} Navi Mumbai Property Deals. All rights reserved | Crafetd By <a href="https://digitaltoinfinity.com/" target="_blank" rel="noopener noreferrer" className="text-brand-primary hover:underline">Digital To Infinity</a>
                     </p>
                     <div className="flex items-center gap-6 text-base text-brand-muted">
                         <Link
