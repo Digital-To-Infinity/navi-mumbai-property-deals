@@ -1,14 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/api";
+import { toast } from "react-hot-toast";
+import { z } from "zod";
+
+const loginSchema = z.object({
+    email: z.string().email("Enter a valid email address"),
+    password: z.string().min(1, "Password is required"),
+});
 
 interface LoginProps {
     onSwitch: () => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onSwitch }) => {
+    const { login } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -21,26 +32,64 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
         password: "",
     });
 
-    // Regex Patterns
-    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    const validateField = (name: string, value: string) => {
-        let error = "";
-        switch (name) {
-            case "email":
-                if (!EMAIL_REGEX.test(value)) error = "Enter a valid email address";
-                break;
-            case "password":
-                if (value.length < 1) error = "Password is required";
-                break;
-        }
-        setErrors((prev) => ({ ...prev, [name]: error }));
-    };
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        validateField(name, value);
+        
+        // Dynamic validation
+        try {
+            const fieldSchema = loginSchema.pick({ [name]: true } as any);
+            fieldSchema.parse({ [name]: value });
+            setErrors((prev) => ({ ...prev, [name]: "" }));
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                setErrors((prev) => ({ ...prev, [name]: err.issues[0].message }));
+            }
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        try {
+            loginSchema.parse(formData);
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const newErrors = { email: "", password: "" };
+                err.issues.forEach((issue) => {
+                    const path = issue.path[0] as keyof typeof newErrors;
+                    newErrors[path] = issue.message;
+                });
+                setErrors(newErrors);
+                return;
+            }
+        }
+
+        setLoading(true);
+        try {
+            const response = await api.post("/auth/login", formData);
+            
+            if (response.data.success === false) {
+                toast.error(response.data.message || "Login failed");
+                return;
+            }
+
+            const { token, user } = response.data;
+            // Normalize user object to ensure 'name' property exists as requested
+            const userData = {
+                id: user.id || user._id,
+                name: user.name || user.fullName,
+                email: user.email,
+                role: user.role
+            };
+            login(userData, token);
+            toast.success("Welcome back! Login successful.");
+        } catch (error: any) {
+            const message = error.response?.data?.message || error.message || "Failed to login";
+            toast.error(message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -50,7 +99,7 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                 <p className="text-brand-paragraph/70 font-medium tracking-tight">Sign in with your email or social accounts</p>
             </div>
 
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="space-y-1.5">
                     <label htmlFor="email-login" className="text-sm font-semibold text-brand-heading ml-1">Email Address</label>
                     <div className="relative group">
@@ -98,7 +147,7 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
                             aria-label={showPassword ? "Hide password" : "Show password"}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-mutedbrand-muted hover:text-brand-primary transition-colors cursor-pointer"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-muted hover:text-brand-primary transition-colors cursor-pointer"
                         >
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
@@ -111,10 +160,10 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                         type="submit"
                         whileHover={{ scale: 1.01, y: -2 }}
                         whileTap={{ scale: 0.98 }}
-                        disabled={Object.values(errors).some((err) => err !== "") || formData.email === "" || formData.password === ""}
+                        disabled={loading || Object.values(errors).some((err) => err !== "") || formData.email === "" || formData.password === ""}
                         className="w-full bg-brand-primary text-white py-4 max-[426px]:py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-primary-hover shadow-lg shadow-brand-primary/10 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:y-0"
                     >
-                        Log In
+                        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Log In"}
                     </motion.button>
                     <p className="text-[11px] text-center text-brand-paragraph font-bolder uppercase tracking-[0.10em]">
                         🛡️ SSL Secure & RERA Verified Portal

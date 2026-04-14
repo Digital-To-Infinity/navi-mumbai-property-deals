@@ -1,6 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import { Mail, Lock, User, Phone, ShieldCheck, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, User, Phone, ShieldCheck, Eye, EyeOff, Loader2 } from "lucide-react";
+import api from "@/lib/api";
+import { toast } from "react-hot-toast";
+import { z } from "zod";
+
+const signupBaseSchema = z.object({
+    fullName: z.string().min(2, "Name must be at least 2 characters"),
+    phone: z.string().regex(/^\+91[6-9]\d{9}$/, "Enter a valid Indian mobile number starting with +91"),
+    email: z.string().email("Enter a valid email address"),
+    password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/, "Min. 8 chars, 1 Uppercase, 1 Number & 1 Special Char"),
+    confirmPassword: z.string(),
+});
+
+const signupSchema = signupBaseSchema.refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+});
 
 interface SignupProps {
     onSwitch: () => void;
@@ -9,11 +25,12 @@ interface SignupProps {
 const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState({
         fullName: "",
-        phone: "",
+        phone: "+91",
         email: "",
         password: "",
         confirmPassword: "",
@@ -26,11 +43,6 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
         password: "",
         confirmPassword: "",
     });
-
-    // Regex Patterns
-    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const PHONE_REGEX = /^[6-9]\d{9}$/;
-    const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
 
     // State for Checkbox
     const [agreed, setAgreed] = useState(false);
@@ -50,32 +62,80 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
     const strengthLabels = ["Weak", "Fair", "Good", "Strong"];
     const strengthColors = ["bg-red-400", "bg-orange-400", "bg-yellow-400", "bg-emerald-500"];
 
-    const validateField = (name: string, value: string) => {
-        let error = "";
-        switch (name) {
-            case "fullName":
-                if (value.length < 2) error = "Name must be at least 2 characters";
-                break;
-            case "phone":
-                if (!PHONE_REGEX.test(value)) error = "Enter a valid 10-digit mobile number";
-                break;
-            case "email":
-                if (!EMAIL_REGEX.test(value)) error = "Enter a valid email address";
-                break;
-            case "password":
-                if (!PASSWORD_REGEX.test(value)) error = "Min. 8 chars, 1 Uppercase, 1 Number & 1 Special Char";
-                break;
-            case "confirmPassword":
-                if (value !== formData.password) error = "Passwords do not match";
-                break;
-        }
-        setErrors((prev) => ({ ...prev, [name]: error }));
-    };
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        validateField(name, value);
+        
+        // Dynamic validation
+        try {
+            if (name === "confirmPassword") {
+                if (value !== formData.password) {
+                    setErrors((prev) => ({ ...prev, confirmPassword: "Passwords do not match" }));
+                } else {
+                    setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+                }
+            } else {
+                // Use base schema for picking fields
+                const fieldSchema = (signupBaseSchema as any).pick({ [name]: true });
+                fieldSchema.parse({ [name]: value });
+                setErrors((prev) => ({ ...prev, [name]: "" }));
+
+                // If password changed, re-check confirmPassword match
+                if (name === "password" && formData.confirmPassword) {
+                    if (value !== formData.confirmPassword) {
+                        setErrors((prev) => ({ ...prev, confirmPassword: "Passwords do not match" }));
+                    } else {
+                        setErrors((prev) => ({ ...prev, confirmPassword: "" }));
+                    }
+                }
+            }
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                setErrors((prev) => ({ ...prev, [name]: err.issues[0].message }));
+            }
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        if (!agreed) {
+            toast.error("Please agree to the Terms and Privacy Policy");
+            return;
+        }
+
+        try {
+            signupSchema.parse(formData);
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const newErrors = { fullName: "", phone: "", email: "", password: "", confirmPassword: "" };
+                err.issues.forEach((issue) => {
+                    const path = issue.path[0] as keyof typeof newErrors;
+                    newErrors[path] = issue.message;
+                });
+                setErrors(newErrors);
+                toast.error("Please fix the errors in the form");
+                return;
+            }
+        }
+
+        setLoading(true);
+        try {
+            const response = await api.post("/auth/register", {
+                fullName: formData.fullName,
+                phone: formData.phone,
+                email: formData.email,
+                password: formData.password
+            });
+            
+            toast.success("Account created successfully! Please login.");
+            onSwitch(); // Redirect to Login
+        } catch (error: any) {
+            const message = error.message || "Failed to register";
+            toast.error(message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -116,7 +176,7 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
                 </div>
             </div>
 
-            <form className="space-y-4 mt-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4 mt-6" onSubmit={handleSubmit}>
                 <div className="space-y-1.5">
                     <label htmlFor="fullName" className="text-sm font-semibold text-brand-heading ml-1">Full Name</label>
                     <div className="relative group">
@@ -148,7 +208,7 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            placeholder="98765 43210"
+                            placeholder="+919876543210"
                             autoComplete="tel"
                             aria-describedby={errors.phone ? "phone-error" : undefined}
                             aria-invalid={!!errors.phone}
@@ -282,10 +342,10 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
                         <div className="flex flex-col items-center gap-3">
                             <button
                                 type="submit"
-                                disabled={Object.values(errors).some((err) => err !== "") || Object.values(formData).some((val) => val === "") || !agreed}
+                                disabled={loading}
                                 className="w-full bg-brand-primary text-white py-4 max-[426px]:py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-primary-hover shadow-lg shadow-brand-primary/10 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                             >
-                                Create Free Account
+                                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Create Free Account"}
                             </button>
                             <span className="text-[11px] text-brand-paragraph/60 font-semibold italic">
                                 Join 5,000+ Navi Mumbai residents.
