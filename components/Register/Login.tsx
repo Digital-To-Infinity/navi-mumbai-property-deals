@@ -74,11 +74,11 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                 return;
             }
 
-            const { token, user } = response.data;
+            const { token, user } = response.data.data;
             // Normalize user object to ensure 'name' property exists as requested
             const userData = {
                 id: user.id || user._id,
-                name: user.name || user.fullName,
+                name: user.name || user.fullName || user.full_name,
                 email: user.email,
                 role: user.role
             };

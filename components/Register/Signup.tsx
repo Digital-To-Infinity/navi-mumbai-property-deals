@@ -30,7 +30,7 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
     // Form State
     const [formData, setFormData] = useState({
         fullName: "",
-        phone: "+91",
+        phone: "+91 ",
         email: "",
         password: "",
         confirmPassword: "",

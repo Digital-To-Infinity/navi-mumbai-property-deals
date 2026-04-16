@@ -1,9 +1,10 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
-import { User, Plus, ChevronDown } from 'lucide-react';
+import { User, Plus, ChevronDown, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { buyMegaMenuData, Category, rentMegaMenuData, RentCategory } from './navData';
+import { useAuth } from '@/context/AuthContext';
 
 interface PredefinedLink {
     name: string;
@@ -15,9 +16,8 @@ interface MobileMenuProps {
     setIsMobileMenuOpen: (val: boolean) => void;
 }
 
-
-
 const MobileMenu = ({ navLinks, setIsMobileMenuOpen }: MobileMenuProps) => {
+    const { user, logout } = useAuth();
     const [isBuyExpanded, setIsBuyExpanded] = useState(false);
     const [isRentExpanded, setIsRentExpanded] = useState(false);
     const [expandedCategory, setExpandedCategory] = useState<Category | null>(null);
@@ -163,14 +163,59 @@ const MobileMenu = ({ navLinks, setIsMobileMenuOpen }: MobileMenuProps) => {
                         <Plus size={20} className="text-brand-primary" strokeWidth={2.5} />
                         <span>Add Property</span>
                     </Link>
-                    <Link
-                        href="/login"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="w-full bg-brand-button text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-lg shadow-brand-button/20 active:scale-[0.98] transition-transform"
-                    >
-                        <User size={20} />
-                        <span>Sign In</span>
-                    </Link>
+                    {!user ? (
+                        <Link
+                            href="/login"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="w-full bg-brand-button text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-lg shadow-brand-button/20 active:scale-[0.98] transition-all"
+                        >
+                            <User size={20} />
+                            <span>Sign In</span>
+                        </Link>
+                    ) : (
+                        <div className="flex flex-col space-y-3">
+                            <div className="p-4 bg-brand-primary/5 rounded-2xl border border-brand-primary/10 flex items-center space-x-4">
+                                <div className="w-12 h-12 rounded-xl bg-brand-primary flex items-center justify-center text-white text-xl font-bold shadow-md shadow-brand-primary/20">
+                                    {user.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div className="flex-1 overflow-hidden">
+                                    <h4 className="text-brand-heading font-bold text-base truncate">{user.name}</h4>
+                                    <p className="text-brand-paragraph text-xs truncate opacity-70 mb-1">{user.email}</p>
+                                    <span className="px-2 py-0.5 bg-brand-primary/10 text-brand-primary text-[10px] font-bold uppercase tracking-wider rounded-md">
+                                        {user.role}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-3">
+                                <Link
+                                    href="/profile"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="p-3 bg-zinc-50 rounded-xl font-semibold text-brand-heading text-sm text-center border border-zinc-100 active:scale-[0.98] transition-all"
+                                >
+                                    My Profile
+                                </Link>
+                                <Link
+                                    href="/dashboard"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="p-3 bg-zinc-50 rounded-xl font-semibold text-brand-heading text-sm text-center border border-zinc-100 active:scale-[0.98] transition-all"
+                                >
+                                    Dashboard
+                                </Link>
+                            </div>
+
+                            <button
+                                onClick={() => {
+                                    logout();
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className="w-full bg-red-50 text-red-600 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 border border-red-100 active:scale-[0.98] transition-all"
+                            >
+                                <LogOut size={20} />
+                                <span>Sign Out</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </motion.div>
