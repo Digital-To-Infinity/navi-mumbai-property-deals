@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
+import Link from "next/link";
 
 const loginSchema = z.object({
     email: z.string().email("Enter a valid email address"),
@@ -124,9 +125,12 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                 <div className="space-y-1.5">
                     <div className="flex justify-between items-center ml-1">
                         <label htmlFor="password-login" className="text-sm font-semibold text-brand-heading">Password</label>
-                        <button type="button" className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover hover:underline transition-colors cursor-pointer">
+                        <Link 
+                            href="/forgot-password"
+                            className="text-xs font-bold text-brand-primary hover:text-brand-primary-hover hover:underline transition-colors cursor-pointer relative z-20"
+                        >
                             Forgot Password?
-                        </button>
+                        </Link>
                     </div>
                     <div className="relative group">
                         <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors ${errors.password ? "text-red-400" : "text-brand-muted group-focus-within:text-brand-primary transition-colors"}`} />

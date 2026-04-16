@@ -4,14 +4,19 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Login from "./Login";
 import Signup from "./Signup";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 interface RegisterWrapperProps {
-    initialMode?: "login" | "signup";
+    initialMode?: "login" | "signup" | "forgot-password" | "reset-password";
 }
 
 const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
     const router = useRouter();
     const isLogin = initialMode === "login";
+    const isSignup = initialMode === "signup";
+    const isForgotPassword = initialMode === "forgot-password";
+    const isResetPassword = initialMode === "reset-password";
 
     const toggleAuth = () => {
         if (isLogin) {
@@ -36,7 +41,7 @@ const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Account",
-                "item": `https://navimumbaipropertydeals.com${isLogin ? "/login" : "/signup"}`
+                "item": `https://navimumbaipropertydeals.com${isLogin ? "/login" : isSignup ? "/signup" : isForgotPassword ? "/forgot-password" : "/reset-password"}`
             }
         ]
     };
@@ -82,7 +87,7 @@ const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
                 <div className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-neutral-200/60 overflow-hidden">
                     <div className="p-8 md:p-10 max-[426px]:p-4 max-[426px]:py-8">
                         <AnimatePresence mode="wait" initial={false}>
-                            {isLogin ? (
+                            {isLogin && (
                                 <motion.div
                                     key="login-view"
                                     initial={{ opacity: 0, x: -10 }}
@@ -92,7 +97,8 @@ const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
                                 >
                                     <Login onSwitch={toggleAuth} />
                                 </motion.div>
-                            ) : (
+                            )}
+                            {isSignup && (
                                 <motion.div
                                     key="signup-view"
                                     initial={{ opacity: 0, x: 10 }}
@@ -101,6 +107,28 @@ const RegisterWrapper = ({ initialMode = "login" }: RegisterWrapperProps) => {
                                     transition={{ duration: 0.3, ease: "easeInOut" }}
                                 >
                                     <Signup onSwitch={toggleAuth} />
+                                </motion.div>
+                            )}
+                            {isForgotPassword && (
+                                <motion.div
+                                    key="forgot-password-view"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                >
+                                    <ForgotPassword />
+                                </motion.div>
+                            )}
+                            {isResetPassword && (
+                                <motion.div
+                                    key="reset-password-view"
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                >
+                                    <ResetPassword />
                                 </motion.div>
                             )}
                         </AnimatePresence>
