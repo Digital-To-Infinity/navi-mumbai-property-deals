@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en" className={`${openSans.variable} ${montserrat.variable}`}>
       <body className="">
         <AuthProvider>
-          <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || ""}>
+          <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "MISSING_CLIENT_ID"}>
             <Toaster position="top-center" />
             <Navbar />
             <main className="mt-24 max-[426px]:mt-16">
