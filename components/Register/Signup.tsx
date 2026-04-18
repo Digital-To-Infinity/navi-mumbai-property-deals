@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { useAuth } from "@/context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
+import { isGoogleAuthConfigured } from "@/lib/googleAuth";
 
 const signupBaseSchema = z.object({
     fullName: z.string().min(2, "Name must be at least 2 characters"),
@@ -171,21 +172,22 @@ const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
             </div>
 
             <div className="space-y-4">
-                <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                        if (credentialResponse.credential) {
-                            handleGoogleSignup(credentialResponse.credential);
-                        }
-                    }}
-                    onError={() => {
-                        toast.error("Google Signup Failed");
-                    }}
-                    useOneTap
-                    theme="outline"
-                    shape="pill"
-                    width="100%"
-                    text="signup_with"
-                />
+                {isGoogleAuthConfigured ? (
+                    <GoogleLogin
+                        onSuccess={(credentialResponse) => {
+                            if (credentialResponse.credential) {
+                                handleGoogleSignup(credentialResponse.credential);
+                            }
+                        }}
+                        onError={() => {
+                            toast.error("Google Signup Failed");
+                        }}
+                        theme="outline"
+                        shape="pill"
+                        width="100%"
+                        text="signup_with"
+                    />
+                ) : null}
 
                 <div className="relative flex items-center justify-center">
                     <div className="absolute inset-0 flex items-center">

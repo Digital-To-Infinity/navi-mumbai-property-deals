@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import { z } from "zod";
 import Link from "next/link";
 import { GoogleLogin } from "@react-oauth/google";
+import { isGoogleAuthConfigured } from "@/lib/googleAuth";
 
 const loginSchema = z.object({
     email: z.string().email("Enter a valid email address"),
@@ -205,20 +206,21 @@ const Login: React.FC<LoginProps> = ({ onSwitch }) => {
                 <span className="relative px-4 bg-white text-xs font-bold text-brand-muted uppercase tracking-widest">Or login with</span>
             </div>
 
-            <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                    if (credentialResponse.credential) {
-                        handleGoogleLogin(credentialResponse.credential);
-                    }
-                }}
-                onError={() => {
-                    toast.error("Google Login Failed");
-                }}
-                useOneTap
-                theme="outline"
-                shape="pill"
-                width="100%"
-            />
+            {isGoogleAuthConfigured ? (
+                <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                        if (credentialResponse.credential) {
+                            handleGoogleLogin(credentialResponse.credential);
+                        }
+                    }}
+                    onError={() => {
+                        toast.error("Google Login Failed");
+                    }}
+                    theme="outline"
+                    shape="pill"
+                    width="100%"
+                />
+            ) : null}
 
             <p className="mt-10 text-center text-brand-paragraph/70 font-medium">
                 Don't have an account?{" "}
