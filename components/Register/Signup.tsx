@@ -25,7 +25,6 @@ interface SignupProps {
 }
 
 const Signup: React.FC<SignupProps> = ({ onSwitch }) => {
-    console.log("Google Client ID:", process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
     const { login } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
