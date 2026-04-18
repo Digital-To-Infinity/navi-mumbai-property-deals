@@ -6,8 +6,8 @@ import BottomNavbar from "@/components/common/BottomNavbar";
 import Footer from "@/components/common/Footer";
 import Breadcrumb from "@/components/common/Breadcrumb";
 import { AuthProvider } from "@/context/AuthContext";
+import GoogleProvider from "@/context/GoogleProvider";
 import { Toaster } from "react-hot-toast";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en" className={`${openSans.variable} ${montserrat.variable}`}>
       <body className="">
         <AuthProvider>
-          <GoogleOAuthProvider clientId="674839182251-snfbnnrb1b26bv5e8d1arj157h2ng5no.apps.googleusercontent.com">
+          <GoogleProvider>
             <Toaster position="top-center" />
             <Navbar />
             <main className="mt-24 max-[426px]:mt-16">
@@ -42,7 +42,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <BottomNavbar />
-          </GoogleOAuthProvider>
+          </GoogleProvider>
         </AuthProvider>
       </body>
     </html>
