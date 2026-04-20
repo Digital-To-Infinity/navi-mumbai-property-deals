@@ -34,15 +34,33 @@ export default function ContactForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        if (!selectedOption) {
+            setError("Please select an enquiry type.");
+            return;
+        }
+
         setIsSubmitting(true);
         setError(null);
 
         try {
-            await api.post("/enquiries", {
-                ...formData,
+            // Prepare payload with only required and non-empty optional fields
+            const payload: any = {
+                name: formData.name,
+                phone: formData.phone,
                 enquiryType: selectedOption,
                 source: "website-contact"
-            });
+            };
+
+            if (formData.email.trim()) {
+                payload.email = formData.email.trim();
+            }
+
+            if (formData.message.trim()) {
+                payload.message = formData.message.trim();
+            }
+
+            await api.post("/enquiries", payload);
             
             setIsSuccess(true);
             setFormData({ name: "", email: "", phone: "", message: "" });
@@ -222,7 +240,6 @@ export default function ContactForm() {
                                     <MessageSquare className={`absolute right-0 top-6 w-5 h-5 transition-colors duration-300 ${focused === 'message' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <textarea
                                         name="message"
-                                        required
                                         value={formData.message}
                                         onChange={handleChange}
                                         rows={4}
