@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Share2, Bookmark, Calendar, Clock, ShieldCheck } from "lucide-react";
-import { BlogPost, blogPosts } from "./Blogdata";
+import { BlogPost } from "./Blogdata";
 import BlogSidebar from "./BlogSidebar";
+import api from "@/lib/api";
+import { useEffect, useState } from "react";
 import BlogMainContent from "./BlogMainContent";
 import CompanyPromo from "./CompanyPromo";
 import BlogSchema from "./BlogSchema";
@@ -14,11 +16,44 @@ interface BlogDetailProps {
 }
 
 const BlogDetail = ({ post }: BlogDetailProps) => {
+    const [relatedBlogs, setRelatedBlogs] = useState<BlogPost[]>([]);
 
-    // Related posts
-    const relatedBlogs = blogPosts
-        .filter(p => p.slug !== post.slug && p.category === post.category)
-        .slice(0, 3);
+    useEffect(() => {
+        const fetchRelated = async () => {
+            try {
+                const response = await api.get('/blogs', {
+                    params: {
+                        category: post.category,
+                        limit: 4 // Get 4 in case one is the current post
+                    }
+                });
+                if (response.data?.blogs) {
+                    const normalized = response.data.blogs
+                        .filter((b: any) => b.slug !== post.slug)
+                        .slice(0, 3)
+                        .map((b: any) => ({
+                            id: b.id,
+                            slug: b.slug,
+                            title: b.title,
+                            excerpt: b.excerpt || '',
+                            content: b.content,
+                            date: b.date || new Date(b.created_at).toLocaleDateString(),
+                            author: b.author,
+                            authorRole: b.author_role,
+                            authorImage: b.author_image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                            category: b.category,
+                            image: b.cover_image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                            readTime: b.read_time || '5 min read',
+                            tags: b.tags || []
+                        }));
+                    setRelatedBlogs(normalized);
+                }
+            } catch (error) {
+                console.error("Failed to fetch related blogs:", error);
+            }
+        };
+        fetchRelated();
+    }, [post.slug, post.category]);
 
     return (
         <article className="relative min-h-screen bg-white">

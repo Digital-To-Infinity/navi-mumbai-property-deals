@@ -1,8 +1,11 @@
 "use client";
+import { useState, useEffect } from "react";
 import BlogCard from "./BlogCard";
 import { blogPosts } from "../BlogDetail/Blogdata";
 import { SearchX, ArrowRight, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import api from "@/lib/api";
+import { BlogPost } from "../BlogDetail/Blogdata";
 
 interface BlogGridProps {
     searchQuery: string;
@@ -24,16 +27,49 @@ const containerVariants = {
 
 const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCategory }: BlogGridProps) => {
 
-    // Filtering logic
-    const filteredPosts = blogPosts.filter((post) => {
-        const matchesCategory = activeCategory === "All" || post.category === activeCategory;
-        const matchesSearch =
-            post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.category.toLowerCase().includes(searchQuery.toLowerCase());
+    const [blogs, setBlogs] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(true);
 
-        return matchesCategory && matchesSearch;
-    });
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            setLoading(true);
+            try {
+                const response = await api.get('/blogs', {
+                    params: {
+                        category: activeCategory === 'All' ? undefined : activeCategory,
+                        search: searchQuery || undefined
+                    }
+                });
+                if (response.data) {
+                    const normalized = response.data.blogs.map((b: any) => ({
+                        id: b.id,
+                        slug: b.slug,
+                        title: b.title,
+                        excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
+                        content: b.content,
+                        date: b.date || new Date(b.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                        author: b.author,
+                        authorRole: b.author_role,
+                        authorImage: b.author_image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                        category: b.category,
+                        image: b.cover_image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                        readTime: b.read_time || '5 min read',
+                        tags: b.tags || []
+                    }));
+                    setBlogs(normalized);
+                }
+            } catch (error) {
+                console.error("Failed to fetch blogs:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const debounce = setTimeout(fetchBlogs, 300);
+        return () => clearTimeout(debounce);
+    }, [activeCategory, searchQuery]);
+
+    const filteredPosts = blogs;
 
     return (
         <section id="blog-posts" className="bg-white py-16 relative overflow-hidden">

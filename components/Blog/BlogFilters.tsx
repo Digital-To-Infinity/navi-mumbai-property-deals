@@ -1,16 +1,17 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, BookOpen, MapPin, BarChart3, Wallet, Filter, Hash, ArrowRight } from "lucide-react";
 import { blogPosts } from "../BlogDetail/Blogdata";
+import api from "@/lib/api";
 
 interface BlogFiltersProps {
     activeCategory: string;
     setActiveCategory: (category: string) => void;
 }
 
-const categories = [
+const baseCategories = [
     { name: "All", icon: <TrendingUp size={18} />, color: "from-blue-500 to-indigo-500" },
     { name: "Market Insights", icon: <BarChart3 size={18} />, color: "from-amber-500 to-orange-500" },
     { name: "Buying Guide", icon: <BookOpen size={18} />, color: "from-emerald-500 to-teal-500" },
@@ -20,8 +21,41 @@ const categories = [
 
 export default function BlogFilters({ activeCategory, setActiveCategory }: BlogFiltersProps) {
     const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+    const [categories, setCategories] = useState(baseCategories);
     const router = useRouter();
     const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await api.get('/blogs/categories');
+                if (response.data?.success) {
+                    const apiCats = response.data.data.map((cat: any) => ({
+                        name: cat.name,
+                        icon: <Hash size={18} />,
+                        color: "from-slate-500 to-zinc-500"
+                    }));
+
+                    // Merge with base categories
+                    const merged = [...baseCategories];
+                    const seen = new Set(merged.map(c => c.name));
+
+                    apiCats.forEach((cat: any) => {
+                        if (!seen.has(cat.name)) {
+                            merged.push(cat);
+                            seen.add(cat.name);
+                        }
+                    });
+
+                    setCategories(merged);
+                }
+            } catch (error) {
+                console.error("Failed to fetch categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleCategoryChange = useCallback((category: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -31,7 +65,6 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
             params.set("category", category);
         }
 
-        // Update both local state and URL
         setActiveCategory(category);
         router.push(`?${params.toString()}`, { scroll: false });
     }, [router, searchParams, setActiveCategory]);
