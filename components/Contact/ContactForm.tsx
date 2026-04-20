@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, User, Mail, Phone, MessageSquare, ChevronRight, CheckCircle2, Building2, Download } from "lucide-react";
+import { Send, User, Mail, Phone, MessageSquare, ChevronRight, CheckCircle2, Building2 } from "lucide-react";
+import api from "@/lib/api";
 
 const options = [
     { value: "buy", label: "Buying Property" },
@@ -15,21 +16,47 @@ export default function ContactForm() {
     const [focused, setFocused] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+    });
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setIsSubmitting(false);
-        setIsSuccess(true);
-        setTimeout(() => {
-            setIsSuccess(false);
+        setError(null);
+
+        try {
+            await api.post("/enquiries", {
+                ...formData,
+                enquiryType: selectedOption,
+                source: "website-contact"
+            });
+            
+            setIsSuccess(true);
+            setFormData({ name: "", email: "", phone: "", message: "" });
             setSelectedOption(null);
-        }, 5000);
+            
+            setTimeout(() => {
+                setIsSuccess(false);
+            }, 5000);
+        } catch (err: any) {
+            console.error("Enquiry submission error:", err);
+            setError(err.message || "Failed to send message. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const inputClasses = (name: string) => `
@@ -71,12 +98,20 @@ export default function ContactForm() {
                             </div>
 
                             <form className="space-y-10" onSubmit={handleSubmit}>
+                                {error && (
+                                    <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-xl text-sm font-medium">
+                                        {error}
+                                    </div>
+                                )}
                                 <div className="relative group/input">
                                     <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'name' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Full Name *</label>
                                     <User className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'name' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <input
                                         type="text"
+                                        name="name"
                                         required
+                                        value={formData.name}
+                                        onChange={handleChange}
                                         autoComplete="name"
                                         id="full-name"
                                         className={inputClasses('name')}
@@ -93,6 +128,9 @@ export default function ContactForm() {
                                     <Mail className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'email' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <input
                                         type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         autoComplete="email"
                                         id="email-address"
                                         className={inputClasses('email')}
@@ -105,11 +143,14 @@ export default function ContactForm() {
                                 </div>
 
                                 <div className="relative group/input">
-                                    <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'phone' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Phone Number *</label>
+                                    <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'phone' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Mobile Number *</label>
                                     <Phone className={`absolute right-0 bottom-4 w-5 h-5 transition-colors duration-300 ${focused === 'phone' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <input
                                         type="tel"
+                                        name="phone"
                                         required
+                                        value={formData.phone}
+                                        onChange={handleChange}
                                         autoComplete="tel"
                                         id="phone-number"
                                         className={inputClasses('phone')}
@@ -118,7 +159,7 @@ export default function ContactForm() {
                                         placeholder="+91 00000 00000"
                                         aria-describedby="phone-label"
                                     />
-                                    <span id="phone-label" className="sr-only">Please enter your mobile or telephone number</span>
+                                    <span id="phone-label" className="sr-only">Please enter your mobile number</span>
                                 </div>
 
                                 <div className="relative">
@@ -134,7 +175,7 @@ export default function ContactForm() {
                                             animate={{ rotate: isDropdownOpen ? 180 : 0 }}
                                             transition={{ duration: 0.3 }}
                                         >
-                                            <ChevronRight className={`w-5 h-5 rotate-90 transition-colors duration-300 ${isDropdownOpen ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
+                                            < ChevronRight className={`w-5 h-5 rotate-90 transition-colors duration-300 ${isDropdownOpen ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                         </motion.div>
                                     </div>
 
@@ -180,6 +221,10 @@ export default function ContactForm() {
                                     <label className={`absolute left-0 -top-4 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${focused === 'message' ? 'text-brand-primary' : 'text-brand-paragraph'}`}>Message / Requirements</label>
                                     <MessageSquare className={`absolute right-0 top-6 w-5 h-5 transition-colors duration-300 ${focused === 'message' ? 'text-brand-primary' : 'text-brand-paragraph/30'}`} aria-hidden="true" />
                                     <textarea
+                                        name="message"
+                                        required
+                                        value={formData.message}
+                                        onChange={handleChange}
                                         rows={4}
                                         className={inputClasses('message')}
                                         onFocus={() => setFocused('message')}
@@ -197,7 +242,7 @@ export default function ContactForm() {
                                         className="w-full py-4 rounded-2xl bg-brand-primary text-white font-bold flex items-center justify-center gap-3 transition-all duration-300 hover:bg-brand-primary-hover relative overflow-hidden group/btn cursor-pointer"
                                     >
                                         {isSubmitting ? (
-                                            <div className="w-6 h-6 border-4 border-black/20 border-t-black rounded-full animate-spin" />
+                                            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                                         ) : (
                                             <>
                                                 Send Message
@@ -243,31 +288,6 @@ export default function ContactForm() {
                             </motion.p>
 
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.8 }}
-                                className="bg-brand-primary/5 rounded-3xl p-8 border border-brand-primary/20 max-w-md mx-auto"
-                            >
-                                <div className="flex items-center gap-4 mb-6 text-left">
-                                    <div className="w-12 h-12 bg-brand-primary rounded-xl flex items-center justify-center text-white shrink-0">
-                                        <Download className="w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-brand-heading">Exclusive Insight</h4>
-                                        <p className="text-sm text-brand-paragraph">Download our 2026 Navi Mumbai Investment Guide</p>
-                                    </div>
-                                </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="w-full py-4 bg-brand-heading text-white font-bold rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-dark transition-all"
-                                >
-                                    Get the Guide (PDF)
-                                    <ChevronRight className="w-4 h-4" />
-                                </motion.button>
-                            </motion.div>
-
-                            <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 1.5 }}
@@ -288,3 +308,4 @@ export default function ContactForm() {
         </motion.div>
     );
 }
+
