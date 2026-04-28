@@ -14,21 +14,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     
     try {
         const response = await api.get(`/blogs/slug/${slug}`);
-        if (response.data) {
-            const b = response.data.data;
+        const b = response.data.data || response.data;
+        if (b && (b.id || b.slug)) {
             post = {
                 id: b.id,
                 slug: b.slug,
                 title: b.title,
-                excerpt: b.excerpt || '',
+                excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
                 content: b.content,
-                date: b.date || new Date(b.created_at).toLocaleDateString(),
-                author: b.author,
-                authorRole: b.author_role,
-                authorImage: b.author_image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                date: b.date || new Date(b.created_at || b.createdAt).toLocaleDateString(),
+                author: b.author || 'NM Admin',
+                authorRole: b.author_role || b.authorRole || 'Editor',
+                authorImage: b.author_image || b.authorImage || '',
                 category: b.category,
-                image: b.cover_image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
-                readTime: b.read_time || '5 min read',
+                image: b.cover_image_url || b.coverImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                readTime: b.read_time || b.readTime || '5 min read',
                 tags: b.tags || []
             };
         }
@@ -65,8 +65,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export async function generateStaticParams() {
     try {
         const response = await api.get('/blogs?limit=100');
-        if (response.data?.blogs) {
-            return response.data.blogs.map((post: any) => ({
+        const blogsData = response.data.data?.blogs || response.data.blogs || response.data.data || [];
+        if (Array.isArray(blogsData)) {
+            return blogsData.map((post: any) => ({
                 slug: post.slug,
             }));
         }
@@ -82,21 +83,21 @@ export default async function BlogPage({ params }: Props) {
 
     try {
         const response = await api.get(`/blogs/slug/${slug}`);
-        if (response.data) {
-            const b = response.data.data;
+        const b = response.data.data || response.data;
+        if (b && (b.id || b.slug)) {
             post = {
                 id: b.id,
                 slug: b.slug,
                 title: b.title,
-                excerpt: b.excerpt || '',
+                excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
                 content: b.content,
-                date: b.date || new Date(b.created_at).toLocaleDateString(),
-                author: b.author,
-                authorRole: b.author_role,
-                authorImage: b.author_image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                date: b.date || new Date(b.created_at || b.createdAt).toLocaleDateString(),
+                author: b.author || 'NM Admin',
+                authorRole: b.author_role || b.authorRole || 'Editor',
+                authorImage: b.author_image || b.authorImage || '',
                 category: b.category,
-                image: b.cover_image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
-                readTime: b.read_time || '5 min read',
+                image: b.cover_image_url || b.coverImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                readTime: b.read_time || b.readTime || '5 min read',
                 tags: b.tags || []
             };
         }

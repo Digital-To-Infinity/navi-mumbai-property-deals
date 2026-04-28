@@ -28,7 +28,40 @@ const containerVariants = {
 const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCategory }: BlogGridProps) => {
 
     const [blogs, setBlogs] = useState<BlogPost[]>([]);
+    const [popularBlogs, setPopularBlogs] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPopularBlogs = async () => {
+            try {
+                const response = await api.get('/blogs', {
+                    params: { featured: true, limit: 3 }
+                });
+                const data = response.data.data?.blogs || response.data.blogs || response.data.data || [];
+                if (Array.isArray(data)) {
+                    const normalized = data.map((b: any) => ({
+                        id: b.id,
+                        slug: b.slug,
+                        title: b.title,
+                        excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
+                        content: b.content,
+                        date: b.date || new Date(b.created_at || b.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                        author: b.author || 'NM Admin',
+                        authorRole: b.author_role || b.authorRole || 'Editor',
+                        authorImage: b.author_image || b.authorImage || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                        category: b.category,
+                        image: b.cover_image_url || b.coverImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                        readTime: b.read_time || b.readTime || '5 min read',
+                        tags: b.tags || []
+                    }));
+                    setPopularBlogs(normalized);
+                }
+            } catch (error) {
+                console.error("Failed to fetch popular blogs:", error);
+            }
+        };
+        fetchPopularBlogs();
+    }, []);
 
     useEffect(() => {
         const fetchBlogs = async () => {
@@ -40,20 +73,23 @@ const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCatego
                         search: searchQuery || undefined
                     }
                 });
-                if (response.data) {
-                    const normalized = response.data.blogs.map((b: any) => ({
+                
+                const data = response.data.data?.blogs || response.data.blogs || response.data.data || [];
+                
+                if (Array.isArray(data)) {
+                    const normalized = data.map((b: any) => ({
                         id: b.id,
                         slug: b.slug,
                         title: b.title,
                         excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
                         content: b.content,
-                        date: b.date || new Date(b.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-                        author: b.author,
-                        authorRole: b.author_role,
-                        authorImage: b.author_image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                        date: b.date || new Date(b.created_at || b.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                        author: b.author || 'NM Admin',
+                        authorRole: b.author_role || b.authorRole || 'Editor',
+                        authorImage: b.author_image || b.authorImage || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
                         category: b.category,
-                        image: b.cover_image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
-                        readTime: b.read_time || '5 min read',
+                        image: b.cover_image_url || b.coverImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                        readTime: b.read_time || b.readTime || '5 min read',
                         tags: b.tags || []
                     }));
                     setBlogs(normalized);
@@ -148,10 +184,10 @@ const BlogGrid = ({ searchQuery, setSearchQuery, activeCategory, setActiveCatego
                                     </h4>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                                    {blogPosts.slice(0, 3).map((post, index) => (
-                                        <BlogCard key={`popular-${post.id}`} post={post} index={index} />
-                                    ))}
-                                </div>
+                                     {popularBlogs.map((post, index) => (
+                                         <BlogCard key={`popular-${post.id}`} post={post} index={index} />
+                                     ))}
+                                 </div>
                             </div>
                         </motion.div>
                     )}

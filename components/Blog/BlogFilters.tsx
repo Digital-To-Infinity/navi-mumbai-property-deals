@@ -3,7 +3,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, BookOpen, MapPin, BarChart3, Wallet, Filter, Hash, ArrowRight } from "lucide-react";
-import { blogPosts } from "../BlogDetail/Blogdata";
 import api from "@/lib/api";
 
 interface BlogFiltersProps {
@@ -22,6 +21,7 @@ const baseCategories = [
 export default function BlogFilters({ activeCategory, setActiveCategory }: BlogFiltersProps) {
     const [hoveredTab, setHoveredTab] = useState<string | null>(null);
     const [categories, setCategories] = useState(baseCategories);
+    const [counts, setCounts] = useState<Record<string, number>>({});
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -29,12 +29,23 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
         const fetchCategories = async () => {
             try {
                 const response = await api.get('/blogs/categories');
-                if (response.data?.success) {
-                    const apiCats = response.data.data.map((cat: any) => ({
-                        name: cat.name,
-                        icon: <Hash size={18} />,
-                        color: "from-slate-500 to-zinc-500"
-                    }));
+                const data = response.data.data || response.data || [];
+                
+                if (Array.isArray(data)) {
+                    const apiCats = data
+                        .filter((cat: any) => cat.name !== "New Role")
+                        .map((cat: any) => ({
+                            name: cat.name,
+                            icon: <Hash size={18} />,
+                            color: "from-slate-500 to-zinc-500",
+                            count: cat.count || 0
+                        }));
+
+                    // Update counts from API
+                    const newCounts: Record<string, number> = {};
+                    apiCats.forEach((cat: any) => {
+                        newCounts[cat.name] = cat.count || 0;
+                    });
 
                     // Merge with base categories
                     const merged = [...baseCategories];
@@ -42,19 +53,36 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
 
                     apiCats.forEach((cat: any) => {
                         if (!seen.has(cat.name)) {
-                            merged.push(cat);
+                            // Find matching base category to preserve icon/color if it exists only in base but name matches
+                            merged.push({
+                                name: cat.name,
+                                icon: cat.icon,
+                                color: cat.color
+                            });
                             seen.add(cat.name);
                         }
                     });
 
                     setCategories(merged);
+                    setCounts(prev => ({ ...prev, ...newCounts }));
                 }
             } catch (error) {
                 console.error("Failed to fetch categories:", error);
             }
         };
 
+        const fetchTotalCount = async () => {
+            try {
+                const response = await api.get('/blogs', { params: { limit: 1 } });
+                const total = response.data.total || response.data.data?.total || 0;
+                setCounts(prev => ({ ...prev, All: total }));
+            } catch (error) {
+                console.error("Failed to fetch total count:", error);
+            }
+        };
+
         fetchCategories();
+        fetchTotalCount();
     }, []);
 
     const handleCategoryChange = useCallback((category: string) => {
@@ -70,8 +98,7 @@ export default function BlogFilters({ activeCategory, setActiveCategory }: BlogF
     }, [router, searchParams, setActiveCategory]);
 
     const getCount = (cat: string) => {
-        if (cat === "All") return blogPosts.length;
-        return blogPosts.filter(post => post.category === cat).length;
+        return counts[cat] || 0;
     };
 
     return (

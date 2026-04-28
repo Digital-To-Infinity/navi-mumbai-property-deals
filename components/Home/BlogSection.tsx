@@ -1,11 +1,50 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight, ArrowUpRight, BookOpen } from "lucide-react";
-import { blogPosts as posts } from "../BlogDetail/Blogdata";
+import { blogPosts as posts, BlogPost } from "../BlogDetail/Blogdata";
+import api from "@/lib/api";
 
 export default function BlogSection() {
+    const [blogs, setBlogs] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await api.get('/blogs', { params: { limit: 3 } });
+                const data = response.data.data?.blogs || response.data.blogs || response.data.data || [];
+                if (Array.isArray(data)) {
+                    const normalized = data.map((b: any) => ({
+                        id: b.id,
+                        slug: b.slug,
+                        title: b.title,
+                        excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
+                        content: b.content,
+                        date: b.date || new Date(b.created_at || b.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+                        author: b.author || 'NM Admin',
+                        authorRole: b.author_role || b.authorRole || 'Editor',
+                        authorImage: b.author_image || b.authorImage || '',
+                        category: b.category,
+                        image: b.cover_image_url || b.coverImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                        readTime: b.read_time || b.readTime || '5 min read',
+                        tags: b.tags || []
+                    }));
+                    setBlogs(normalized);
+                }
+            } catch (error) {
+                console.error("Failed to fetch home blogs:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchBlogs();
+    }, []);
+
+    const displayPosts = blogs.length > 0 ? blogs : (posts.length > 0 ? posts : []);
+
     return (
         <section className="py-16 bg-brand-white relative overflow-x-clip" aria-labelledby="blog-section-heading">
             {/* Unique Background Decorations */}
@@ -53,7 +92,7 @@ export default function BlogSection() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {posts.map((post, index) => {
+                    {displayPosts.map((post, index) => {
                         const blogTitleId = `blog-title-${post.id}`;
                         return (
                             <motion.div

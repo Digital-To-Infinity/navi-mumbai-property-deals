@@ -27,23 +27,24 @@ const BlogDetail = ({ post }: BlogDetailProps) => {
                         limit: 4 // Get 4 in case one is the current post
                     }
                 });
-                if (response.data?.blogs) {
-                    const normalized = response.data.blogs
+                const data = response.data.data?.blogs || response.data.blogs || response.data.data || [];
+                if (Array.isArray(data)) {
+                    const normalized = data
                         .filter((b: any) => b.slug !== post.slug)
                         .slice(0, 3)
                         .map((b: any) => ({
                             id: b.id,
                             slug: b.slug,
                             title: b.title,
-                            excerpt: b.excerpt || '',
+                            excerpt: b.excerpt || (b.content ? b.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : ''),
                             content: b.content,
-                            date: b.date || new Date(b.created_at).toLocaleDateString(),
-                            author: b.author,
-                            authorRole: b.author_role,
-                            authorImage: b.author_image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
+                            date: b.date || new Date(b.created_at || b.createdAt).toLocaleDateString(),
+                            author: b.author || 'NM Admin',
+                            authorRole: b.author_role || b.authorRole || 'Editor',
+                            authorImage: b.author_image || b.authorImage || '',
                             category: b.category,
-                            image: b.cover_image_url || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
-                            readTime: b.read_time || '5 min read',
+                            image: b.cover_image_url || b.coverImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+                            readTime: b.read_time || b.readTime || '5 min read',
                             tags: b.tags || []
                         }));
                     setRelatedBlogs(normalized);
